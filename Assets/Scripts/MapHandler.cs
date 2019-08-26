@@ -88,12 +88,6 @@ public class MapHandler : MonoBehaviour
                     {
                         print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
                     }
-
-
-                    Vector3 playerPos = playerHandler.player.transform.position;
-                    Camera.main.transform.position = new Vector3(playerPos.x, playerPos.y, Camera.main.transform.position.z);
-                    float camPosY = ((GameMaster.instance.GetCamTopEdge() - GameMaster.instance.GetCamBottomEdge()) / 2f) - 2;
-                    Camera.main.transform.position = new Vector3(playerPos.x, camPosY, Camera.main.transform.position.z);
                 }
 
                 //Otherwise, just do a normal spawn
