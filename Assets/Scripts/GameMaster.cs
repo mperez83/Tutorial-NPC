@@ -17,8 +17,25 @@ public class GameMaster : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Update()
+
+
+    public float GetCamTopEdge()
     {
-        
+        return Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, -(Camera.main.transform.position.z))).y;
+    }
+
+    public float GetCamBottomEdge()
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(0, 0, -(Camera.main.transform.position.z))).y;
+    }
+
+    public float GetCamLeftEdge()
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(0, 0, -(Camera.main.transform.position.z))).x;
+    }
+
+    public float GetCamRightEdge()
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, -(Camera.main.transform.position.z))).x;
     }
 }

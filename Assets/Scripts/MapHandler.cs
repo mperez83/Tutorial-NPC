@@ -21,7 +21,7 @@ public class MapHandler : MonoBehaviour
     [HideInInspector]
     public Vector2 nextSpace;
     float curLerpTime = 0;
-    public float timeToNextSpace = 1;
+    public float timeToNextSpace;
 
 
 
