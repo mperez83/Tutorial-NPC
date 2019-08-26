@@ -310,6 +310,9 @@ MonoBehaviour:
   - color: {r: 0, g: 0, b: 0.98039216, a: 1}
     prefab: {fileID: 6476390359479099971, guid: a5e3eab27add61f44b388aa85601b10d,
       type: 3}
+  - color: {r: 1, g: 1, b: 0, a: 1}
+    prefab: {fileID: 7522343337450619079, guid: 3be9fd3af12c0de409778d63eb6f79f5,
+      type: 3}
 --- !u!114 &1377151281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +328,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerSpace: {x: 0, y: 0}
   nextSpace: {x: 0, y: 0}
-  timeToNextSpace: 1
+  timeToNextSpace: 0.5
 --- !u!1 &2133774628
 GameObject:
   m_ObjectHideFlags: 0

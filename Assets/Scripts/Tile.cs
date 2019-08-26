@@ -2,6 +2,6 @@
 
 public class Tile : MonoBehaviour
 {
-    public enum TileType { Impassable, TurnUp, TurnDown, TurnLeft, TurnRight };
+    public enum TileType { Impassable, TurnUp, TurnDown, TurnLeft, TurnRight, Exit };
     public TileType tileType;
 }
