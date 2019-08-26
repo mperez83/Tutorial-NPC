@@ -13,7 +13,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector]
     public Vector2 playerSpace;
 
-    public enum PlayerStates { Entering, Moving, Frustrated, Victory };
+    public enum PlayerStates { Entering, Moving, Frustrated, SawPot, Victory };
     PlayerStates playerState = PlayerStates.Entering;
 
     public enum PlayerDirections { Up, Down, Left, Right };
@@ -72,6 +72,7 @@ public class PlayerHandler : MonoBehaviour
                 }
                 break;
             
+            //For when the player is moving; this is the state the player will spend the most amount of time in
             case PlayerStates.Moving:
                 curLerpTime += Time.deltaTime;
                 if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
@@ -89,7 +90,8 @@ public class PlayerHandler : MonoBehaviour
                     SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
                 }
                 break;
-
+            
+            //Causes the player to pause for a bit before turning around
             case PlayerStates.Frustrated:
                 curLerpTime += Time.deltaTime;
                 if (curLerpTime >= timeToNextSpace)
@@ -113,6 +115,11 @@ public class PlayerHandler : MonoBehaviour
                     playerState = PlayerStates.Moving;
                     SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
                 }
+                break;
+            
+            //Not sure if this is needed? The player enters this state when they see the pot, but PlayerHandler is deleted anyway once they do see it
+            case PlayerStates.SawPot:
+                //Not sure if anything should go here
                 break;
             
             //Like PlayerStates.Moving, except we don't use the SetNextSpace function
@@ -187,8 +194,17 @@ public class PlayerHandler : MonoBehaviour
     //Look ahead to see if there's something the hero has to deal with (e.g. walking out of bounds, running into an impassable tile, etc)
     void SetNextSpace(int curX, int curY)
     {
+        if (CheckForLineOfSightWithPot(curX, curY))
+        {
+            print("THE HERO SAW THE POT");
+            playerState = PlayerStates.SawPot;
+            Destroy(this);
+            return;
+        }
+
         int nextX = curX;
         int nextY = curY;
+
         switch (playerDir)
         {
             case PlayerDirections.Up:
@@ -235,7 +251,7 @@ public class PlayerHandler : MonoBehaviour
                     break;
 
                 default:
-                    print("All clear to keep moving!");
+                    //print("All clear to keep moving!");
                     nextSpace.x = nextX;
                     nextSpace.y = nextY;
                     break;
@@ -245,9 +261,64 @@ public class PlayerHandler : MonoBehaviour
         //If the space we're looking at is null, just move forward
         else
         {
-            print("All clear to keep moving!");
+            //print("All clear to keep moving!");
             nextSpace.x = nextX;
             nextSpace.y = nextY;
         }
+    }
+
+    bool CheckForLineOfSightWithPot(int curX, int curY)
+    {
+        GameObject[,] mapGrid = mapHandler.GetMapGrid();
+
+        switch (playerDir)
+        {
+            case PlayerDirections.Up:
+                for (int i = curY; i < (mapGrid.GetLength(1) - 1); i++)
+                {
+                    GameObject checkTile = mapGrid[curX, i];
+                    if (checkTile != null)
+                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                            return true;
+                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                            return false;
+                }
+                break;
+            case PlayerDirections.Down:
+                for (int i = curY; i > 0; i--)
+                {
+                    GameObject checkTile = mapGrid[curX, i];
+                    if (checkTile != null)
+                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                            return true;
+                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                            return false;
+                }
+                break;
+            case PlayerDirections.Left:
+                for (int i = curX; i > 0; i--)
+                {
+                    GameObject checkTile = mapGrid[i, curY];
+                    if (checkTile != null)
+                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                            return true;
+                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                            return false;
+                }
+                break;
+            case PlayerDirections.Right:
+                for (int i = curX; i < (mapGrid.GetLength(1) - 1); i++)
+                {
+                    GameObject checkTile = mapGrid[i, curY];
+                    if (checkTile != null)
+                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                            return true;
+                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                            return false;
+                }
+                break;
+        }
+
+        return false;
     }
 }

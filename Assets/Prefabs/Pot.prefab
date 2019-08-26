@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7325918198413685802}
   - component: {fileID: 6476390359479099972}
   m_Layer: 0
-  m_Name: Turn Left Tile
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcba55ead32e0454194b541392b4941c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 4
+  tileType: 1
 --- !u!212 &6476390359479099972
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -83,8 +83,8 @@ SpriteRenderer:
   m_SortingLayerID: -327899765
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e91592de7df2094468a53e95e296558e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: dd8810015314752468837db8fc45fcda, type: 3}
+  m_Color: {r: 0.3137255, g: 0.19607843, b: 0.19607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

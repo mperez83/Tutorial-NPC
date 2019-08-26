@@ -313,6 +313,9 @@ MonoBehaviour:
   - color: {r: 1, g: 1, b: 0, a: 1}
     prefab: {fileID: 7522343337450619079, guid: 3be9fd3af12c0de409778d63eb6f79f5,
       type: 3}
+  - color: {r: 0.3137255, g: 0.19607843, b: 0.19607843, a: 1}
+    prefab: {fileID: 6476390359479099971, guid: e10b016e594668a40a263caa4c581242,
+      type: 3}
 --- !u!114 &1377151281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,8 +328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db4c09f19c177946b99376bdbf35f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapHandler: {fileID: 0}
   player: {fileID: 0}
   playerSpace: {x: 0, y: 0}
+  playerDir: 0
   nextSpace: {x: 0, y: 0}
   timeToNextSpace: 0.5
 --- !u!1 &2133774628

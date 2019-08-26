@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcba55ead32e0454194b541392b4941c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 4
+  tileType: 5
 --- !u!212 &6476390359479099972
 SpriteRenderer:
   m_ObjectHideFlags: 0
