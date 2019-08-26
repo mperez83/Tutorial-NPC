@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHandler : MonoBehaviour
 {
     [HideInInspector]
-    public GameObject[,] mapGrid;
+    public Tile[,] mapGrid;
 
     public enum PlayerStates { Entering, Moving, Frustrated, SawPot, Victory };
     PlayerStates playerState = PlayerStates.Entering;
@@ -185,7 +185,7 @@ public class PlayerHandler : MonoBehaviour
 
                 case Tile.TileType.Ladder:
                     if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
-                    Destroy(mapGrid[curX, curY]);
+                    Destroy(mapGrid[curX, curY].gameObject);
                     break;
             }
         }
@@ -333,44 +333,44 @@ public class PlayerHandler : MonoBehaviour
             case PlayerDirections.Up:
                 for (int i = curY; i < (mapGrid.GetLength(1) - 1); i++)
                 {
-                    GameObject checkTile = mapGrid[curX, i];
+                    Tile checkTile = mapGrid[curX, i];
                     if (checkTile != null)
-                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                        if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
-                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                        else if (checkTile.blocksVision)
                             return false;
                 }
                 break;
             case PlayerDirections.Down:
                 for (int i = curY; i > 0; i--)
                 {
-                    GameObject checkTile = mapGrid[curX, i];
+                    Tile checkTile = mapGrid[curX, i];
                     if (checkTile != null)
-                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                        if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
-                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                        else if (checkTile.blocksVision)
                             return false;
                 }
                 break;
             case PlayerDirections.Left:
                 for (int i = curX; i > 0; i--)
                 {
-                    GameObject checkTile = mapGrid[i, curY];
+                    Tile checkTile = mapGrid[i, curY];
                     if (checkTile != null)
-                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                        if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
-                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                        else if (checkTile.blocksVision)
                             return false;
                 }
                 break;
             case PlayerDirections.Right:
                 for (int i = curX; i < (mapGrid.GetLength(1) - 1); i++)
                 {
-                    GameObject checkTile = mapGrid[i, curY];
+                    Tile checkTile = mapGrid[i, curY];
                     if (checkTile != null)
-                        if (checkTile.GetComponent<Tile>().tileType == Tile.TileType.Pot)
+                        if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
-                        else if (checkTile.GetComponent<Tile>().blocksVision)
+                        else if (checkTile.blocksVision)
                             return false;
                 }
                 break;
