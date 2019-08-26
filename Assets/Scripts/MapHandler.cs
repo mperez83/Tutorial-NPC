@@ -46,9 +46,46 @@ public class MapHandler : MonoBehaviour
                 if (colorMapping.color.r == 1 && colorMapping.color.b == 1)
                 {
                     playerHandler.player = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
-                    playerHandler.playerSpace = new Vector2(x, y);
-                    playerHandler.nextSpace = new Vector2(x, y + 1);
                     playerHandler.mapHandler = this;
+
+                    //Top player spawn
+                    if (y == (map.height - 1))
+                    {
+                        playerHandler.playerSpace = new Vector2(x, y + 4);
+                        playerHandler.nextSpace = new Vector2(x, y + 3);
+                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Down;
+                    }
+
+                    //Bottom player spawn
+                    else if (y == 0)
+                    {
+                        playerHandler.playerSpace = new Vector2(x, y - 4);
+                        playerHandler.nextSpace = new Vector2(x, y - 3);
+                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Up;
+                    }
+
+                    //Left player spawn
+                    else if (x == 0)
+                    {
+                        playerHandler.playerSpace = new Vector2(x - 4, y);
+                        playerHandler.nextSpace = new Vector2(x - 3, y);
+                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Right;
+                    }
+
+                    //Right player spawn
+                    else if (x == (map.width - 1))
+                    {
+                        playerHandler.playerSpace = new Vector2(x + 4, y);
+                        playerHandler.nextSpace = new Vector2(x + 3, y);
+                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Left;
+                    }
+
+                    //Else illegal spawn
+                    else
+                    {
+                        print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
+                    }
+
 
                     Vector3 playerPos = playerHandler.player.transform.position;
                     Camera.main.transform.position = new Vector3(playerPos.x, playerPos.y, Camera.main.transform.position.z);

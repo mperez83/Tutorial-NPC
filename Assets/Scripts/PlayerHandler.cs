@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
+    [HideInInspector]
     public MapHandler mapHandler;
 
     //Player stuff
@@ -12,11 +13,12 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector]
     public Vector2 playerSpace;
 
-    public enum PlayerState { Moving, Frustrated, Victory };
-    PlayerState playerState = PlayerState.Moving;
+    public enum PlayerStates { Entering, Moving, Frustrated, Victory };
+    PlayerStates playerState = PlayerStates.Entering;
 
     public enum PlayerDirections { Up, Down, Left, Right };
-    PlayerDirections playerDir = PlayerDirections.Up;
+    [HideInInspector]
+    public PlayerDirections playerDir;
 
     [HideInInspector]
     public Vector2 nextSpace;
@@ -31,7 +33,46 @@ public class PlayerHandler : MonoBehaviour
 
         switch (playerState)
         {
-            case PlayerState.Moving:
+            //Exact same as PlayerStates.StaticMoving, except we set the player to PlayerStates.Moving when they enter the map
+            case PlayerStates.Entering:
+                curLerpTime += Time.deltaTime;
+                if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
+
+                actualLerpValue = curLerpTime / timeToNextSpace;
+                player.transform.position = Vector2.Lerp(playerSpace, nextSpace, actualLerpValue);
+
+                if (curLerpTime == timeToNextSpace)
+                {
+                    curLerpTime = 0;
+                    playerSpace.x = nextSpace.x;
+                    playerSpace.y = nextSpace.y;
+
+                    switch (playerDir)
+                    {
+                        case PlayerDirections.Up:
+                            nextSpace.y = nextSpace.y + 1;
+                            break;
+                        case PlayerDirections.Down:
+                            nextSpace.y = nextSpace.y - 1;
+                            break;
+                        case PlayerDirections.Left:
+                            nextSpace.x = nextSpace.x - 1;
+                            break;
+                        case PlayerDirections.Right:
+                            nextSpace.x = nextSpace.x + 1;
+                            break;
+                    }
+
+                    //When the player enters the mapGrid, set them to PlayerStates.Moving
+                    GameObject[,] mapGrid = mapHandler.GetMapGrid();
+                    if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapGrid.GetLength(0) && nextSpace.y < mapGrid.GetLength(1))
+                    {
+                        playerState = PlayerStates.Moving;
+                    }
+                }
+                break;
+            
+            case PlayerStates.Moving:
                 curLerpTime += Time.deltaTime;
                 if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
 
@@ -49,7 +90,7 @@ public class PlayerHandler : MonoBehaviour
                 }
                 break;
 
-            case PlayerState.Frustrated:
+            case PlayerStates.Frustrated:
                 curLerpTime += Time.deltaTime;
                 if (curLerpTime >= timeToNextSpace)
                 {
@@ -69,13 +110,13 @@ public class PlayerHandler : MonoBehaviour
                             playerDir = PlayerDirections.Left;
                             break;
                     }
-                    playerState = PlayerState.Moving;
+                    playerState = PlayerStates.Moving;
                     SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
                 }
                 break;
             
-            //Like PlayerState.Moving, except we don't use the SetNextSpace function
-            case PlayerState.Victory:
+            //Like PlayerStates.Moving, except we don't use the SetNextSpace function
+            case PlayerStates.Victory:
                 curLerpTime += Time.deltaTime;
                 if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
 
@@ -172,7 +213,7 @@ public class PlayerHandler : MonoBehaviour
         if (nextX < 0 || nextX >= mapGrid.GetLength(0) || nextY < 0 || nextY >= mapGrid.GetLength(1))
         {
             print("Out of bounds!!");
-            playerState = PlayerState.Frustrated;
+            playerState = PlayerStates.Frustrated;
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
@@ -182,12 +223,12 @@ public class PlayerHandler : MonoBehaviour
             {
                 case Tile.TileType.Impassable:
                     print("Can't pass!!!");
-                    playerState = PlayerState.Frustrated;
+                    playerState = PlayerStates.Frustrated;
                     break;
 
                 case Tile.TileType.Exit:
                     print("You won!!!");
-                    playerState = PlayerState.Victory;
+                    playerState = PlayerStates.Victory;
                     nextSpace.x = nextX;
                     nextSpace.y = nextY;
                     Destroy(this, 3);
