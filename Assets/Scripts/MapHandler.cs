@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +9,15 @@ public class MapHandler : MonoBehaviour
     public ColorToPrefab[] colorMappings;
     public GameObject[,] mapGrid;
     PlayerHandler playerHandler;
+    public event Action OnLevelGenerated; 
 
 
-
-    void Start()
+    private void Start()
     {
         playerHandler = GetComponent<PlayerHandler>();
         GenerateLevel();
+        if (OnLevelGenerated != null)
+            OnLevelGenerated(); 
     }
 
 
