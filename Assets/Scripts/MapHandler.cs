@@ -2,22 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class MapHandler : MonoBehaviour
 {
     public Texture2D map;
     public ColorToPrefab[] colorMappings;
+    public CinemachineVirtualCamera vcam;
     public GameObject[,] mapGrid;
     PlayerHandler playerHandler;
-    public event Action OnLevelGenerated; 
 
 
     private void Start()
     {
         playerHandler = GetComponent<PlayerHandler>();
         GenerateLevel();
-        if (OnLevelGenerated != null)
-            OnLevelGenerated(); 
     }
 
 
@@ -50,6 +49,8 @@ public class MapHandler : MonoBehaviour
                 {
                     playerHandler.player = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
                     playerHandler.mapHandler = this;
+
+                    vcam.m_Follow = playerHandler.player.transform;
 
                     //Top player spawn
                     if (y == (map.height - 1))
