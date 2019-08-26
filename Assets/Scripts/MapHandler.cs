@@ -46,7 +46,7 @@ public class MapHandler : MonoBehaviour
                 if (colorMapping.color.r == 1 && colorMapping.color.b == 1)
                 {
                     playerHandler.player = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
-                    playerHandler.mapHandler = this;
+                    playerHandler.mapGrid = mapGrid;
 
                     //Top player spawn
                     if (y == (map.height - 1))
@@ -100,12 +100,5 @@ public class MapHandler : MonoBehaviour
                 }
             }
         }
-    }
-
-
-
-    public GameObject[,] GetMapGrid()
-    {
-        return mapGrid;
     }
 }

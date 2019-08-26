@@ -2,7 +2,7 @@
 
 public class Tile : MonoBehaviour
 {
-    public enum TileType { Impassable, Pot, TurnUp, TurnDown, TurnLeft, TurnRight, Exit };
+    public enum TileType { Pit, Pot, TurnUp, TurnDown, TurnLeft, TurnRight, Exit, Ladder };
     public TileType tileType;
     public bool blocksVision;
 }

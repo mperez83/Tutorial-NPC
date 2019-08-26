@@ -5,13 +5,7 @@ using UnityEngine;
 public class PlayerHandler : MonoBehaviour
 {
     [HideInInspector]
-    public MapHandler mapHandler;
-
-    //Player stuff
-    [HideInInspector]
-    public GameObject player;
-    [HideInInspector]
-    public Vector2 playerSpace;
+    public GameObject[,] mapGrid;
 
     public enum PlayerStates { Entering, Moving, Frustrated, SawPot, Victory };
     PlayerStates playerState = PlayerStates.Entering;
@@ -21,9 +15,15 @@ public class PlayerHandler : MonoBehaviour
     public PlayerDirections playerDir;
 
     [HideInInspector]
+    public GameObject player;
+    [HideInInspector]
+    public Vector2 playerSpace;
+    [HideInInspector]
     public Vector2 nextSpace;
-    float curLerpTime = 0;
     public float timeToNextSpace;
+    float curLerpTime = 0;
+
+    List<string> inventory = new List<string>();
 
 
 
@@ -64,14 +64,13 @@ public class PlayerHandler : MonoBehaviour
                     }
 
                     //When the player enters the mapGrid, set them to PlayerStates.Moving
-                    GameObject[,] mapGrid = mapHandler.GetMapGrid();
                     if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapGrid.GetLength(0) && nextSpace.y < mapGrid.GetLength(1))
                     {
                         playerState = PlayerStates.Moving;
                     }
                 }
                 break;
-            
+
             //For when the player is moving; this is the state the player will spend the most amount of time in
             case PlayerStates.Moving:
                 curLerpTime += Time.deltaTime;
@@ -90,7 +89,7 @@ public class PlayerHandler : MonoBehaviour
                     SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
                 }
                 break;
-            
+
             //Causes the player to pause for a bit before turning around
             case PlayerStates.Frustrated:
                 curLerpTime += Time.deltaTime;
@@ -116,12 +115,12 @@ public class PlayerHandler : MonoBehaviour
                     SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
                 }
                 break;
-            
+
             //Not sure if this is needed? The player enters this state when they see the pot, but PlayerHandler is deleted anyway once they do see it
             case PlayerStates.SawPot:
                 //Not sure if anything should go here
                 break;
-            
+
             //Like PlayerStates.Moving, except we don't use the SetNextSpace function
             case PlayerStates.Victory:
                 curLerpTime += Time.deltaTime;
@@ -154,7 +153,7 @@ public class PlayerHandler : MonoBehaviour
                 }
                 break;
         }
-        
+
     }
 
 
@@ -164,8 +163,6 @@ public class PlayerHandler : MonoBehaviour
     //If something is at the hero's space, decide what to do (e.g. change direction, pick up item, etc)
     void HandleCurrentSpace(int curX, int curY)
     {
-        GameObject[,] mapGrid = mapHandler.GetMapGrid();
-
         if (mapGrid[curX, curY] != null)
         {
             switch (mapGrid[curX, curY].GetComponent<Tile>().tileType)
@@ -184,6 +181,11 @@ public class PlayerHandler : MonoBehaviour
 
                 case Tile.TileType.TurnRight:
                     playerDir = PlayerDirections.Right;
+                    break;
+
+                case Tile.TileType.Ladder:
+                    if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
+                    Destroy(mapGrid[curX, curY]);
                     break;
             }
         }
@@ -224,8 +226,6 @@ public class PlayerHandler : MonoBehaviour
                 break;
         }
 
-        GameObject[,] mapGrid = mapHandler.GetMapGrid();
-
         if (nextX < 0 || nextX >= mapGrid.GetLength(0) || nextY < 0 || nextY >= mapGrid.GetLength(1))
         {
             print("Out of bounds!!");
@@ -237,9 +237,54 @@ public class PlayerHandler : MonoBehaviour
         {
             switch (mapGrid[nextX, nextY].GetComponent<Tile>().tileType)
             {
-                case Tile.TileType.Impassable:
-                    print("Can't pass!!!");
-                    playerState = PlayerStates.Frustrated;
+                case Tile.TileType.Pit:
+                    if (!inventory.Contains("Ladder"))
+                    {
+                        print("Can't pass!!!");
+                        playerState = PlayerStates.Frustrated;
+                    }
+                    else
+                    {
+                        int secondX = nextX;
+                        int secondY = nextY;
+                        switch (playerDir)
+                        {
+                            case PlayerDirections.Up:
+                                secondY = nextY + 1;
+                                break;
+
+                            case PlayerDirections.Down:
+                                secondY = nextY - 1;
+                                break;
+
+                            case PlayerDirections.Left:
+                                secondX = nextX - 1;
+                                break;
+
+                            case PlayerDirections.Right:
+                                secondX = nextX + 1;
+                                break;
+                        }
+
+                        if (secondX < 0 || secondX >= mapGrid.GetLength(0) || secondY < 0 || secondY >= mapGrid.GetLength(1))
+                        {
+                            print("Out of bounds, so it's ok if the player crosses with a ladder because they'll bump into a wall");
+                        }
+                        else
+                        {
+                            if (mapGrid[secondX, secondY] != null && mapGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
+                            {
+                                print("The gap is too wide to cross!!!");
+                                playerState = PlayerStates.Frustrated;
+                            }
+                            else
+                            {
+                                print("You used your ladder to cross the gap!!");
+                                nextSpace.x = nextX;
+                                nextSpace.y = nextY;
+                            }
+                        }
+                    }
                     break;
 
                 case Tile.TileType.Exit:
@@ -267,10 +312,22 @@ public class PlayerHandler : MonoBehaviour
         }
     }
 
+    Tile GetTileAtCoords(int x, int y)
+    {
+        if (x < 0 || x >= mapGrid.GetLength(0) || y < 0 || y >= mapGrid.GetLength(1))
+        {
+            return null;
+        }
+        else
+        {
+            return mapGrid[x, y].GetComponent<Tile>();
+        }
+    }
+
+
+
     bool CheckForLineOfSightWithPot(int curX, int curY)
     {
-        GameObject[,] mapGrid = mapHandler.GetMapGrid();
-
         switch (playerDir)
         {
             case PlayerDirections.Up:
