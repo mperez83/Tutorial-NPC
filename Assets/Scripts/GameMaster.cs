@@ -1,23 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
-    public static GameMaster instance;
+    public static GameMaster Instance;
+
+    public event Action OnInventoryItemSelected;
+    public event Action OnInventoryItemDeselected;
 
     void Start()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        else instance = this;
+        else Instance = this;
         DontDestroyOnLoad(this);
     }
 
+    internal void InventoryItemSelected()
+    {
+        if (OnInventoryItemSelected != null)
+            InventoryItemSelected(); 
+    }
 
+    internal void InventoryItemDeselected()
+    {
+        if (OnInventoryItemSelected != null)
+            InventoryItemDeselected(); 
+    }
 
     public float GetCamTopEdge()
     {
