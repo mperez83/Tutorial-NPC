@@ -8,7 +8,7 @@ public class GameMaster : MonoBehaviour
     public event Action OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
 
-    void Start()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -19,7 +19,7 @@ public class GameMaster : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    internal void InventoryItemSelected()
+    /* internal void InventoryItemSelected()
     {
         if (OnInventoryItemSelected != null)
             InventoryItemSelected(); 
@@ -29,7 +29,7 @@ public class GameMaster : MonoBehaviour
     {
         if (OnInventoryItemSelected != null)
             InventoryItemDeselected(); 
-    }
+    } */
 
     public float GetCamTopEdge()
     {

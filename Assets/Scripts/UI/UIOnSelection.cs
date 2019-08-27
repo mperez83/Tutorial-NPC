@@ -3,21 +3,26 @@
 public class UIOnSelection : MonoBehaviour
 {
     [SerializeField]
-    private GameObject prefabToSpawn;   
+    private GameObject prefabToSpawn;
+    [SerializeField]
+    private GameObject levelTileMap;
     private GameObject prefabToSpawnClone; 
     private bool placingInventoryItem; 
-    private MapHandler mapHandler; 
+    private MapHandlerExp mapHandlerExp; 
+    private UIHighlightSelectedTile _UIHighlightSelectedTile; 
 
     private void Awake() 
     {
-        mapHandler = FindObjectOfType<MapHandler>();     
+        mapHandlerExp = FindObjectOfType<MapHandlerExp>();
+        _UIHighlightSelectedTile = FindObjectOfType<UIHighlightSelectedTile>(); 
     }
 
     private void LateUpdate()  
     {
         if (placingInventoryItem)
         {
-            GameMaster.Instance.InventoryItemSelected(); 
+            _UIHighlightSelectedTile.HighlightSelectedTile(); 
+            //GameMaster.Instance.InventoryItemSelected(); 
             AttachInventoryItemToMouseLocation(); 
         }    
     }
@@ -32,7 +37,8 @@ public class UIOnSelection : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
-            GameMaster.Instance.InventoryItemDeselected(); 
+            _UIHighlightSelectedTile.DeleteHighlightPrefab(); 
+            //GameMaster.Instance.InventoryItemDeselected(); 
             Cursor.visible = true; 
         }
     }
@@ -41,7 +47,7 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
-        mapHandler.mapGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
+        mapHandlerExp.mapGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
         placingInventoryItem = false; 
     }
 
@@ -51,7 +57,7 @@ public class UIOnSelection : MonoBehaviour
         {
             placingInventoryItem = true; 
             prefabToSpawnClone = Instantiate(prefabToSpawn, transform.position, 
-                Quaternion.identity, mapHandler.transform);
+                Quaternion.identity, levelTileMap.transform);
         }
     }
 }
