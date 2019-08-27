@@ -105,5 +105,8 @@ public class MapHandlerExp : MonoBehaviour
 
         //Lastly, offset the floor tilemap so it aligns with everything else
         floorTilemap.transform.Translate(new Vector2(xOffset, yOffset));
+
+        //Lastly lastly, loop through all pit tiles and set their graphics depending on if there are adjacent pits
+        GetComponent<PitConnector>().ConnectAllPits(mapGrid);
     }
 }
