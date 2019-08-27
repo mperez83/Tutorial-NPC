@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIHighlightSelectedTile : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
     private GameObject tileHighlightImage; 
     private GameObject tileHighlightImageClone; 
 
-    private void Awake() 
+    private void Start() 
     {
         GameMaster.Instance.OnInventoryItemSelected += HighlightSelectedTile;  
         GameMaster.Instance.OnInventoryItemDeselected += DeleteHighlightPrefab;    
@@ -20,6 +19,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
 
         tileHighlightImageClone = Instantiate(tileHighlightImage, screenPoint.RoundXAndYCoords(), 
             Quaternion.identity, transform);
+        Debug.Log("I'm getting to the instantiate");
     }
 
     private void DeleteHighlightPrefab()

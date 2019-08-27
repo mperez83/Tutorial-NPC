@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class UIOnSelection : MonoBehaviour
 {
@@ -43,6 +41,7 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
+        mapHandler.mapGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
         placingInventoryItem = false; 
     }
 
