@@ -37,7 +37,14 @@ public class PitConnector : MonoBehaviour
     public Sprite tChannelLeft;
     public Sprite tChannelRight;
 
-    //Only stuff
+    //Corner stuff
+    public Sprite allFourCorners;
+
+    public Sprite threeCorners124;
+    public Sprite threeCorners134;
+    public Sprite threeCorners234;
+    public Sprite threeCorners123;
+
     public Sprite oppositeCornersTLBR;
     public Sprite oppositeCornersBLTR;
 
@@ -209,6 +216,10 @@ public class PitConnector : MonoBehaviour
                         case "100010110":
                         case "001010010":
                         case "100010010":
+                        case "000010111":
+                        case "100010111":
+                        case "001010111":
+                        case "101010111":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndBottom;
                             break;
 
@@ -239,6 +250,10 @@ public class PitConnector : MonoBehaviour
                         case "010010100":
                         case "110010001":
                         case "010010001":
+                        case "111010000":
+                        case "111010100":
+                        case "111010001":
+                        case "111010101":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndTop;
                             break;
 
@@ -311,6 +326,31 @@ public class PitConnector : MonoBehaviour
                         case "110011110":
                         case "010011110":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = tChannelRight;
+                            break;
+
+                        //All four corners
+                        case "010111010":
+                            mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = allFourCorners;
+                            break;
+
+                        //Three corners 124
+                        case "110111010":
+                            mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = threeCorners124;
+                            break;
+
+                        //Three corners 134
+                        case "010111110":
+                            mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = threeCorners134;
+                            break;
+
+                        //Three corners 234
+                        case "010111011":
+                            mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = threeCorners234;
+                            break;
+
+                        //Three corners 123
+                        case "011111010":
+                            mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = threeCorners123;
                             break;
 
                         //Opposite corners TL BR

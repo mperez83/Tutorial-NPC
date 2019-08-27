@@ -24,6 +24,9 @@ public class PlayerHandler : MonoBehaviour
 
     List<string> inventory = new List<string>();
 
+    public GameObject visibleLadderPrefab;
+    GameObject visibleLadder;
+
 
 
     void Update()
@@ -164,7 +167,9 @@ public class PlayerHandler : MonoBehaviour
     {
         if (mapGrid[curX, curY] != null)
         {
-            switch (mapGrid[curX, curY].GetComponent<Tile>().tileType)
+            Tile checkTile = mapGrid[curX, curY].GetComponent<Tile>();
+
+            switch (checkTile.tileType)
             {
                 case Tile.TileType.TurnUp:
                     playerDir = PlayerDirections.Up;
@@ -182,11 +187,34 @@ public class PlayerHandler : MonoBehaviour
                     playerDir = PlayerDirections.Right;
                     break;
 
+                case Tile.TileType.Pit:
+                    if (!inventory.Contains("Ladder"))
+                    {
+                        print("Aaaaahh!! The hero fell!!!");
+                    }
+                    break;
+
                 case Tile.TileType.Ladder:
                     if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
                     Destroy(mapGrid[curX, curY].gameObject);
                     break;
+
+                case Tile.TileType.Sword:
+                    if (!inventory.Contains("Sword")) inventory.Add("Sword");
+                    Destroy(mapGrid[curX, curY].gameObject);
+                    break;
             }
+
+            //Cheeky check to see if we should delete a visible ladder
+            if (visibleLadder != null)
+            {
+                if (checkTile.tileType != Tile.TileType.Pit) Destroy(visibleLadder);
+            }
+        }
+        else
+        {
+            //Delete the visibleLadder if we're over a blank space
+            if (visibleLadder != null) Destroy(visibleLadder);
         }
     }
 
@@ -227,79 +255,14 @@ public class PlayerHandler : MonoBehaviour
 
         if (nextX < 0 || nextX >= mapGrid.GetLength(0) || nextY < 0 || nextY >= mapGrid.GetLength(1))
         {
-            print("Out of bounds!!");
+            //print("Out of bounds!!");
             playerState = PlayerStates.Frustrated;
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
         else if (mapGrid[nextX, nextY] != null)
         {
-            switch (mapGrid[nextX, nextY].GetComponent<Tile>().tileType)
-            {
-                case Tile.TileType.Pit:
-                    if (!inventory.Contains("Ladder"))
-                    {
-                        print("Can't pass!!!");
-                        playerState = PlayerStates.Frustrated;
-                    }
-                    else
-                    {
-                        int secondX = nextX;
-                        int secondY = nextY;
-                        switch (playerDir)
-                        {
-                            case PlayerDirections.Up:
-                                secondY = nextY + 1;
-                                break;
-
-                            case PlayerDirections.Down:
-                                secondY = nextY - 1;
-                                break;
-
-                            case PlayerDirections.Left:
-                                secondX = nextX - 1;
-                                break;
-
-                            case PlayerDirections.Right:
-                                secondX = nextX + 1;
-                                break;
-                        }
-
-                        if (secondX < 0 || secondX >= mapGrid.GetLength(0) || secondY < 0 || secondY >= mapGrid.GetLength(1))
-                        {
-                            print("Out of bounds, so it's ok if the player crosses with a ladder because they'll bump into a wall");
-                        }
-                        else
-                        {
-                            if (mapGrid[secondX, secondY] != null && mapGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
-                            {
-                                print("The gap is too wide to cross!!!");
-                                playerState = PlayerStates.Frustrated;
-                            }
-                            else
-                            {
-                                print("You used your ladder to cross the gap!!");
-                                nextSpace.x = nextX;
-                                nextSpace.y = nextY;
-                            }
-                        }
-                    }
-                    break;
-
-                case Tile.TileType.Exit:
-                    print("You won!!!");
-                    playerState = PlayerStates.Victory;
-                    nextSpace.x = nextX;
-                    nextSpace.y = nextY;
-                    Destroy(this, 3);
-                    break;
-
-                default:
-                    //print("All clear to keep moving!");
-                    nextSpace.x = nextX;
-                    nextSpace.y = nextY;
-                    break;
-            }
+            HandleTileOnNextSpace(nextX, nextY);
         }
 
         //If the space we're looking at is null, just move forward
@@ -311,16 +274,104 @@ public class PlayerHandler : MonoBehaviour
         }
     }
 
+
+
+    void HandleTileOnNextSpace(int nextX, int nextY)
+    {
+        switch (mapGrid[nextX, nextY].GetComponent<Tile>().tileType)
+        {
+            case Tile.TileType.Pit:
+                if (!inventory.Contains("Ladder"))
+                {
+                    //print("Can't pass!!!");
+                    playerState = PlayerStates.Frustrated;
+                }
+                else
+                {
+                    int secondX = nextX;
+                    int secondY = nextY;
+                    bool horizontal = false;
+
+                    switch (playerDir)
+                    {
+                        case PlayerDirections.Up:
+                            secondY = nextY + 1;
+                            horizontal = false;
+                            break;
+
+                        case PlayerDirections.Down:
+                            secondY = nextY - 1;
+                            horizontal = false;
+                            break;
+
+                        case PlayerDirections.Left:
+                            secondX = nextX - 1;
+                            horizontal = true;
+                            break;
+
+                        case PlayerDirections.Right:
+                            secondX = nextX + 1;
+                            horizontal = true;
+                            break;
+                    }
+
+                    if (secondX < 0 || secondX >= mapGrid.GetLength(0) || secondY < 0 || secondY >= mapGrid.GetLength(1))
+                    {
+                        //print("Out of bounds, so it's ok if the player crosses with a ladder because they'll bump into a wall");
+                        nextSpace.x = nextX;
+                        nextSpace.y = nextY;
+
+                        if (visibleLadder != null) Destroy(visibleLadder);
+                        visibleLadder = Instantiate(visibleLadderPrefab, new Vector2(nextSpace.x, nextSpace.y), Quaternion.identity);
+                        if (horizontal) visibleLadder.transform.Rotate(new Vector3(0, 0, 90));
+                    }
+                    else
+                    {
+                        if (mapGrid[secondX, secondY] != null && mapGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
+                        {
+                            //print("The gap is too wide to cross!!!");
+                            playerState = PlayerStates.Frustrated;
+                        }
+                        else
+                        {
+                            //print("You used your ladder to cross the gap!!");
+                            nextSpace.x = nextX;
+                            nextSpace.y = nextY;
+
+                            if (visibleLadder != null) Destroy(visibleLadder);
+                            visibleLadder = Instantiate(visibleLadderPrefab, new Vector2(nextSpace.x, nextSpace.y), Quaternion.identity);
+                            if (horizontal) visibleLadder.transform.Rotate(new Vector3(0, 0, 90));
+                        }
+                    }
+                }
+                break;
+
+            case Tile.TileType.Exit:
+                print("You won!!!");
+                playerState = PlayerStates.Victory;
+                nextSpace.x = nextX;
+                nextSpace.y = nextY;
+                Destroy(this, 3);
+                break;
+
+            default:
+                //print("All clear to keep moving!");
+                nextSpace.x = nextX;
+                nextSpace.y = nextY;
+                break;
+        }
+    }
+
+
+
+
+
     Tile GetTileAtCoords(int x, int y)
     {
         if (x < 0 || x >= mapGrid.GetLength(0) || y < 0 || y >= mapGrid.GetLength(1))
-        {
             return null;
-        }
         else
-        {
             return mapGrid[x, y].GetComponent<Tile>();
-        }
     }
 
 
