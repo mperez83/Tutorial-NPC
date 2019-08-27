@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Cinemachine;
 
 public class MapHandlerExp : MonoBehaviour
 {
     public GameObject levelTilemap;
     public GameObject floorTilemap;
     public Tile[,] mapGrid;
+    public CinemachineVirtualCamera vcam;
     PlayerHandler playerHandler;
 
 
@@ -55,6 +55,7 @@ public class MapHandlerExp : MonoBehaviour
             {
                 playerHandler.player = child.gameObject;
                 playerHandler.mapGrid = mapGrid;
+                vcam.m_Follow = playerHandler.player.transform;
 
                 //Top player spawn
                 if (y == (mapGrid.GetLength(1) - 1))
