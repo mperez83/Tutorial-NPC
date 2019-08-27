@@ -1,17 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class MapHandler : MonoBehaviour
 {
     public Texture2D map;
     public ColorToPrefab[] colorMappings;
-    public GameObject[,] mapGrid;
+    public CinemachineVirtualCamera vcam;
+    public Tile[,] mapGrid;
     PlayerHandler playerHandler;
 
 
-
-    void Start()
+    private void Start()
     {
         playerHandler = GetComponent<PlayerHandler>();
         GenerateLevel();
@@ -21,7 +23,7 @@ public class MapHandler : MonoBehaviour
 
     void GenerateLevel()
     {
-        mapGrid = new GameObject[map.width, map.height];
+        mapGrid = new Tile[map.width, map.height];
 
         for (int i = 0; i < map.width; i++)
         {
@@ -46,7 +48,9 @@ public class MapHandler : MonoBehaviour
                 if (colorMapping.color.r == 1 && colorMapping.color.b == 1)
                 {
                     playerHandler.player = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
-                    //playerHandler.mapGrid = mapGrid;
+                    playerHandler.mapGrid = mapGrid;
+
+                    vcam.m_Follow = playerHandler.player.transform;
 
                     //Top player spawn
                     if (y == (map.height - 1))
@@ -85,18 +89,12 @@ public class MapHandler : MonoBehaviour
                     {
                         print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
                     }
-
-
-                    Vector3 playerPos = playerHandler.player.transform.position;
-                    Camera.main.transform.position = new Vector3(playerPos.x, playerPos.y, Camera.main.transform.position.z);
-                    float camPosY = ((GameMaster.instance.GetCamTopEdge() - GameMaster.instance.GetCamBottomEdge()) / 2f) - 2;
-                    Camera.main.transform.position = new Vector3(playerPos.x, camPosY, Camera.main.transform.position.z);
                 }
 
                 //Otherwise, just do a normal spawn
                 else
                 {
-                    mapGrid[x, y] = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
+                    mapGrid[x, y] = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform).GetComponent<Tile>();
                 }
             }
         }
