@@ -3,7 +3,7 @@ using Cinemachine;
 
 public class MapHandler : MonoBehaviour
 {
-    public Texture2D map;
+    /*public Texture2D map;
     public ColorToPrefab[] colorMappings;
     public CinemachineVirtualCamera vcam;
     public Tile[,] mapGrid;
@@ -54,5 +54,5 @@ public class MapHandler : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }
