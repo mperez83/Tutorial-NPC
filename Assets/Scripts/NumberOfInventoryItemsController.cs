@@ -21,9 +21,12 @@ public class NumberOfInventoryItemsController : MonoBehaviour
         GameMaster.Instance.OnInventoryItemAdded -= DecrementNumOfInventoryItems;     
     }
 
-    private void DecrementNumOfInventoryItems()
+    private void DecrementNumOfInventoryItems(GameObject inventoryItemController)
     {
-        if (numOfItemInInventory > 0)
-            numOfItemInInventory--;   
+        if (gameObject == inventoryItemController)
+        {
+            if (numOfItemInInventory > 0)
+                numOfItemInInventory--;  
+        } 
     }
 }

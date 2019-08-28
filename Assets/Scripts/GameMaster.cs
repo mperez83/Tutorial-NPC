@@ -7,7 +7,7 @@ public class GameMaster : MonoBehaviour
 
     public event Action OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
-    public event Action OnInventoryItemAdded; 
+    public event Action<GameObject> OnInventoryItemAdded; 
 
     void Awake()
     {
@@ -32,10 +32,10 @@ public class GameMaster : MonoBehaviour
             OnInventoryItemDeselected(); 
     }
 
-    internal void AddInventoryItemToMap()
+    internal void AddInventoryItemToMap(GameObject inventoryItemController)
     {
         if (OnInventoryItemAdded != null)
-            OnInventoryItemAdded(); 
+            OnInventoryItemAdded(inventoryItemController); 
     }
 
     public float GetCamTopEdge()
