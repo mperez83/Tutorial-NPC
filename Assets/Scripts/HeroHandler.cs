@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroHandler : MonoBehaviour
+public class HeroHandler : MapEntity
 {
-    Tile[,] mapGrid;
+    Tile[,] tileGrid;
+    MapEntity[,] entityGrid;
 
     public enum HeroStates { Entering, Moving, Frustrated, SawPot, Victory };
     HeroStates heroState = HeroStates.Entering;
@@ -21,30 +22,53 @@ public class HeroHandler : MonoBehaviour
 
 
 
-    public void Init(Tile[,] mapGrid, Vector2 initSpace, HeroDirections initDir)
+    public override void Init(ref Tile[,] tileGrid, ref MapEntity[,] entityGrid, Vector2 initSpace)
     {
-        this.mapGrid = mapGrid;
-        curSpace = initSpace;
-        heroDir = initDir;
+        this.tileGrid = tileGrid;
+        this.entityGrid = entityGrid;
 
-        switch (heroDir)
+        curSpace = initSpace;
+
+        //Top player spawn
+        if (curSpace.y == (tileGrid.GetLength(1) - 1))
         {
-            case HeroDirections.Up:
-                nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
-                break;
-            case HeroDirections.Down:
-                nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
-                break;
-            case HeroDirections.Left:
-                nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
-                break;
-            case HeroDirections.Right:
-                nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
-                break;
+            heroDir = HeroDirections.Down;
+            nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
+        }
+
+        //Bottom player spawn
+        else if (curSpace.y == 0)
+        {
+            heroDir = HeroDirections.Up;
+            nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
+        }
+
+        //Left player spawn
+        else if (curSpace.x == 0)
+        {
+            heroDir = HeroDirections.Right;
+            nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
+        }
+
+        //Right player spawn
+        else if (curSpace.x == (tileGrid.GetLength(0) - 1))
+        {
+            heroDir = HeroDirections.Left;
+            nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
+        }
+
+        //Else illegal spawn
+        else
+        {
+            print("Tried to spawn the hero at x=" + curSpace.x + ", y=" + curSpace.y + " which is ILLEGAL (so we're just gonna default to some arbitrary values, please fix)");
+            heroDir = HeroDirections.Up;
+            nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
         }
     }
 
-    public void MapUpdate(float actionTimer, float actionTimerLength)
+
+
+    public override void MapUpdate(float actionTimer, float actionTimerLength)
     {
         float actualLerpValue;  //Declared up here so we don't deal with "already declared" bullshit inside the switch statement
 
@@ -77,7 +101,9 @@ public class HeroHandler : MonoBehaviour
 
     }
 
-    public void MapAction()
+
+
+    public override void MapAction()
     {
         switch (heroState)
         {
@@ -101,8 +127,8 @@ public class HeroHandler : MonoBehaviour
                         break;
                 }
 
-                //When the player enters the mapGrid, set them to HeroStates.Moving
-                if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapGrid.GetLength(0) && nextSpace.y < mapGrid.GetLength(1))
+                //When the player enters the tileGrid, set them to HeroStates.Moving
+                if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < tileGrid.GetLength(0) && nextSpace.y < tileGrid.GetLength(1))
                 {
                     heroState = HeroStates.Moving;
                 }
@@ -112,8 +138,17 @@ public class HeroHandler : MonoBehaviour
                 curSpace.x = nextSpace.x;
                 curSpace.y = nextSpace.y;
 
-                HandleCurrentSpace((int)curSpace.x, (int)curSpace.y);
-                SetNextSpace((int)curSpace.x, (int)curSpace.y);
+                //If the hero is over a tile, do something
+                if (tileGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentTile();
+                else
+                {
+                    if (visibleLadder != null) Destroy(visibleLadder);  //Really bad, kinda hope we can move this elsewhere at some point
+                }
+
+                //If the hero is over an entity, do something
+                if (entityGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentEntity();
+
+                SetNextSpace();
                 break;
 
             case HeroStates.Frustrated:
@@ -133,12 +168,12 @@ public class HeroHandler : MonoBehaviour
                         break;
                 }
                 heroState = HeroStates.Moving;
-                SetNextSpace((int)curSpace.x, (int)curSpace.y);
+                SetNextSpace();
                 break;
 
             case HeroStates.SawPot:
                 break;
-            
+
             //Exactly like HeroStates.Entering, but without checking to see when the hero enters the map
             case HeroStates.Victory:
                 curSpace.x = nextSpace.x;
@@ -168,66 +203,86 @@ public class HeroHandler : MonoBehaviour
 
 
     //If something is at the hero's space, decide what to do (e.g. change direction, pick up item, etc)
-    void HandleCurrentSpace(int curX, int curY)
+    void HandleCurrentTile()
     {
-        if (mapGrid[curX, curY] != null)
+        int curX = (int)curSpace.x;
+        int curY = (int)curSpace.y;
+
+        Tile checkTile = tileGrid[curX, curY].GetComponent<Tile>();
+
+        switch (checkTile.tileType)
         {
-            Tile checkTile = mapGrid[curX, curY].GetComponent<Tile>();
+            case Tile.TileType.TurnUp:
+                heroDir = HeroDirections.Up;
+                break;
 
-            switch (checkTile.tileType)
-            {
-                case Tile.TileType.TurnUp:
-                    heroDir = HeroDirections.Up;
-                    break;
+            case Tile.TileType.TurnDown:
+                heroDir = HeroDirections.Down;
+                break;
 
-                case Tile.TileType.TurnDown:
-                    heroDir = HeroDirections.Down;
-                    break;
+            case Tile.TileType.TurnLeft:
+                heroDir = HeroDirections.Left;
+                break;
 
-                case Tile.TileType.TurnLeft:
-                    heroDir = HeroDirections.Left;
-                    break;
+            case Tile.TileType.TurnRight:
+                heroDir = HeroDirections.Right;
+                break;
 
-                case Tile.TileType.TurnRight:
-                    heroDir = HeroDirections.Right;
-                    break;
+            case Tile.TileType.Pit:
+                if (!inventory.Contains("Ladder"))
+                {
+                    print("Aaaaahh!! The hero fell!!!");
+                }
+                break;
 
-                case Tile.TileType.Pit:
-                    if (!inventory.Contains("Ladder"))
-                    {
-                        print("Aaaaahh!! The hero fell!!!");
-                    }
-                    break;
+            case Tile.TileType.Ladder:
+                if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
+                Destroy(tileGrid[curX, curY].gameObject);
+                break;
 
-                case Tile.TileType.Ladder:
-                    if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
-                    Destroy(mapGrid[curX, curY].gameObject);
-                    break;
-
-                case Tile.TileType.Sword:
-                    if (!inventory.Contains("Sword")) inventory.Add("Sword");
-                    Destroy(mapGrid[curX, curY].gameObject);
-                    break;
-            }
-
-            //Cheeky check to see if we should delete a visible ladder
-            if (visibleLadder != null)
-            {
-                if (checkTile.tileType != Tile.TileType.Pit) Destroy(visibleLadder);
-            }
+            case Tile.TileType.Sword:
+                if (!inventory.Contains("Sword")) inventory.Add("Sword");
+                Destroy(tileGrid[curX, curY].gameObject);
+                break;
         }
-        else
+
+        //Cheeky check to see if we should delete a visible ladder
+        if (visibleLadder != null)
         {
-            //Delete the visibleLadder if we're over a blank space
-            if (visibleLadder != null) Destroy(visibleLadder);
+            if (checkTile.tileType != Tile.TileType.Pit) Destroy(visibleLadder);
+        }
+
+    }
+
+
+
+    void HandleCurrentEntity()
+    {
+        int curX = (int)curSpace.x;
+        int curY = (int)curSpace.y;
+
+        MapEntity checkEntity = entityGrid[curX, curY].GetComponent<MapEntity>();
+        if (checkEntity.isEnemy)
+        {
+            if (inventory.Contains("Sword"))
+            {
+                Destroy(entityGrid[curX, curY].gameObject);
+            }
+            else
+            {
+                heroState = HeroStates.SawPot;  //Should probably be a death state
+            }
         }
     }
 
 
 
     //Look ahead to see if there's something the hero has to deal with (e.g. walking out of bounds, running into an impassable tile, etc)
-    void SetNextSpace(int curX, int curY)
+    void SetNextSpace()
     {
+        int curX = (int)curSpace.x;
+        int curY = (int)curSpace.y;
+
         if (CheckForLineOfSightWithPot(curX, curY))
         {
             print("THE HERO SAW THE POT");
@@ -258,14 +313,14 @@ public class HeroHandler : MonoBehaviour
                 break;
         }
 
-        if (nextX < 0 || nextX >= mapGrid.GetLength(0) || nextY < 0 || nextY >= mapGrid.GetLength(1))
+        if (nextX < 0 || nextX >= tileGrid.GetLength(0) || nextY < 0 || nextY >= tileGrid.GetLength(1))
         {
             //print("Out of bounds!!");
             heroState = HeroStates.Frustrated;
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
-        else if (mapGrid[nextX, nextY] != null)
+        else if (tileGrid[nextX, nextY] != null)
         {
             HandleTileOnNextSpace(nextX, nextY);
         }
@@ -279,11 +334,9 @@ public class HeroHandler : MonoBehaviour
         }
     }
 
-
-
     void HandleTileOnNextSpace(int nextX, int nextY)
     {
-        switch (mapGrid[nextX, nextY].GetComponent<Tile>().tileType)
+        switch (tileGrid[nextX, nextY].GetComponent<Tile>().tileType)
         {
             case Tile.TileType.Pit:
                 if (!inventory.Contains("Ladder"))
@@ -320,7 +373,7 @@ public class HeroHandler : MonoBehaviour
                             break;
                     }
 
-                    if (secondX < 0 || secondX >= mapGrid.GetLength(0) || secondY < 0 || secondY >= mapGrid.GetLength(1))
+                    if (secondX < 0 || secondX >= tileGrid.GetLength(0) || secondY < 0 || secondY >= tileGrid.GetLength(1))
                     {
                         //print("Out of bounds, so it's ok if the player crosses with a ladder because they'll bump into a wall");
                         nextSpace.x = nextX;
@@ -332,7 +385,7 @@ public class HeroHandler : MonoBehaviour
                     }
                     else
                     {
-                        if (mapGrid[secondX, secondY] != null && mapGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
+                        if (tileGrid[secondX, secondY] != null && tileGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
                         {
                             //print("The gap is too wide to cross!!!");
                             heroState = HeroStates.Frustrated;
@@ -373,10 +426,10 @@ public class HeroHandler : MonoBehaviour
 
     Tile GetTileAtCoords(int x, int y)
     {
-        if (x < 0 || x >= mapGrid.GetLength(0) || y < 0 || y >= mapGrid.GetLength(1))
+        if (x < 0 || x >= tileGrid.GetLength(0) || y < 0 || y >= tileGrid.GetLength(1))
             return null;
         else
-            return mapGrid[x, y].GetComponent<Tile>();
+            return tileGrid[x, y].GetComponent<Tile>();
     }
 
 
@@ -386,9 +439,9 @@ public class HeroHandler : MonoBehaviour
         switch (heroDir)
         {
             case HeroDirections.Up:
-                for (int i = curY; i < (mapGrid.GetLength(1) - 1); i++)
+                for (int i = curY; i < (tileGrid.GetLength(1) - 1); i++)
                 {
-                    Tile checkTile = mapGrid[curX, i];
+                    Tile checkTile = tileGrid[curX, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -399,7 +452,7 @@ public class HeroHandler : MonoBehaviour
             case HeroDirections.Down:
                 for (int i = curY; i > 0; i--)
                 {
-                    Tile checkTile = mapGrid[curX, i];
+                    Tile checkTile = tileGrid[curX, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -410,7 +463,7 @@ public class HeroHandler : MonoBehaviour
             case HeroDirections.Left:
                 for (int i = curX; i > 0; i--)
                 {
-                    Tile checkTile = mapGrid[i, curY];
+                    Tile checkTile = tileGrid[i, curY];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -419,9 +472,9 @@ public class HeroHandler : MonoBehaviour
                 }
                 break;
             case HeroDirections.Right:
-                for (int i = curX; i < (mapGrid.GetLength(1) - 1); i++)
+                for (int i = curX; i < (tileGrid.GetLength(1) - 1); i++)
                 {
-                    Tile checkTile = mapGrid[i, curY];
+                    Tile checkTile = tileGrid[i, curY];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
