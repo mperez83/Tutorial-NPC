@@ -84,7 +84,7 @@ public class MapHandlerExp : MonoBehaviour
         GetComponent<PitConnector>().ConnectAllPits(tileGrid);
 
         //Set the map to active (only for testing, remove this later)
-        ActivateMap();
+        //ActivateMap();
     }
 
 
@@ -117,7 +117,7 @@ public class MapHandlerExp : MonoBehaviour
 
 
 
-    void ActivateMap()
+    public void ActivateMap()
     {
         mapActive = true;
         heroHandler.enabled = true;

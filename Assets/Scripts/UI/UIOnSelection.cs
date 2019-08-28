@@ -48,6 +48,14 @@ public class UIOnSelection : MonoBehaviour
             GameMaster.Instance.InventoryItemDeselected(); 
             Cursor.visible = true; 
         }
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
+        {
+            placingInventoryItem = false; 
+            Destroy(prefabToSpawnClone);
+            GameMaster.Instance.InventoryItemDeselected(); 
+            Cursor.visible = true; 
+        }
+
     }
 
     private void PlaceInventoryItemDown(Vector3 mousePosition, GameObject inventoryItem)
