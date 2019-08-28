@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5067381112119580328}
   - component: {fileID: 5067381112119580335}
+  - component: {fileID: -14987355448553301}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -80,3 +81,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-14987355448553301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067381112119580334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db4c09f19c177946b99376bdbf35f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDir: 0
+  player: {fileID: 0}
+  playerSpace: {x: 0, y: 0}
+  nextSpace: {x: 0, y: 0}
+  timeToNextSpace: 0.25
+  visibleLadderPrefab: {fileID: 6476390359479099971, guid: 972ed77c92d1f0a41b1445aaecc92ba6,
+    type: 3}

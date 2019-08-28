@@ -7,12 +7,12 @@ public class MapHandler : MonoBehaviour
     public ColorToPrefab[] colorMappings;
     public CinemachineVirtualCamera vcam;
     public Tile[,] mapGrid;
-    PlayerHandler playerHandler;
+    HeroHandler heroHandler;
 
 
     private void Start()
     {
-        playerHandler = GetComponent<PlayerHandler>();
+        heroHandler = GetComponent<HeroHandler>();
         GenerateLevel();
     }
 
@@ -44,48 +44,29 @@ public class MapHandler : MonoBehaviour
                 //If we're spawning the player, do some special stuff
                 if (colorMapping.color.r == 1 && colorMapping.color.b == 1)
                 {
-                    playerHandler.player = Instantiate(colorMapping.prefab, spawnPos, Quaternion.identity, transform);
-                    playerHandler.mapGrid = mapGrid;
-
-                    vcam.m_Follow = playerHandler.player.transform;
+                    HeroHandler.HeroDirections initDir = HeroHandler.HeroDirections.Up;
 
                     //Top player spawn
-                    if (y == (map.height - 1))
-                    {
-                        playerHandler.playerSpace = new Vector2(x, y + 4);
-                        playerHandler.nextSpace = new Vector2(x, y + 3);
-                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Down;
-                    }
+                    if (y == (mapGrid.GetLength(1) - 1))
+                        initDir = HeroHandler.HeroDirections.Down;
 
                     //Bottom player spawn
                     else if (y == 0)
-                    {
-                        playerHandler.playerSpace = new Vector2(x, y - 4);
-                        playerHandler.nextSpace = new Vector2(x, y - 3);
-                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Up;
-                    }
+                        initDir = HeroHandler.HeroDirections.Up;
 
                     //Left player spawn
                     else if (x == 0)
-                    {
-                        playerHandler.playerSpace = new Vector2(x - 4, y);
-                        playerHandler.nextSpace = new Vector2(x - 3, y);
-                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Right;
-                    }
+                        initDir = HeroHandler.HeroDirections.Right;
 
                     //Right player spawn
-                    else if (x == (map.width - 1))
-                    {
-                        playerHandler.playerSpace = new Vector2(x + 4, y);
-                        playerHandler.nextSpace = new Vector2(x + 3, y);
-                        playerHandler.playerDir = PlayerHandler.PlayerDirections.Left;
-                    }
+                    else if (x == (mapGrid.GetLength(0) - 1))
+                        initDir = HeroHandler.HeroDirections.Left;
 
                     //Else illegal spawn
                     else
-                    {
                         print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
-                    }
+
+                    heroHandler.Init(mapGrid, new Vector2(x, y), initDir);
                 }
 
                 //Otherwise, just do a normal spawn

@@ -1,26 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHandler : MonoBehaviour
+public class HeroHandler : MonoBehaviour
 {
-    [HideInInspector]
-    public Tile[,] mapGrid;
+    Tile[,] mapGrid;
 
-    public enum PlayerStates { Entering, Moving, Frustrated, SawPot, Victory };
-    PlayerStates playerState = PlayerStates.Entering;
+    public enum HeroStates { Entering, Moving, Frustrated, SawPot, Victory };
+    HeroStates heroState = HeroStates.Entering;
 
-    public enum PlayerDirections { Up, Down, Left, Right };
-    [HideInInspector]
-    public PlayerDirections playerDir;
+    public enum HeroDirections { Up, Down, Left, Right };
+    HeroDirections heroDir;
 
-    [HideInInspector]
-    public GameObject player;
-    [HideInInspector]
-    public Vector2 playerSpace;
-    [HideInInspector]
-    public Vector2 nextSpace;
-    public float timeToNextSpace;
-    float curLerpTime = 0;
+    Vector2 curSpace;
+    Vector2 nextSpace;
 
     List<string> inventory = new List<string>();
 
@@ -29,133 +21,146 @@ public class PlayerHandler : MonoBehaviour
 
 
 
-    void Update()
+    public void Init(Tile[,] mapGrid, Vector2 initSpace, HeroDirections initDir)
+    {
+        this.mapGrid = mapGrid;
+        curSpace = initSpace;
+        heroDir = initDir;
+
+        switch (heroDir)
+        {
+            case HeroDirections.Up:
+                nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
+                break;
+            case HeroDirections.Down:
+                nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
+                break;
+            case HeroDirections.Left:
+                nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
+                break;
+            case HeroDirections.Right:
+                nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
+                break;
+        }
+    }
+
+    public void MapUpdate(float actionTimer, float actionTimerLength)
     {
         float actualLerpValue;  //Declared up here so we don't deal with "already declared" bullshit inside the switch statement
 
-        switch (playerState)
+        switch (heroState)
         {
-            //Exact same as PlayerStates.StaticMoving, except we set the player to PlayerStates.Moving when they enter the map
-            case PlayerStates.Entering:
-                curLerpTime += Time.deltaTime;
-                if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
-
-                actualLerpValue = curLerpTime / timeToNextSpace;
-                player.transform.position = Vector2.Lerp(playerSpace, nextSpace, actualLerpValue);
-
-                if (curLerpTime == timeToNextSpace)
-                {
-                    curLerpTime = 0;
-                    playerSpace.x = nextSpace.x;
-                    playerSpace.y = nextSpace.y;
-
-                    switch (playerDir)
-                    {
-                        case PlayerDirections.Up:
-                            nextSpace.y = nextSpace.y + 1;
-                            break;
-                        case PlayerDirections.Down:
-                            nextSpace.y = nextSpace.y - 1;
-                            break;
-                        case PlayerDirections.Left:
-                            nextSpace.x = nextSpace.x - 1;
-                            break;
-                        case PlayerDirections.Right:
-                            nextSpace.x = nextSpace.x + 1;
-                            break;
-                    }
-
-                    //When the player enters the mapGrid, set them to PlayerStates.Moving
-                    if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapGrid.GetLength(0) && nextSpace.y < mapGrid.GetLength(1))
-                    {
-                        playerState = PlayerStates.Moving;
-                    }
-                }
+            case HeroStates.Entering:
+                actualLerpValue = actionTimer / actionTimerLength;
+                transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
 
-            //For when the player is moving; this is the state the player will spend the most amount of time in
-            case PlayerStates.Moving:
-                curLerpTime += Time.deltaTime;
-                if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
-
-                actualLerpValue = curLerpTime / timeToNextSpace;
-                player.transform.position = Vector2.Lerp(playerSpace, nextSpace, actualLerpValue);
-
-                if (curLerpTime == timeToNextSpace)
-                {
-                    curLerpTime = 0;
-                    playerSpace.x = nextSpace.x;
-                    playerSpace.y = nextSpace.y;
-
-                    HandleCurrentSpace((int)playerSpace.x, (int)playerSpace.y);
-                    SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
-                }
+            case HeroStates.Moving:
+                actualLerpValue = actionTimer / actionTimerLength;
+                transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
 
-            //Causes the player to pause for a bit before turning around
-            case PlayerStates.Frustrated:
-                curLerpTime += Time.deltaTime;
-                if (curLerpTime >= timeToNextSpace)
-                {
-                    curLerpTime = 0;
-                    switch (playerDir)
-                    {
-                        case PlayerDirections.Up:
-                            playerDir = PlayerDirections.Down;
-                            break;
-                        case PlayerDirections.Down:
-                            playerDir = PlayerDirections.Up;
-                            break;
-                        case PlayerDirections.Left:
-                            playerDir = PlayerDirections.Right;
-                            break;
-                        case PlayerDirections.Right:
-                            playerDir = PlayerDirections.Left;
-                            break;
-                    }
-                    playerState = PlayerStates.Moving;
-                    SetNextSpace((int)playerSpace.x, (int)playerSpace.y);
-                }
+            case HeroStates.Frustrated:
+                //Maybe do something here?
                 break;
 
-            //Not sure if this is needed? The player enters this state when they see the pot, but PlayerHandler is deleted anyway once they do see it
-            case PlayerStates.SawPot:
+            case HeroStates.SawPot:
                 //Not sure if anything should go here
                 break;
 
-            //Like PlayerStates.Moving, except we don't use the SetNextSpace function
-            case PlayerStates.Victory:
-                curLerpTime += Time.deltaTime;
-                if (curLerpTime >= timeToNextSpace) curLerpTime = timeToNextSpace;
-
-                actualLerpValue = curLerpTime / timeToNextSpace;
-                player.transform.position = Vector2.Lerp(playerSpace, nextSpace, actualLerpValue);
-
-                if (curLerpTime == timeToNextSpace)
-                {
-                    curLerpTime = 0;
-                    playerSpace.x = nextSpace.x;
-                    playerSpace.y = nextSpace.y;
-
-                    switch (playerDir)
-                    {
-                        case PlayerDirections.Up:
-                            nextSpace.y = nextSpace.y + 1;
-                            break;
-                        case PlayerDirections.Down:
-                            nextSpace.y = nextSpace.y - 1;
-                            break;
-                        case PlayerDirections.Left:
-                            nextSpace.x = nextSpace.x - 1;
-                            break;
-                        case PlayerDirections.Right:
-                            nextSpace.x = nextSpace.x + 1;
-                            break;
-                    }
-                }
+            //Like HeroStates.Moving, except we don't use the SetNextSpace function
+            case HeroStates.Victory:
+                actualLerpValue = actionTimer / actionTimerLength;
+                transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
         }
 
+    }
+
+    public void MapAction()
+    {
+        switch (heroState)
+        {
+            case HeroStates.Entering:
+                curSpace.x = nextSpace.x;
+                curSpace.y = nextSpace.y;
+
+                switch (heroDir)
+                {
+                    case HeroDirections.Up:
+                        nextSpace.y = nextSpace.y + 1;
+                        break;
+                    case HeroDirections.Down:
+                        nextSpace.y = nextSpace.y - 1;
+                        break;
+                    case HeroDirections.Left:
+                        nextSpace.x = nextSpace.x - 1;
+                        break;
+                    case HeroDirections.Right:
+                        nextSpace.x = nextSpace.x + 1;
+                        break;
+                }
+
+                //When the player enters the mapGrid, set them to HeroStates.Moving
+                if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapGrid.GetLength(0) && nextSpace.y < mapGrid.GetLength(1))
+                {
+                    heroState = HeroStates.Moving;
+                }
+                break;
+
+            case HeroStates.Moving:
+                curSpace.x = nextSpace.x;
+                curSpace.y = nextSpace.y;
+
+                HandleCurrentSpace((int)curSpace.x, (int)curSpace.y);
+                SetNextSpace((int)curSpace.x, (int)curSpace.y);
+                break;
+
+            case HeroStates.Frustrated:
+                switch (heroDir)
+                {
+                    case HeroDirections.Up:
+                        heroDir = HeroDirections.Down;
+                        break;
+                    case HeroDirections.Down:
+                        heroDir = HeroDirections.Up;
+                        break;
+                    case HeroDirections.Left:
+                        heroDir = HeroDirections.Right;
+                        break;
+                    case HeroDirections.Right:
+                        heroDir = HeroDirections.Left;
+                        break;
+                }
+                heroState = HeroStates.Moving;
+                SetNextSpace((int)curSpace.x, (int)curSpace.y);
+                break;
+
+            case HeroStates.SawPot:
+                break;
+            
+            //Exactly like HeroStates.Entering, but without checking to see when the hero enters the map
+            case HeroStates.Victory:
+                curSpace.x = nextSpace.x;
+                curSpace.y = nextSpace.y;
+
+                switch (heroDir)
+                {
+                    case HeroDirections.Up:
+                        nextSpace.y = nextSpace.y + 1;
+                        break;
+                    case HeroDirections.Down:
+                        nextSpace.y = nextSpace.y - 1;
+                        break;
+                    case HeroDirections.Left:
+                        nextSpace.x = nextSpace.x - 1;
+                        break;
+                    case HeroDirections.Right:
+                        nextSpace.x = nextSpace.x + 1;
+                        break;
+                }
+                break;
+        }
     }
 
 
@@ -172,19 +177,19 @@ public class PlayerHandler : MonoBehaviour
             switch (checkTile.tileType)
             {
                 case Tile.TileType.TurnUp:
-                    playerDir = PlayerDirections.Up;
+                    heroDir = HeroDirections.Up;
                     break;
 
                 case Tile.TileType.TurnDown:
-                    playerDir = PlayerDirections.Down;
+                    heroDir = HeroDirections.Down;
                     break;
 
                 case Tile.TileType.TurnLeft:
-                    playerDir = PlayerDirections.Left;
+                    heroDir = HeroDirections.Left;
                     break;
 
                 case Tile.TileType.TurnRight:
-                    playerDir = PlayerDirections.Right;
+                    heroDir = HeroDirections.Right;
                     break;
 
                 case Tile.TileType.Pit:
@@ -226,7 +231,7 @@ public class PlayerHandler : MonoBehaviour
         if (CheckForLineOfSightWithPot(curX, curY))
         {
             print("THE HERO SAW THE POT");
-            playerState = PlayerStates.SawPot;
+            heroState = HeroStates.SawPot;
             Destroy(this);
             return;
         }
@@ -234,21 +239,21 @@ public class PlayerHandler : MonoBehaviour
         int nextX = curX;
         int nextY = curY;
 
-        switch (playerDir)
+        switch (heroDir)
         {
-            case PlayerDirections.Up:
+            case HeroDirections.Up:
                 nextY = curY + 1;
                 break;
 
-            case PlayerDirections.Down:
+            case HeroDirections.Down:
                 nextY = curY - 1;
                 break;
 
-            case PlayerDirections.Left:
+            case HeroDirections.Left:
                 nextX = curX - 1;
                 break;
 
-            case PlayerDirections.Right:
+            case HeroDirections.Right:
                 nextX = curX + 1;
                 break;
         }
@@ -256,7 +261,7 @@ public class PlayerHandler : MonoBehaviour
         if (nextX < 0 || nextX >= mapGrid.GetLength(0) || nextY < 0 || nextY >= mapGrid.GetLength(1))
         {
             //print("Out of bounds!!");
-            playerState = PlayerStates.Frustrated;
+            heroState = HeroStates.Frustrated;
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
@@ -284,7 +289,7 @@ public class PlayerHandler : MonoBehaviour
                 if (!inventory.Contains("Ladder"))
                 {
                     //print("Can't pass!!!");
-                    playerState = PlayerStates.Frustrated;
+                    heroState = HeroStates.Frustrated;
                 }
                 else
                 {
@@ -292,24 +297,24 @@ public class PlayerHandler : MonoBehaviour
                     int secondY = nextY;
                     bool horizontal = false;
 
-                    switch (playerDir)
+                    switch (heroDir)
                     {
-                        case PlayerDirections.Up:
+                        case HeroDirections.Up:
                             secondY = nextY + 1;
                             horizontal = false;
                             break;
 
-                        case PlayerDirections.Down:
+                        case HeroDirections.Down:
                             secondY = nextY - 1;
                             horizontal = false;
                             break;
 
-                        case PlayerDirections.Left:
+                        case HeroDirections.Left:
                             secondX = nextX - 1;
                             horizontal = true;
                             break;
 
-                        case PlayerDirections.Right:
+                        case HeroDirections.Right:
                             secondX = nextX + 1;
                             horizontal = true;
                             break;
@@ -330,7 +335,7 @@ public class PlayerHandler : MonoBehaviour
                         if (mapGrid[secondX, secondY] != null && mapGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
                         {
                             //print("The gap is too wide to cross!!!");
-                            playerState = PlayerStates.Frustrated;
+                            heroState = HeroStates.Frustrated;
                         }
                         else
                         {
@@ -348,7 +353,7 @@ public class PlayerHandler : MonoBehaviour
 
             case Tile.TileType.Exit:
                 print("You won!!!");
-                playerState = PlayerStates.Victory;
+                heroState = HeroStates.Victory;
                 nextSpace.x = nextX;
                 nextSpace.y = nextY;
                 Destroy(this, 3);
@@ -378,9 +383,9 @@ public class PlayerHandler : MonoBehaviour
 
     bool CheckForLineOfSightWithPot(int curX, int curY)
     {
-        switch (playerDir)
+        switch (heroDir)
         {
-            case PlayerDirections.Up:
+            case HeroDirections.Up:
                 for (int i = curY; i < (mapGrid.GetLength(1) - 1); i++)
                 {
                     Tile checkTile = mapGrid[curX, i];
@@ -391,7 +396,7 @@ public class PlayerHandler : MonoBehaviour
                             return false;
                 }
                 break;
-            case PlayerDirections.Down:
+            case HeroDirections.Down:
                 for (int i = curY; i > 0; i--)
                 {
                     Tile checkTile = mapGrid[curX, i];
@@ -402,7 +407,7 @@ public class PlayerHandler : MonoBehaviour
                             return false;
                 }
                 break;
-            case PlayerDirections.Left:
+            case HeroDirections.Left:
                 for (int i = curX; i > 0; i--)
                 {
                     Tile checkTile = mapGrid[i, curY];
@@ -413,7 +418,7 @@ public class PlayerHandler : MonoBehaviour
                             return false;
                 }
                 break;
-            case PlayerDirections.Right:
+            case HeroDirections.Right:
                 for (int i = curX; i < (mapGrid.GetLength(1) - 1); i++)
                 {
                     Tile checkTile = mapGrid[i, curY];
