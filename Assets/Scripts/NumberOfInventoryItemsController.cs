@@ -16,7 +16,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
         if (numOfItemInInventory < 0)
             numOfItemInInventory = 0;      
-        
+
         tmproText = GetComponentInChildren<TextMeshProUGUI>(); 
         tmproText.text = numOfItemInInventory.ToString(); 
     }
@@ -31,10 +31,10 @@ public class NumberOfInventoryItemsController : MonoBehaviour
         if (gameObject == inventoryItemController)
         {
             if (numOfItemInInventory > 0)
-            {
-                numOfItemInInventory--;  
-                tmproText.text = numOfItemInInventory.ToString(); 
-            }
+                {
+                    numOfItemInInventory--;  
+                    tmproText.text = numOfItemInInventory.ToString(); 
+                }
         } 
     }
 }
