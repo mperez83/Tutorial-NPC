@@ -9,7 +9,7 @@ public class UIOnSelection : MonoBehaviour
     private GameObject levelTileMap;
     private GameObject prefabToSpawnClone; 
     private bool placingInventoryItem, noInventoryItemsLeft; 
-    private MapHandlerExp mapHandlerExp; 
+    private MapHandlerExp mapHandlerExp;
     private NumberOfInventoryItemsController numOfInventoryItemsController; 
     private Button button; 
 
@@ -54,7 +54,7 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
-        mapHandlerExp.mapGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
+        mapHandlerExp.GetTileGrid()[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
         GameMaster.Instance.AddInventoryItemToMap(gameObject); 
         placingInventoryItem = false; 
     }

@@ -122,4 +122,16 @@ public class MapHandlerExp : MonoBehaviour
         mapActive = true;
         heroHandler.enabled = true;
     }
+
+
+
+    public Tile[,] GetTileGrid()
+    {
+        return tileGrid;
+    }
+
+    public MapEntity[,] GetEntityGrid()
+    {
+        return entityGrid;
+    }
 }
