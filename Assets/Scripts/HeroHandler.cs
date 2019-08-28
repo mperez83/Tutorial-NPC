@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroHandler : MonoBehaviour
+public class HeroHandler : MapEntity
 {
     Tile[,] mapGrid;
 
@@ -21,30 +21,49 @@ public class HeroHandler : MonoBehaviour
 
 
 
-    public void Init(Tile[,] mapGrid, Vector2 initSpace, HeroDirections initDir)
+    public override void Init(Tile[,] mapGrid, Vector2 initSpace)
     {
         this.mapGrid = mapGrid;
         curSpace = initSpace;
-        heroDir = initDir;
 
-        switch (heroDir)
+        //Top player spawn
+        if (curSpace.y == (mapGrid.GetLength(1) - 1))
         {
-            case HeroDirections.Up:
-                nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
-                break;
-            case HeroDirections.Down:
-                nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
-                break;
-            case HeroDirections.Left:
-                nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
-                break;
-            case HeroDirections.Right:
-                nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
-                break;
+            heroDir = HeroDirections.Down;
+            nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
+        }
+
+        //Bottom player spawn
+        else if (curSpace.y == 0)
+        {
+            heroDir = HeroDirections.Up;
+            nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
+        }
+
+        //Left player spawn
+        else if (curSpace.x == 0)
+        {
+            heroDir = HeroDirections.Right;
+            nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
+        }
+
+        //Right player spawn
+        else if (curSpace.x == (mapGrid.GetLength(0) - 1))
+        {
+            heroDir = HeroDirections.Left;
+            nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
+        }
+
+        //Else illegal spawn
+        else
+        {
+            print("Tried to spawn the hero at x=" + curSpace.x + ", y=" + curSpace.y + " which is ILLEGAL (so we're just gonna default to some arbitrary values, please fix)");
+            heroDir = HeroDirections.Up;
+            nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
         }
     }
 
-    public void MapUpdate(float actionTimer, float actionTimerLength)
+    public override void MapUpdate(float actionTimer, float actionTimerLength)
     {
         float actualLerpValue;  //Declared up here so we don't deal with "already declared" bullshit inside the switch statement
 
@@ -77,7 +96,7 @@ public class HeroHandler : MonoBehaviour
 
     }
 
-    public void MapAction()
+    public override void MapAction()
     {
         switch (heroState)
         {
