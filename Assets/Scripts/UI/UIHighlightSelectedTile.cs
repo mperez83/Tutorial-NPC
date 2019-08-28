@@ -29,7 +29,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
                 Quaternion.identity, transform);
             tileHighlightInstantiated = true; 
         }
-        if (mapHandlerExp.mapGrid[(int)screenPoint.x, (int)screenPoint.y] == null)
+        if (mapHandlerExp.GetTileGrid()[(int)screenPoint.x, (int)screenPoint.y] == null)
             tileHighlightImageClone.transform.position = screenPoint.RoundXAndYCoords(); 
     }
 
