@@ -92,7 +92,7 @@ public class MapHandlerExp : MonoBehaviour
             //Update the enemies
             foreach (MapEntity enemy in enemies)
             {
-                enemy.MapUpdate(actionTimer, actionTimerLength);
+                if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
             }
 
             actionTimer += Time.deltaTime;
@@ -106,7 +106,7 @@ public class MapHandlerExp : MonoBehaviour
                 //Update the enemies
                 foreach (MapEntity enemy in enemies)
                 {
-                    enemy.MapUpdate(actionTimer, actionTimerLength);
+                    if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
                 }
             }
         }

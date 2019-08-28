@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 6
+  blocksVision: 0
 --- !u!212 &7522343337450619072
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82,9 +83,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -327899765
   m_SortingLayer: -1
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: dd8810015314752468837db8fc45fcda, type: 3}
-  m_Color: {r: 0.96420634, g: 1, b: 0, a: 1}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 47a24dc8bd48db249bad904e4f6241f0, type: 3}
+  m_Color: {r: 0, g: 1, b: 0.08543229, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
