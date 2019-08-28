@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Cinemachine;
 
 public class MapHandlerExp : MonoBehaviour
@@ -9,14 +10,15 @@ public class MapHandlerExp : MonoBehaviour
     public float actionTimerLength;
     float actionTimer = 0;
 
-    [HideInInspector]
-    public Tile[,] mapGrid;
+    Tile[,] tileGrid;
     public GameObject levelTilemap;
     public GameObject floorTilemap;
+
     public CinemachineVirtualCamera vcam;
 
+    MapEntity[,] entityGrid;
     public HeroHandler heroHandler;
-    public MapEntity[] enemies;
+    public List<MapEntity> enemies = new List<MapEntity>();
 
 
 
@@ -47,9 +49,10 @@ public class MapHandlerExp : MonoBehaviour
         float xOffset = Mathf.Abs(leftBound);
         float yOffset = Mathf.Abs(bottomBound);
 
-        mapGrid = new Tile[mapWidth, mapHeight];
+        tileGrid = new Tile[mapWidth, mapHeight];
+        entityGrid = new MapEntity[mapWidth, mapHeight];
 
-        //Now, populate the mapGrid, keeping what the offset of each tile should be in mind
+        //Now, populate the tileGrid, keeping what the offset of each tile should be in mind
         foreach (Transform child in levelTilemap.transform)
         {
             child.Translate(new Vector2(xOffset, yOffset));
@@ -57,16 +60,20 @@ public class MapHandlerExp : MonoBehaviour
             int x = (int)child.position.x;
             int y = (int)child.position.y;
 
-            //If we're looking at the hero, do all the necessary hero setup
-            if (child.name == "Hero")
+            //Check if an entity is at this space
+            MapEntity entityCheck = child.GetComponent<MapEntity>();
+            if (entityCheck)
             {
-                heroHandler.Init(mapGrid, new Vector2(x, y));
+                entityCheck.Init(ref tileGrid, ref entityGrid, new Vector2(x, y));
+                if (child.name != "Hero") enemies.Add(entityCheck);
+                entityGrid[x, y] = entityCheck;
             }
 
-            //Otherwise, just slap it in the mapGrid
-            else
+            //Check if a tile is at this space
+            Tile tileCheck = child.GetComponent<Tile>();
+            if (tileCheck)
             {
-                mapGrid[x, y] = child.GetComponent<Tile>();
+                tileGrid[x, y] = tileCheck;
             }
         }
 
@@ -74,7 +81,7 @@ public class MapHandlerExp : MonoBehaviour
         floorTilemap.transform.Translate(new Vector2(xOffset, yOffset));
 
         //Lastly lastly, loop through all pit tiles and set their graphics depending on if there are adjacent pits
-        GetComponent<PitConnector>().ConnectAllPits(mapGrid);
+        GetComponent<PitConnector>().ConnectAllPits(tileGrid);
 
         //Set the map to active (only for testing, remove this later)
         ActivateMap();
@@ -86,28 +93,24 @@ public class MapHandlerExp : MonoBehaviour
     {
         if (mapActive)
         {
-            //Update the player
-            if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
-
             //Update the enemies
             foreach (MapEntity enemy in enemies)
-            {
                 if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
-            }
+
+            //Update the player
+            if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
 
             actionTimer += Time.deltaTime;
             if (actionTimer >= actionTimerLength)
             {
                 actionTimer = 0;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
 
-                //Update the hero
-                if (heroHandler) heroHandler.MapAction();
-
                 //Update the enemies
                 foreach (MapEntity enemy in enemies)
-                {
                     if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
-                }
+
+                //Update the hero
+                if (heroHandler) heroHandler.MapAction();
             }
         }
     }
