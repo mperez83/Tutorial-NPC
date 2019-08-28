@@ -12,8 +12,8 @@ public class UIHighlightSelectedTile : MonoBehaviour
     private void Start() 
     {
         mapHandlerExp = FindObjectOfType<MapHandlerExp>();
-        /* GameMaster.Instance.OnInventoryItemSelected += HighlightSelectedTile;  
-        GameMaster.Instance.OnInventoryItemDeselected += DeleteHighlightPrefab; */    
+        GameMaster.Instance.OnInventoryItemSelected += HighlightSelectedTile;  
+        GameMaster.Instance.OnInventoryItemDeselected += DeleteHighlightPrefab;
     }
 
     public void HighlightSelectedTile()
@@ -21,13 +21,15 @@ public class UIHighlightSelectedTile : MonoBehaviour
         Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         screenPoint.z = 0; 
 
+        screenPoint = screenPoint.RoundXAndYCoords(); 
+
         if (!tileHighlightInstantiated)
         {
-            tileHighlightImageClone = Instantiate(tileHighlightImage, screenPoint.RoundXAndYCoords(), 
+            tileHighlightImageClone = Instantiate(tileHighlightImage, screenPoint, 
                 Quaternion.identity, transform);
             tileHighlightInstantiated = true; 
         }
-        if (mapHandlerExp.mapGrid[(int)screenPoint.RoundXAndYCoords().x, (int)screenPoint.RoundXAndYCoords().y] == null)
+        if (mapHandlerExp.mapGrid[(int)screenPoint.x, (int)screenPoint.y] == null)
             tileHighlightImageClone.transform.position = screenPoint.RoundXAndYCoords(); 
     }
 
@@ -39,7 +41,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
 
     private void OnDestroy() 
     {
-        /* GameMaster.Instance.OnInventoryItemSelected -= HighlightSelectedTile;
-        GameMaster.Instance.OnInventoryItemDeselected -= DeleteHighlightPrefab;  */    
+        GameMaster.Instance.OnInventoryItemSelected -= HighlightSelectedTile;
+        GameMaster.Instance.OnInventoryItemDeselected -= DeleteHighlightPrefab;
     }
 }

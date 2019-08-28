@@ -7,6 +7,7 @@ public class GameMaster : MonoBehaviour
 
     public event Action OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
+    public event Action OnInventoryItemAdded; 
 
     void Awake()
     {
@@ -19,17 +20,23 @@ public class GameMaster : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    /* internal void InventoryItemSelected()
+    internal void InventoryItemSelected()
     {
         if (OnInventoryItemSelected != null)
-            InventoryItemSelected(); 
+            OnInventoryItemSelected(); 
     }
 
     internal void InventoryItemDeselected()
     {
         if (OnInventoryItemSelected != null)
-            InventoryItemDeselected(); 
-    } */
+            OnInventoryItemDeselected(); 
+    }
+
+    internal void AddInventoryItemToMap()
+    {
+        if (OnInventoryItemAdded != null)
+            OnInventoryItemAdded(); 
+    }
 
     public float GetCamTopEdge()
     {

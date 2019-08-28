@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UIOnSelection : MonoBehaviour
 {
@@ -7,24 +9,30 @@ public class UIOnSelection : MonoBehaviour
     [SerializeField]
     private GameObject levelTileMap;
     private GameObject prefabToSpawnClone; 
-    private bool placingInventoryItem; 
+    private bool placingInventoryItem, noInventoryItemsLeft; 
     private MapHandlerExp mapHandlerExp; 
-    private UIHighlightSelectedTile _UIHighlightSelectedTile; 
+    private NumberOfInventoryItemsController numOfInventoryItemsController; 
+    private Button button; 
 
     private void Awake() 
     {
         mapHandlerExp = FindObjectOfType<MapHandlerExp>();
-        _UIHighlightSelectedTile = FindObjectOfType<UIHighlightSelectedTile>(); 
+        numOfInventoryItemsController = GetComponent<NumberOfInventoryItemsController>(); 
+        button = GetComponent<Button>(); 
     }
 
     private void LateUpdate()  
     {
         if (placingInventoryItem)
         {
-            _UIHighlightSelectedTile.HighlightSelectedTile(); 
-            //GameMaster.Instance.InventoryItemSelected(); 
+            GameMaster.Instance.InventoryItemSelected(); 
             AttachInventoryItemToMouseLocation(); 
-        }    
+        }
+
+        if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
+        {
+            HandleNoItemsLeft(); 
+        }
     }
 
     private void AttachInventoryItemToMouseLocation()
@@ -37,8 +45,7 @@ public class UIOnSelection : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
-            _UIHighlightSelectedTile.DeleteHighlightPrefab(); 
-            //GameMaster.Instance.InventoryItemDeselected(); 
+            GameMaster.Instance.InventoryItemDeselected(); 
             Cursor.visible = true; 
         }
     }
@@ -48,16 +55,23 @@ public class UIOnSelection : MonoBehaviour
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
         mapHandlerExp.mapGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
+        GameMaster.Instance.AddInventoryItemToMap(); 
         placingInventoryItem = false; 
     }
 
     public void OnUIElementSelected()
     {
-        if (!placingInventoryItem)
+        if (!placingInventoryItem && !noInventoryItemsLeft)
         {
             placingInventoryItem = true; 
             prefabToSpawnClone = Instantiate(prefabToSpawn, transform.position, 
                 Quaternion.identity, levelTileMap.transform);
         }
+    }
+
+    private void HandleNoItemsLeft()
+    {
+        noInventoryItemsLeft = true; 
+        button.interactable = false; 
     }
 }
