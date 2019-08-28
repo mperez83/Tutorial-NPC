@@ -16,6 +16,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
         if (numOfItemInInventory < 0)
             numOfItemInInventory = 0;      
+
         tmproText = GetComponentInChildren<TextMeshProUGUI>(); 
         tmproText.text = numOfItemInInventory.ToString(); 
     }
