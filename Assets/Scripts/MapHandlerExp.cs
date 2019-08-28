@@ -3,18 +3,24 @@ using Cinemachine;
 
 public class MapHandlerExp : MonoBehaviour
 {
+    bool mapActive = false;
+
+    [Range(0.1f, 1f)]
+    public float actionTimerLength;
+    float actionTimer = 0;
+
+    [HideInInspector]
+    public Tile[,] mapGrid;
     public GameObject levelTilemap;
     public GameObject floorTilemap;
-    public Tile[,] mapGrid;
     public CinemachineVirtualCamera vcam;
-    PlayerHandler playerHandler;
+
+    public HeroHandler heroHandler;
 
 
 
     void Start()
     {
-        playerHandler = GetComponent<PlayerHandler>();
-
         float topBound = levelTilemap.transform.GetChild(0).transform.position.y;
         float bottomBound = levelTilemap.transform.GetChild(0).transform.position.y;
         float leftBound = levelTilemap.transform.GetChild(0).transform.position.x;
@@ -53,47 +59,29 @@ public class MapHandlerExp : MonoBehaviour
             //If we're looking at the hero, do all the necessary hero setup
             if (child.name == "Hero")
             {
-                playerHandler.player = child.gameObject;
-                playerHandler.mapGrid = mapGrid;
-                vcam.m_Follow = playerHandler.player.transform;
+                HeroHandler.HeroDirections initDir = HeroHandler.HeroDirections.Up;
 
                 //Top player spawn
                 if (y == (mapGrid.GetLength(1) - 1))
-                {
-                    playerHandler.playerSpace = new Vector2(x, y + 4);
-                    playerHandler.nextSpace = new Vector2(x, y + 3);
-                    playerHandler.playerDir = PlayerHandler.PlayerDirections.Down;
-                }
+                    initDir = HeroHandler.HeroDirections.Down;
 
                 //Bottom player spawn
                 else if (y == 0)
-                {
-                    playerHandler.playerSpace = new Vector2(x, y - 4);
-                    playerHandler.nextSpace = new Vector2(x, y - 3);
-                    playerHandler.playerDir = PlayerHandler.PlayerDirections.Up;
-                }
+                    initDir = HeroHandler.HeroDirections.Up;
 
                 //Left player spawn
                 else if (x == 0)
-                {
-                    playerHandler.playerSpace = new Vector2(x - 4, y);
-                    playerHandler.nextSpace = new Vector2(x - 3, y);
-                    playerHandler.playerDir = PlayerHandler.PlayerDirections.Right;
-                }
+                    initDir = HeroHandler.HeroDirections.Right;
 
                 //Right player spawn
                 else if (x == (mapGrid.GetLength(0) - 1))
-                {
-                    playerHandler.playerSpace = new Vector2(x + 4, y);
-                    playerHandler.nextSpace = new Vector2(x + 3, y);
-                    playerHandler.playerDir = PlayerHandler.PlayerDirections.Left;
-                }
+                    initDir = HeroHandler.HeroDirections.Left;
 
                 //Else illegal spawn
                 else
-                {
                     print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
-                }
+
+                heroHandler.Init(mapGrid, new Vector2(x, y), initDir);
             }
 
             //Otherwise, just slap it in the mapGrid
@@ -105,5 +93,36 @@ public class MapHandlerExp : MonoBehaviour
 
         //Lastly, offset the floor tilemap so it aligns with everything else
         floorTilemap.transform.Translate(new Vector2(xOffset, yOffset));
+
+        //Lastly lastly, loop through all pit tiles and set their graphics depending on if there are adjacent pits
+        GetComponent<PitConnector>().ConnectAllPits(mapGrid);
+
+        //Set the map to active (only for testing, remove this later)
+        ActivateMap();
+    }
+
+
+
+    void Update()
+    {
+        if (mapActive)
+        {
+            if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
+
+            actionTimer += Time.deltaTime;
+            if (actionTimer >= actionTimerLength)
+            {
+                actionTimer = 0;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
+                if (heroHandler) heroHandler.MapAction();
+            }
+        }
+    }
+
+
+
+    void ActivateMap()
+    {
+        mapActive = true;
+        heroHandler.enabled = true;
     }
 }

@@ -101,6 +101,48 @@ TextureImporter:
   - first:
       213: -8592684796623525328
     second: Pit_Tileset_32
+  - first:
+      213: 3384481321711514140
+    second: Pit_Tileset_33
+  - first:
+      213: -8266415128070445826
+    second: Pit_Tileset_34
+  - first:
+      213: -7481319160228309173
+    second: Pit_Tileset_35
+  - first:
+      213: -1799413593109797446
+    second: Pit_Tileset_36
+  - first:
+      213: -8231003826457858024
+    second: Pit_Tileset_37
+  - first:
+      213: 7943941820510581269
+    second: Pit_Tileset_38
+  - first:
+      213: 1151590494153863331
+    second: Pit_Tileset_39
+  - first:
+      213: 2554439581182014807
+    second: Pit_Tileset_40
+  - first:
+      213: 4043057539763948421
+    second: Pit_Tileset_41
+  - first:
+      213: -4862908744644507483
+    second: Pit_Tileset_42
+  - first:
+      213: -4362250628152395167
+    second: Pit_Tileset_43
+  - first:
+      213: 8592274135550754471
+    second: Pit_Tileset_44
+  - first:
+      213: 2439516465541343862
+    second: Pit_Tileset_45
+  - first:
+      213: 6093494567915921018
+    second: Pit_Tileset_46
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -188,8 +230,8 @@ TextureImporter:
       name: Pit_Tileset_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
+        x: 0
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -199,7 +241,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48abae19e2c939b4b94466ba6f1342f1
+      spriteID: 4b185f1495f01fd40b134987ad313bda
       internalID: 4966060475257621589
       vertices: []
       indices: 
@@ -209,8 +251,8 @@ TextureImporter:
       name: Pit_Tileset_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
+        x: 17
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -220,7 +262,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 923148ab3aae8bd43b4c0ee8e3c6ee1d
+      spriteID: d56b9ed75c6919a42b31ec0f19513977
       internalID: -7242623143261871960
       vertices: []
       indices: 
@@ -230,8 +272,8 @@ TextureImporter:
       name: Pit_Tileset_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
+        x: 34
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -241,7 +283,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0efb17e22ac402141bce964f52667b24
+      spriteID: 2a70ad1ed6dee0f4d8900c030bbaf391
       internalID: 5022598023339205199
       vertices: []
       indices: 
@@ -251,8 +293,8 @@ TextureImporter:
       name: Pit_Tileset_3
       rect:
         serializedVersion: 2
-        x: 80
-        y: 96
+        x: 68
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -262,7 +304,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2854f6022db9c0c42ac8f70adef27d0b
+      spriteID: 216742833bec3a84ebb6c0e5cc6196a7
       internalID: -7574264622811573224
       vertices: []
       indices: 
@@ -272,8 +314,8 @@ TextureImporter:
       name: Pit_Tileset_4
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
+        x: 85
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -283,7 +325,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24dcdde92f36c6041844a2f0e88fbe55
+      spriteID: ab7527f55a3d1fb48a7855436057e374
       internalID: 4248791859474131279
       vertices: []
       indices: 
@@ -293,8 +335,8 @@ TextureImporter:
       name: Pit_Tileset_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 80
+        x: 102
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -304,7 +346,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a9b8b2c6db31b7478f7de8f3c43ab94
+      spriteID: f3c9ceef54a209d4d8ee0498163720a4
       internalID: 7342198204677256507
       vertices: []
       indices: 
@@ -314,8 +356,8 @@ TextureImporter:
       name: Pit_Tileset_6
       rect:
         serializedVersion: 2
-        x: 48
-        y: 80
+        x: 119
+        y: 120
         width: 16
         height: 16
       alignment: 0
@@ -325,7 +367,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f23a2c0216e0bf348acc11e6c2f1ef7d
+      spriteID: 597c96ff31f31204baf40c42b85600bd
       internalID: 3873580259297798409
       vertices: []
       indices: 
@@ -335,8 +377,8 @@ TextureImporter:
       name: Pit_Tileset_7
       rect:
         serializedVersion: 2
-        x: 64
-        y: 80
+        x: 0
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -346,7 +388,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 893a925f86cbcd94cbd2e4bf4d392ab8
+      spriteID: 571e46b7fdf4367419f63cfaee18fcca
       internalID: -3288502031187149781
       vertices: []
       indices: 
@@ -356,8 +398,8 @@ TextureImporter:
       name: Pit_Tileset_8
       rect:
         serializedVersion: 2
-        x: 80
-        y: 80
+        x: 17
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -367,7 +409,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c87ae0e37110db14b9454191f8507215
+      spriteID: f3d972971744a9143a165e60f6948693
       internalID: -2822522121523122379
       vertices: []
       indices: 
@@ -377,8 +419,8 @@ TextureImporter:
       name: Pit_Tileset_9
       rect:
         serializedVersion: 2
-        x: 96
-        y: 80
+        x: 34
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -388,7 +430,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52dcfbec135e40944a94fd60a83bc87a
+      spriteID: 39b8bd9e09b8a8947b65efd008e451c3
       internalID: -8486257995169657896
       vertices: []
       indices: 
@@ -398,8 +440,8 @@ TextureImporter:
       name: Pit_Tileset_10
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 68
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -409,7 +451,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a4d336d1125ff44488c46e594124496
+      spriteID: 1757748c8caa5c24489076caf7520d0b
       internalID: -3892023772529061555
       vertices: []
       indices: 
@@ -419,8 +461,8 @@ TextureImporter:
       name: Pit_Tileset_11
       rect:
         serializedVersion: 2
-        x: 48
-        y: 64
+        x: 85
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -430,7 +472,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb103874b6c73b04e9321cf30c3d947d
+      spriteID: 82e9fa33c8caa53478be281abd9bfacf
       internalID: -7238317736091269556
       vertices: []
       indices: 
@@ -440,8 +482,8 @@ TextureImporter:
       name: Pit_Tileset_12
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 102
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -451,7 +493,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26fcc08552e5b9145b7023ada3a9104d
+      spriteID: 7175e818a1eb2ab4ebafdea8f1d29346
       internalID: 5537258391375476153
       vertices: []
       indices: 
@@ -461,8 +503,8 @@ TextureImporter:
       name: Pit_Tileset_13
       rect:
         serializedVersion: 2
-        x: 80
-        y: 64
+        x: 119
+        y: 103
         width: 16
         height: 16
       alignment: 0
@@ -472,7 +514,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9f8ef31d1013234b99e4940d26d4c6c
+      spriteID: 3a8b663db85e61c4a8a4c6fba326c791
       internalID: 8681447717644205210
       vertices: []
       indices: 
@@ -482,8 +524,8 @@ TextureImporter:
       name: Pit_Tileset_14
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
+        x: 0
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -493,7 +535,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f46b9b8ddce42d349bd31deed12fc845
+      spriteID: d67d6f7d7a885d148bf6bdea5f225557
       internalID: 2370804579072340219
       vertices: []
       indices: 
@@ -503,8 +545,8 @@ TextureImporter:
       name: Pit_Tileset_15
       rect:
         serializedVersion: 2
-        x: 112
-        y: 64
+        x: 17
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -514,7 +556,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8c66732c890ba4fb6efd5431970980
+      spriteID: 3d4a094db959d0649ab36d162dd2ea60
       internalID: -539661930881250184
       vertices: []
       indices: 
@@ -524,8 +566,8 @@ TextureImporter:
       name: Pit_Tileset_16
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
+        x: 34
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -535,7 +577,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e5101e60028ef545b5dbe6fce9b4ea3
+      spriteID: 4c7c17bb25ee884419df60bc35021086
       internalID: -2582373262955272657
       vertices: []
       indices: 
@@ -545,8 +587,8 @@ TextureImporter:
       name: Pit_Tileset_17
       rect:
         serializedVersion: 2
-        x: 16
-        y: 48
+        x: 68
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -556,7 +598,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 981fb9a06c646094d906c08a55e94c0d
+      spriteID: 6275d20dddeedd34aa874c6cf8d683c8
       internalID: -774940810144611850
       vertices: []
       indices: 
@@ -566,8 +608,8 @@ TextureImporter:
       name: Pit_Tileset_18
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
+        x: 85
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -577,7 +619,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1493d10fc6ebd01419395645c9410e07
+      spriteID: 3ad3c31f92dc7dc42bb64c0a1692942d
       internalID: -248589410945485091
       vertices: []
       indices: 
@@ -587,8 +629,8 @@ TextureImporter:
       name: Pit_Tileset_19
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 102
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -598,7 +640,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a320643faa722c40bb3fa9d642187e0
+      spriteID: 4a327b4e42d061642b79e40183c7e0a5
       internalID: 2405435836374912620
       vertices: []
       indices: 
@@ -608,8 +650,8 @@ TextureImporter:
       name: Pit_Tileset_20
       rect:
         serializedVersion: 2
-        x: 64
-        y: 48
+        x: 119
+        y: 86
         width: 16
         height: 16
       alignment: 0
@@ -619,7 +661,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07b056beb921f0a419d941893ee57e57
+      spriteID: 56bcad02510c48a4b98e596b0783c2ab
       internalID: 8595889971966678565
       vertices: []
       indices: 
@@ -629,8 +671,8 @@ TextureImporter:
       name: Pit_Tileset_21
       rect:
         serializedVersion: 2
-        x: 80
-        y: 48
+        x: 0
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -640,7 +682,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c9a35cc2085aaa4d91028ea18e5f07b
+      spriteID: 4cacf883f577fb943a4d5e6c04e7776f
       internalID: -5513641742610448915
       vertices: []
       indices: 
@@ -650,8 +692,8 @@ TextureImporter:
       name: Pit_Tileset_22
       rect:
         serializedVersion: 2
-        x: 96
-        y: 48
+        x: 17
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -661,7 +703,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e03c2e7ec50ee014aa2850bf9b6ee5e6
+      spriteID: f70368a958b14344aa1452725c363151
       internalID: -1362191511474527711
       vertices: []
       indices: 
@@ -671,8 +713,8 @@ TextureImporter:
       name: Pit_Tileset_23
       rect:
         serializedVersion: 2
-        x: 112
-        y: 48
+        x: 34
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -682,7 +724,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e17d173663e16784a9cd573d580f9e9f
+      spriteID: e8dd4bfa48b9e4f43a8e9f2b8be5d7dd
       internalID: -1691496640049140373
       vertices: []
       indices: 
@@ -692,8 +734,8 @@ TextureImporter:
       name: Pit_Tileset_24
       rect:
         serializedVersion: 2
-        x: 128
-        y: 48
+        x: 51
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -703,7 +745,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1b7dbd3deb6c77449613a52a61bed69
+      spriteID: 0a94226df3f164e49846d41e5ac0e5c0
       internalID: 6925309157521380388
       vertices: []
       indices: 
@@ -713,8 +755,8 @@ TextureImporter:
       name: Pit_Tileset_25
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 68
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -724,7 +766,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f20fb2d71c6499446b84f6a481bac03e
+      spriteID: f4c584c61db43e44f9a8b902de46b570
       internalID: -5125352329779368892
       vertices: []
       indices: 
@@ -734,8 +776,8 @@ TextureImporter:
       name: Pit_Tileset_26
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 85
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -745,7 +787,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a183701e740b7b343a9434fb20dd343f
+      spriteID: 762cb041c37daba44a1b62aab9e00d85
       internalID: 5684725398222153434
       vertices: []
       indices: 
@@ -755,8 +797,8 @@ TextureImporter:
       name: Pit_Tileset_27
       rect:
         serializedVersion: 2
-        x: 48
-        y: 32
+        x: 102
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -766,7 +808,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f27642a2f6c9a5f4088a243eb5bba624
+      spriteID: 55341e3a774f72247a5630b98aeeb598
       internalID: -8857860083855802309
       vertices: []
       indices: 
@@ -776,8 +818,8 @@ TextureImporter:
       name: Pit_Tileset_28
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 119
+        y: 69
         width: 16
         height: 16
       alignment: 0
@@ -787,7 +829,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3dbcfc4ee3094641a1486155c613e8f
+      spriteID: 312c8a9de04c0344f8f7b5a5f72ed3a5
       internalID: -5479533018285943518
       vertices: []
       indices: 
@@ -797,8 +839,8 @@ TextureImporter:
       name: Pit_Tileset_29
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
+        x: 0
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -808,7 +850,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed1efaa3692958b4aa6abddd4ba4c6cf
+      spriteID: 3e96f88dd3f9c994ab3a56047c51bed9
       internalID: -9088387621830944223
       vertices: []
       indices: 
@@ -818,8 +860,8 @@ TextureImporter:
       name: Pit_Tileset_30
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
+        x: 17
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -829,7 +871,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6091311b3b6b5c4baec991bc87ef7ff
+      spriteID: 3ac672c95ba3a3040823f0e8843b8e4e
       internalID: 897795571950703862
       vertices: []
       indices: 
@@ -839,8 +881,8 @@ TextureImporter:
       name: Pit_Tileset_31
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
+        x: 34
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -850,7 +892,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98691074b0f82ab4999c8bee26ca3a01
+      spriteID: 37af99d4484ff9d4ebc2d44fbb1b7d25
       internalID: 4666110034665387088
       vertices: []
       indices: 
@@ -860,8 +902,8 @@ TextureImporter:
       name: Pit_Tileset_32
       rect:
         serializedVersion: 2
-        x: 64
-        y: 16
+        x: 68
+        y: 52
         width: 16
         height: 16
       alignment: 0
@@ -871,8 +913,302 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af60a6331ab58f043a7aee0b95d096e3
+      spriteID: c9786b75c335eb54983a69dadcfbdf0b
       internalID: -8592684796623525328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_33
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 52
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7982ea4e159baa64494390fe7e6c74a3
+      internalID: 3384481321711514140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_34
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 52
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26b40afdaa8ab0b4c8c52118ea458724
+      internalID: -8266415128070445826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_35
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 52
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 471fbed19879d09458528a6ab75e2c5d
+      internalID: -7481319160228309173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 105fc309b47e048449b5075a58a5720c
+      internalID: -1799413593109797446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_37
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4379a963b88b434eb33120064399081
+      internalID: -8231003826457858024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_38
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d977de611a8d5b44998269dc3cabf6b
+      internalID: 7943941820510581269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_39
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e77f4f36c26e1a44da07b0d7fa3037be
+      internalID: 1151590494153863331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_40
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78632977d44efca48aa873c78b83b221
+      internalID: 2554439581182014807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_41
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec8def43e94b3f74dab78c6744dbf6bc
+      internalID: 4043057539763948421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_42
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 35
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e16b3f19fea1e27408a6a7c773506b9b
+      internalID: -4862908744644507483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d94d39357b819ce448102f6d2806d821
+      internalID: -4362250628152395167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_44
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eea2a7eb8d6695429f60e24ebb17b68
+      internalID: 8592274135550754471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_45
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7790fb2e1b9b8d34caea4b2861356889
+      internalID: 2439516465541343862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pit_Tileset_46
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39d77758f1f5944daae80af4f695472
+      internalID: 6093494567915921018
       vertices: []
       indices: 
       edges: []
