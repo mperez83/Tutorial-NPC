@@ -44,29 +44,7 @@ public class MapHandler : MonoBehaviour
                 //If we're spawning the player, do some special stuff
                 if (colorMapping.color.r == 1 && colorMapping.color.b == 1)
                 {
-                    HeroHandler.HeroDirections initDir = HeroHandler.HeroDirections.Up;
-
-                    //Top player spawn
-                    if (y == (mapGrid.GetLength(1) - 1))
-                        initDir = HeroHandler.HeroDirections.Down;
-
-                    //Bottom player spawn
-                    else if (y == 0)
-                        initDir = HeroHandler.HeroDirections.Up;
-
-                    //Left player spawn
-                    else if (x == 0)
-                        initDir = HeroHandler.HeroDirections.Right;
-
-                    //Right player spawn
-                    else if (x == (mapGrid.GetLength(0) - 1))
-                        initDir = HeroHandler.HeroDirections.Left;
-
-                    //Else illegal spawn
-                    else
-                        print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
-
-                    heroHandler.Init(mapGrid, new Vector2(x, y), initDir);
+                    heroHandler.Init(mapGrid, new Vector2(x, y));
                 }
 
                 //Otherwise, just do a normal spawn

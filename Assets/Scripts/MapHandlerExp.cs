@@ -16,6 +16,7 @@ public class MapHandlerExp : MonoBehaviour
     public CinemachineVirtualCamera vcam;
 
     public HeroHandler heroHandler;
+    public MapEntity[] enemies;
 
 
 
@@ -59,29 +60,7 @@ public class MapHandlerExp : MonoBehaviour
             //If we're looking at the hero, do all the necessary hero setup
             if (child.name == "Hero")
             {
-                HeroHandler.HeroDirections initDir = HeroHandler.HeroDirections.Up;
-
-                //Top player spawn
-                if (y == (mapGrid.GetLength(1) - 1))
-                    initDir = HeroHandler.HeroDirections.Down;
-
-                //Bottom player spawn
-                else if (y == 0)
-                    initDir = HeroHandler.HeroDirections.Up;
-
-                //Left player spawn
-                else if (x == 0)
-                    initDir = HeroHandler.HeroDirections.Right;
-
-                //Right player spawn
-                else if (x == (mapGrid.GetLength(0) - 1))
-                    initDir = HeroHandler.HeroDirections.Left;
-
-                //Else illegal spawn
-                else
-                    print("Tried to spawn player at x=" + x + ", y=" + y + " which is ILLEGAL");
-
-                heroHandler.Init(mapGrid, new Vector2(x, y), initDir);
+                heroHandler.Init(mapGrid, new Vector2(x, y));
             }
 
             //Otherwise, just slap it in the mapGrid
@@ -107,13 +86,28 @@ public class MapHandlerExp : MonoBehaviour
     {
         if (mapActive)
         {
+            //Update the player
             if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
+
+            //Update the enemies
+            foreach (MapEntity enemy in enemies)
+            {
+                enemy.MapUpdate(actionTimer, actionTimerLength);
+            }
 
             actionTimer += Time.deltaTime;
             if (actionTimer >= actionTimerLength)
             {
                 actionTimer = 0;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
+
+                //Update the hero
                 if (heroHandler) heroHandler.MapAction();
+
+                //Update the enemies
+                foreach (MapEntity enemy in enemies)
+                {
+                    enemy.MapUpdate(actionTimer, actionTimerLength);
+                }
             }
         }
     }
