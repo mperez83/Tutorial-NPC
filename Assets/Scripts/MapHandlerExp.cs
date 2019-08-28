@@ -18,6 +18,8 @@ public class MapHandlerExp : MonoBehaviour
 
     MapEntity[,] entityGrid;
     public HeroHandler heroHandler;
+
+    [HideInInspector]
     public List<MapEntity> enemies = new List<MapEntity>();
 
 
@@ -82,9 +84,6 @@ public class MapHandlerExp : MonoBehaviour
 
         //Lastly lastly, loop through all pit tiles and set their graphics depending on if there are adjacent pits
         GetComponent<PitConnector>().ConnectAllPits(tileGrid);
-
-        //Set the map to active (only for testing, remove this later)
-        ActivateMap();
     }
 
 
@@ -117,10 +116,13 @@ public class MapHandlerExp : MonoBehaviour
 
 
 
-    void ActivateMap()
+    public void ActivateMap()
     {
-        mapActive = true;
-        heroHandler.enabled = true;
+        if (!mapActive)
+        {
+            mapActive = true;
+            heroHandler.enabled = true;
+        }
     }
 
 

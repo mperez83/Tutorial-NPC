@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class UIOnSelection : MonoBehaviour
 {
     [SerializeField]
-    private GameObject prefabToSpawn;
+    private GameObject prefabToSpawn = null;
     [SerializeField]
-    private GameObject levelTileMap;
+    private GameObject levelTileMap = null;
     private GameObject prefabToSpawnClone; 
     private bool placingInventoryItem, noInventoryItemsLeft; 
     private MapHandlerExp mapHandlerExp;
@@ -27,10 +27,10 @@ public class UIOnSelection : MonoBehaviour
             GameMaster.Instance.InventoryItemSelected(); 
             AttachInventoryItemToMouseLocation(); 
         }
-
+        
         if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
         {
-            Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
+            //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
             HandleNoItemsLeft(); 
         }
     }

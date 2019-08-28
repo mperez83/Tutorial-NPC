@@ -3,7 +3,7 @@
 public class UIHighlightSelectedTile : MonoBehaviour
 {
     [SerializeField]
-    private GameObject tileHighlightImage; 
+    private GameObject tileHighlightImage = null; 
     private GameObject tileHighlightImageClone; 
     private bool tileHighlightInstantiated;
 
