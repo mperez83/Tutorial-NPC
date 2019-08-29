@@ -3727,7 +3727,6 @@ GameObject:
   - component: {fileID: 814201139}
   - component: {fileID: 814201138}
   - component: {fileID: 814201137}
-  - component: {fileID: 814201140}
   m_Layer: 5
   m_Name: Start Button
   m_TagString: Untagged
@@ -3798,8 +3797,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 814201140}
-        m_MethodName: OnHeroEnterButtonClicked
+      - m_Target: {fileID: 436417312}
+        m_MethodName: ActivateMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3849,18 +3848,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814201135}
   m_CullTransparentMesh: 0
---- !u!114 &814201140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 814201135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ede6c803d096451c805fd40922e3749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &823802548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5064,7 +5051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093604039}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.8163733, y: -2.1873856, z: -10}
+  m_LocalPosition: {x: -6.8437696, y: -2.1869793, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
