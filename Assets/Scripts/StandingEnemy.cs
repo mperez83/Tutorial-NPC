@@ -2,8 +2,7 @@
 
 public class StandingEnemy : MapEntity
 {
-    Tile[,] tileGrid;
-    MapEntity[,] entityGrid;
+    MapHandlerExp mapHandler;
 
     Vector2 curSpace;
 
@@ -13,10 +12,9 @@ public class StandingEnemy : MapEntity
 
 
 
-    public override void Init(ref Tile[,] tileGrid, ref MapEntity[,] entityGrid, Vector2 initSpace)
+    public override void Init(MapHandlerExp mapHandler, Vector2 initSpace)
     {
-        this.tileGrid = tileGrid;
-        this.entityGrid = entityGrid;
+        this.mapHandler = mapHandler;
         curSpace = initSpace;
         mainDeg = Random.Range(0f, 360f);
     }

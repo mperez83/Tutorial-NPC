@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class HeroHandler : MapEntity
 {
-    Tile[,] tileGrid;
-    MapEntity[,] entityGrid;
+    MapHandlerExp mapHandler;
 
     public enum HeroStates { Entering, Moving, Frustrated, SawPot, Victory };
     HeroStates heroState = HeroStates.Entering;
@@ -20,15 +19,16 @@ public class HeroHandler : MapEntity
     public GameObject visibleLadderPrefab;
     GameObject visibleLadder;
 
+    public GameOverUI gameOverUI;
 
 
-    public override void Init(ref Tile[,] tileGrid, ref MapEntity[,] entityGrid, Vector2 initSpace)
+
+    public override void Init(MapHandlerExp mapHandler, Vector2 initSpace)
     {
-        this.tileGrid = tileGrid;
-        this.entityGrid = entityGrid;
+        this.mapHandler = mapHandler;
 
         //Top player spawn
-        if (curSpace.y == (tileGrid.GetLength(1) - 1))
+        if (curSpace.y == (mapHandler.tileGrid.GetLength(1) - 1))
         {
             heroDir = HeroDirections.Down;
             curSpace = new Vector2(initSpace.x, initSpace.y + 2);
@@ -52,7 +52,7 @@ public class HeroHandler : MapEntity
         }
 
         //Right player spawn
-        else if (curSpace.x == (tileGrid.GetLength(0) - 1))
+        else if (curSpace.x == (mapHandler.tileGrid.GetLength(0) - 1))
         {
             heroDir = HeroDirections.Left;
             curSpace = new Vector2(initSpace.x + 2, initSpace.y);
@@ -129,8 +129,8 @@ public class HeroHandler : MapEntity
                         break;
                 }
 
-                //When the player enters the tileGrid, set them to HeroStates.Moving
-                if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < tileGrid.GetLength(0) && nextSpace.y < tileGrid.GetLength(1))
+                //When the player enters the mapHandler.tileGrid, set them to HeroStates.Moving
+                if (nextSpace.x >= 0 && nextSpace.y >= 0 && nextSpace.x < mapHandler.tileGrid.GetLength(0) && nextSpace.y < mapHandler.tileGrid.GetLength(1))
                 {
                     heroState = HeroStates.Moving;
                 }
@@ -141,14 +141,14 @@ public class HeroHandler : MapEntity
                 curSpace.y = nextSpace.y;
 
                 //If the hero is over a tile, do something
-                if (tileGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentTile();
+                if (mapHandler.tileGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentTile();
                 else
                 {
                     if (visibleLadder != null) Destroy(visibleLadder);  //Really bad, kinda hope we can move this elsewhere at some point
                 }
 
                 //If the hero is over an entity, do something
-                if (entityGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentEntity();
+                if (mapHandler.entityGrid[(int)curSpace.x, (int)curSpace.y]) HandleCurrentEntity();
 
                 SetNextSpace();
                 break;
@@ -210,7 +210,7 @@ public class HeroHandler : MapEntity
         int curX = (int)curSpace.x;
         int curY = (int)curSpace.y;
 
-        Tile checkTile = tileGrid[curX, curY].GetComponent<Tile>();
+        Tile checkTile = mapHandler.tileGrid[curX, curY].GetComponent<Tile>();
 
         switch (checkTile.tileType)
         {
@@ -233,18 +233,47 @@ public class HeroHandler : MapEntity
             case Tile.TileType.Pit:
                 if (!inventory.Contains("Ladder"))
                 {
-                    print("Aaaaahh!! The hero fell!!!");
+                    gameOverUI.ActivateGameOver("Game over!\n(The hero fell into a pit)");
+                }
+                else
+                {
+                    int x = (int)curSpace.x;
+                    int y = (int)curSpace.y;
+                    Tile extraPitCheck;
+
+                    switch (heroDir)
+                    {
+                        case HeroDirections.Up:
+                            extraPitCheck = mapHandler.GetTileAtCoords(x, y + 1);
+                            if (extraPitCheck && extraPitCheck.tileType == Tile.TileType.Pit) gameOverUI.ActivateGameOver("Game over!\n(The pit was too wide to cross with a ladder)");
+                            break;
+
+                        case HeroDirections.Down:
+                            extraPitCheck = mapHandler.GetTileAtCoords(x, y - 1);
+                            if (extraPitCheck && extraPitCheck.tileType == Tile.TileType.Pit) gameOverUI.ActivateGameOver("Game over!\n(The pit was too wide to cross with a ladder)");
+                            break;
+
+                        case HeroDirections.Left:
+                            extraPitCheck = mapHandler.GetTileAtCoords(x - 1, y);
+                            if (extraPitCheck && extraPitCheck.tileType == Tile.TileType.Pit) gameOverUI.ActivateGameOver("Game over!\n(The pit was too wide to cross with a ladder)");
+                            break;
+
+                        case HeroDirections.Right:
+                            extraPitCheck = mapHandler.GetTileAtCoords(x + 1, y);
+                            if (extraPitCheck && extraPitCheck.tileType == Tile.TileType.Pit) gameOverUI.ActivateGameOver("Game over!\n(The pit was too wide to cross with a ladder)");
+                            break;
+                    }
                 }
                 break;
 
             case Tile.TileType.Ladder:
                 if (!inventory.Contains("Ladder")) inventory.Add("Ladder");
-                Destroy(tileGrid[curX, curY].gameObject);
+                Destroy(mapHandler.tileGrid[curX, curY].gameObject);
                 break;
 
             case Tile.TileType.Sword:
                 if (!inventory.Contains("Sword")) inventory.Add("Sword");
-                Destroy(tileGrid[curX, curY].gameObject);
+                Destroy(mapHandler.tileGrid[curX, curY].gameObject);
                 break;
         }
 
@@ -263,16 +292,16 @@ public class HeroHandler : MapEntity
         int curX = (int)curSpace.x;
         int curY = (int)curSpace.y;
 
-        MapEntity checkEntity = entityGrid[curX, curY].GetComponent<MapEntity>();
+        MapEntity checkEntity = mapHandler.entityGrid[curX, curY].GetComponent<MapEntity>();
         if (checkEntity.isEnemy)
         {
             if (inventory.Contains("Sword"))
             {
-                Destroy(entityGrid[curX, curY].gameObject);
+                Destroy(mapHandler.entityGrid[curX, curY].gameObject);
             }
             else
             {
-                heroState = HeroStates.SawPot;  //Should probably be a death state
+                gameOverUI.ActivateGameOver("Game over!\n(The hero died)");
             }
         }
     }
@@ -287,9 +316,8 @@ public class HeroHandler : MapEntity
 
         if (CheckForLineOfSightWithPot(curX, curY))
         {
-            print("THE HERO SAW THE POT");
             heroState = HeroStates.SawPot;
-            Destroy(this);
+            gameOverUI.ActivateGameOver("Game over!\n(The hero saw a pot)");
             return;
         }
 
@@ -315,14 +343,14 @@ public class HeroHandler : MapEntity
                 break;
         }
 
-        if (nextX < 0 || nextX >= tileGrid.GetLength(0) || nextY < 0 || nextY >= tileGrid.GetLength(1))
+        if (nextX < 0 || nextX >= mapHandler.tileGrid.GetLength(0) || nextY < 0 || nextY >= mapHandler.tileGrid.GetLength(1))
         {
             //print("Out of bounds!!");
             heroState = HeroStates.Frustrated;
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
-        else if (tileGrid[nextX, nextY] != null)
+        else if (mapHandler.tileGrid[nextX, nextY] != null)
         {
             HandleTileOnNextSpace(nextX, nextY);
         }
@@ -338,13 +366,14 @@ public class HeroHandler : MapEntity
 
     void HandleTileOnNextSpace(int nextX, int nextY)
     {
-        switch (tileGrid[nextX, nextY].GetComponent<Tile>().tileType)
+        switch (mapHandler.tileGrid[nextX, nextY].GetComponent<Tile>().tileType)
         {
             case Tile.TileType.Pit:
                 if (!inventory.Contains("Ladder"))
                 {
-                    //print("Can't pass!!!");
-                    heroState = HeroStates.Frustrated;
+                    //print("The hero is going to fall down a pit!!!");
+                    nextSpace.x = nextX;
+                    nextSpace.y = nextY;
                 }
                 else
                 {
@@ -375,9 +404,9 @@ public class HeroHandler : MapEntity
                             break;
                     }
 
-                    if (secondX < 0 || secondX >= tileGrid.GetLength(0) || secondY < 0 || secondY >= tileGrid.GetLength(1))
+                    if (secondX < 0 || secondX >= mapHandler.tileGrid.GetLength(0) || secondY < 0 || secondY >= mapHandler.tileGrid.GetLength(1))
                     {
-                        //print("Out of bounds, so it's ok if the player crosses with a ladder because they'll bump into a wall");
+                        //print("Out of bounds, so it's ok if the hero crosses with a ladder because they'll bump into a wall");
                         nextSpace.x = nextX;
                         nextSpace.y = nextY;
 
@@ -387,14 +416,15 @@ public class HeroHandler : MapEntity
                     }
                     else
                     {
-                        if (tileGrid[secondX, secondY] != null && tileGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
+                        if (mapHandler.tileGrid[secondX, secondY] != null && mapHandler.tileGrid[secondX, secondY].GetComponent<Tile>().tileType == Tile.TileType.Pit)
                         {
-                            //print("The gap is too wide to cross!!!");
-                            heroState = HeroStates.Frustrated;
+                            //print("The pit is too wide to cross with a ladder, so the hero is going to fall!!!");
+                            nextSpace.x = nextX;
+                            nextSpace.y = nextY;
                         }
                         else
                         {
-                            //print("You used your ladder to cross the gap!!");
+                            //print("The hero used their ladder to cross the gap!!");
                             nextSpace.x = nextX;
                             nextSpace.y = nextY;
 
@@ -416,7 +446,7 @@ public class HeroHandler : MapEntity
                 //This part is inefficient, this could be better
 
                 //Top player exit
-                if (nextSpace.y == (tileGrid.GetLength(1) - 1))
+                if (nextSpace.y == (mapHandler.tileGrid.GetLength(1) - 1))
                     heroDir = HeroDirections.Up;
 
                 //Bottom player exit
@@ -428,11 +458,11 @@ public class HeroHandler : MapEntity
                     heroDir = HeroDirections.Left;
 
                 //Right player exit
-                else if (curSpace.x == (tileGrid.GetLength(0) - 1))
+                else if (curSpace.x == (mapHandler.tileGrid.GetLength(0) - 1))
                     heroDir = HeroDirections.Right;
 
                 else
-                    print("??? the exit was not along the edge of the map");
+                    print("The exit was in an illegal position (not along the edges of the map) so we're leaving the hero's direction alone");
                 
                 break;
 
@@ -446,26 +476,14 @@ public class HeroHandler : MapEntity
 
 
 
-
-
-    Tile GetTileAtCoords(int x, int y)
-    {
-        if (x < 0 || x >= tileGrid.GetLength(0) || y < 0 || y >= tileGrid.GetLength(1))
-            return null;
-        else
-            return tileGrid[x, y].GetComponent<Tile>();
-    }
-
-
-
     bool CheckForLineOfSightWithPot(int curX, int curY)
     {
         switch (heroDir)
         {
             case HeroDirections.Up:
-                for (int i = curY; i < (tileGrid.GetLength(1) - 1); i++)
+                for (int i = curY; i < (mapHandler.tileGrid.GetLength(1) - 1); i++)
                 {
-                    Tile checkTile = tileGrid[curX, i];
+                    Tile checkTile = mapHandler.tileGrid[curX, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -476,7 +494,7 @@ public class HeroHandler : MapEntity
             case HeroDirections.Down:
                 for (int i = curY; i > 0; i--)
                 {
-                    Tile checkTile = tileGrid[curX, i];
+                    Tile checkTile = mapHandler.tileGrid[curX, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -487,7 +505,7 @@ public class HeroHandler : MapEntity
             case HeroDirections.Left:
                 for (int i = curX; i > 0; i--)
                 {
-                    Tile checkTile = tileGrid[i, curY];
+                    Tile checkTile = mapHandler.tileGrid[i, curY];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -496,9 +514,9 @@ public class HeroHandler : MapEntity
                 }
                 break;
             case HeroDirections.Right:
-                for (int i = curX; i < (tileGrid.GetLength(1) - 1); i++)
+                for (int i = curX; i < (mapHandler.tileGrid.GetLength(1) - 1); i++)
                 {
-                    Tile checkTile = tileGrid[i, curY];
+                    Tile checkTile = mapHandler.tileGrid[i, curY];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;

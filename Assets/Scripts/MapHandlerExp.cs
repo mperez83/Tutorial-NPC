@@ -10,13 +10,15 @@ public class MapHandlerExp : MonoBehaviour
     public float actionTimerLength;
     float actionTimer = 0;
 
-    Tile[,] tileGrid;
+    [HideInInspector]
+    public Tile[,] tileGrid;
     public GameObject levelTilemap;
     public GameObject floorTilemap;
 
     public CinemachineVirtualCamera vcam;
 
-    MapEntity[,] entityGrid;
+    [HideInInspector]
+    public MapEntity[,] entityGrid;
     public HeroHandler heroHandler;
 
     [HideInInspector]
@@ -66,7 +68,7 @@ public class MapHandlerExp : MonoBehaviour
             MapEntity entityCheck = child.GetComponent<MapEntity>();
             if (entityCheck)
             {
-                entityCheck.Init(ref tileGrid, ref entityGrid, new Vector2(x, y));
+                entityCheck.Init(this, new Vector2(x, y));
                 if (child.name != "Hero") enemies.Add(entityCheck);
                 entityGrid[x, y] = entityCheck;
             }
@@ -127,11 +129,6 @@ public class MapHandlerExp : MonoBehaviour
 
 
 
-    public Tile[,] GetTileGrid()
-    {
-        return tileGrid;
-    }
-
     public bool GetIfInsideTileGrid(int x, int y)
     {
         if (x >= 0 && x < tileGrid.GetLength(0) && y >= 0 && y < tileGrid.GetLength(1))
@@ -140,8 +137,11 @@ public class MapHandlerExp : MonoBehaviour
             return false;
     }
 
-    public MapEntity[,] GetEntityGrid()
+    public Tile GetTileAtCoords(int x, int y)
     {
-        return entityGrid;
+        if (GetIfInsideTileGrid(x, y))
+            return tileGrid[x, y].GetComponent<Tile>();
+        else
+            return null;
     }
 }
