@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class UIOnSelection : MonoBehaviour
 {
+
+    public enum InventoryObjectType {UIPanelInventoryItem, TileMapInventoryItem};
+
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -25,24 +28,24 @@ public class UIOnSelection : MonoBehaviour
         if (placingInventoryItem)
         {
             GameMaster.Instance.InventoryItemSelected(); 
-            AttachInventoryItemToMouseLocation(); 
+            AttachInventoryItemToMouseLocation(InventoryObjectType.UIPanelInventoryItem); 
         }
         
         if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
         {
-            //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
             HandleNoItemsLeft(); 
         }
     }
 
-    private void AttachInventoryItemToMouseLocation()
+    private void AttachInventoryItemToMouseLocation(InventoryObjectType inventoryObjectType)
     {
         Cursor.visible = false; 
         Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         screenPoint.z = 0; 
         prefabToSpawnClone.transform.position = screenPoint; 
 
-        if (Input.GetMouseButtonDown(0) && mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
+        if (Input.GetMouseButtonDown(0) && 
+            mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
             PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
             GameMaster.Instance.InventoryItemDeselected(); 
@@ -81,5 +84,10 @@ public class UIOnSelection : MonoBehaviour
     {
         noInventoryItemsLeft = true; 
         button.interactable = false; 
+    }
+
+    public GameObject GetInventoryItemPrefab()
+    {
+        return prefabToSpawnClone;
     }
 }
