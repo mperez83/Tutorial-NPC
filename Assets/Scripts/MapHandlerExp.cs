@@ -10,6 +10,10 @@ public class MapHandlerExp : MonoBehaviour
     public float actionTimerLength;
     float actionTimer = 0;
 
+    [Range(0f, 1f)]
+    public float pauseTimerLength;
+    float pauseTimer = 0;
+
     [HideInInspector]
     public Tile[,] tileGrid;
     public GameObject levelTilemap;
@@ -94,24 +98,33 @@ public class MapHandlerExp : MonoBehaviour
     {
         if (mapActive)
         {
-            //Update the enemies
-            foreach (MapEntity enemy in enemies)
-                if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
-
-            //Update the player
-            if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
-
-            actionTimer += Time.deltaTime;
-            if (actionTimer >= actionTimerLength)
+            if (pauseTimer <= 0)
             {
-                actionTimer = 0;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
-
                 //Update the enemies
                 foreach (MapEntity enemy in enemies)
                     if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
 
-                //Update the hero
-                if (heroHandler) heroHandler.MapAction();
+                //Update the player
+                if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
+
+                actionTimer -= Time.deltaTime;
+                if (actionTimer <= 0)
+                {
+                    actionTimer = actionTimerLength;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
+                    pauseTimer = pauseTimerLength;
+
+                    //Update the enemies
+                    foreach (MapEntity enemy in enemies)
+                        if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
+
+                    //Update the hero
+                    if (heroHandler) heroHandler.MapAction();
+                }
+            }
+            else
+            {
+                pauseTimer -= Time.deltaTime;
+                if (pauseTimer < 0) pauseTimer = 0;
             }
         }
     }

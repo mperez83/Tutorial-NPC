@@ -2929,6 +2929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionTimerLength: 0.25
+  pauseTimerLength: 0.25
   levelTilemap: {fileID: 2137712435}
   floorTilemap: {fileID: 945264644}
   vcam: {fileID: 498611799}
@@ -4323,10 +4324,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 643836566}
+  - component: {fileID: 643836567}
   - component: {fileID: 643836565}
   - component: {fileID: 643836564}
   - component: {fileID: 643836563}
-  - component: {fileID: 643836567}
   m_Layer: 5
   m_Name: Game Over Canvas
   m_TagString: Untagged
@@ -10836,7 +10837,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318064787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.480698, y: -3.6360168, z: -10}
+  m_LocalPosition: {x: -4.480698, y: -3.6359863, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

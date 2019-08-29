@@ -31,7 +31,7 @@ public class HeroHandler : MapEntity
         if (curSpace.y == (mapHandler.tileGrid.GetLength(1) - 1))
         {
             heroDir = HeroDirections.Down;
-            curSpace = new Vector2(initSpace.x, initSpace.y + 2);
+            curSpace = new Vector2(initSpace.x, initSpace.y + 3);
             nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
         }
 
@@ -39,7 +39,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.y == 0)
         {
             heroDir = HeroDirections.Up;
-            curSpace = new Vector2(initSpace.x, initSpace.y - 2);
+            curSpace = new Vector2(initSpace.x, initSpace.y - 3);
             nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
         }
 
@@ -47,7 +47,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == 0)
         {
             heroDir = HeroDirections.Right;
-            curSpace = new Vector2(initSpace.x - 2, initSpace.y);
+            curSpace = new Vector2(initSpace.x - 3, initSpace.y);
             nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
         }
 
@@ -55,7 +55,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == (mapHandler.tileGrid.GetLength(0) - 1))
         {
             heroDir = HeroDirections.Left;
-            curSpace = new Vector2(initSpace.x + 2, initSpace.y);
+            curSpace = new Vector2(initSpace.x + 3, initSpace.y);
             nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
         }
 
@@ -77,12 +77,12 @@ public class HeroHandler : MapEntity
         switch (heroState)
         {
             case HeroStates.Entering:
-                actualLerpValue = actionTimer / actionTimerLength;
+                actualLerpValue = (actionTimerLength - actionTimer) / actionTimerLength;
                 transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
 
             case HeroStates.Moving:
-                actualLerpValue = actionTimer / actionTimerLength;
+                actualLerpValue = (actionTimerLength - actionTimer) / actionTimerLength;
                 transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
 
@@ -96,7 +96,7 @@ public class HeroHandler : MapEntity
 
             //Like HeroStates.Moving, except we don't use the SetNextSpace function
             case HeroStates.Victory:
-                actualLerpValue = actionTimer / actionTimerLength;
+                actualLerpValue = (actionTimerLength - actionTimer) / actionTimerLength;
                 transform.position = Vector2.Lerp(curSpace, nextSpace, actualLerpValue);
                 break;
         }
