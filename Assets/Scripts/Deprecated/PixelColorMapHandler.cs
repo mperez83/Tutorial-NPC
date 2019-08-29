@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Cinemachine;
 
-public class MapHandler : MonoBehaviour
+public class PixelColorMapHandler : MonoBehaviour
 {
     /*public Texture2D map;
     public ColorToPrefab[] colorMappings;
