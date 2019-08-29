@@ -18,6 +18,7 @@ public class StandingEnemy : MapEntity
         this.tileGrid = tileGrid;
         this.entityGrid = entityGrid;
         curSpace = initSpace;
+        mainDeg = Random.Range(0f, 360f);
     }
 
     public override void MapUpdate(float actionTimer, float actionTimerLength)

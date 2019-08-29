@@ -27,12 +27,11 @@ public class HeroHandler : MapEntity
         this.tileGrid = tileGrid;
         this.entityGrid = entityGrid;
 
-        curSpace = initSpace;
-
         //Top player spawn
         if (curSpace.y == (tileGrid.GetLength(1) - 1))
         {
             heroDir = HeroDirections.Down;
+            curSpace = new Vector2(initSpace.x, initSpace.y + 2);
             nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
         }
 
@@ -40,6 +39,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.y == 0)
         {
             heroDir = HeroDirections.Up;
+            curSpace = new Vector2(initSpace.x, initSpace.y - 2);
             nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
         }
 
@@ -47,6 +47,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == 0)
         {
             heroDir = HeroDirections.Right;
+            curSpace = new Vector2(initSpace.x - 2, initSpace.y);
             nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
         }
 
@@ -54,6 +55,7 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == (tileGrid.GetLength(0) - 1))
         {
             heroDir = HeroDirections.Left;
+            curSpace = new Vector2(initSpace.x + 2, initSpace.y);
             nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
         }
 
@@ -175,8 +177,8 @@ public class HeroHandler : MapEntity
                 break;
 
             case HeroStates.Victory:
-                GameMaster.Instance.AdvanceLevel();
-                /*curSpace.x = nextSpace.x;
+                //GameMaster.Instance.AdvanceLevel();
+                curSpace.x = nextSpace.x;
                 curSpace.y = nextSpace.y;
 
                 switch (heroDir)
@@ -193,7 +195,7 @@ public class HeroHandler : MapEntity
                     case HeroDirections.Right:
                         nextSpace.x = nextSpace.x + 1;
                         break;
-                }*/
+                }
                 break;
         }
     }
@@ -407,9 +409,31 @@ public class HeroHandler : MapEntity
             case Tile.TileType.Exit:
                 print("You won!!!");
                 heroState = HeroStates.Victory;
+
                 nextSpace.x = nextX;
                 nextSpace.y = nextY;
-                //Destroy(this, 3);
+
+                //This part is inefficient, this could be better
+
+                //Top player exit
+                if (nextSpace.y == (tileGrid.GetLength(1) - 1))
+                    heroDir = HeroDirections.Up;
+
+                //Bottom player exit
+                else if (curSpace.y == 0)
+                    heroDir = HeroDirections.Down;
+
+                //Left player exit
+                else if (curSpace.x == 0)
+                    heroDir = HeroDirections.Left;
+
+                //Right player exit
+                else if (curSpace.x == (tileGrid.GetLength(0) - 1))
+                    heroDir = HeroDirections.Right;
+
+                else
+                    print("??? the exit was not along the edge of the map");
+                
                 break;
 
             default:
