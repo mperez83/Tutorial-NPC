@@ -1,13 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster Instance;
+    public string[] levels;
+    public int currentLevel;
 
     public event Action OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
-    public event Action<GameObject> OnInventoryItemAdded; 
+    public event Action<GameObject> OnInventoryItemAdded;
+
+
 
     void Awake()
     {
@@ -19,6 +24,15 @@ public class GameMaster : MonoBehaviour
         else Instance = this;
         DontDestroyOnLoad(this);
     }
+
+    public void AdvanceLevel()
+    {
+        currentLevel++;
+        if (currentLevel > levels.Length) currentLevel = 1;
+        SceneManager.LoadScene(levels[currentLevel - 1]);
+    }
+
+
 
     internal void InventoryItemSelected()
     {
@@ -37,6 +51,8 @@ public class GameMaster : MonoBehaviour
         if (OnInventoryItemAdded != null)
             OnInventoryItemAdded(inventoryItemController); 
     }
+
+
 
     public float GetCamTopEdge()
     {

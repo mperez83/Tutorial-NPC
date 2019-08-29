@@ -42,7 +42,7 @@ public class UIOnSelection : MonoBehaviour
         screenPoint.z = 0; 
         prefabToSpawnClone.transform.position = screenPoint; 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
             PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
             GameMaster.Instance.InventoryItemDeselected(); 

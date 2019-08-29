@@ -2725,7 +2725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1001 &622978480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3189,7 +3189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1001 &645177456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10824,7 +10824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1001 &1645755622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11927,7 +11927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1001 &1845766817
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -222,6 +222,7 @@ public class PitConnector : MonoBehaviour
                         case "100010111":
                         case "001010111":
                         case "101010111":
+                        case "000010011":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndBottom;
                             break;
 

@@ -29,8 +29,12 @@ public class UIHighlightSelectedTile : MonoBehaviour
                 Quaternion.identity, transform);
             tileHighlightInstantiated = true; 
         }
-        if (mapHandlerExp.GetTileGrid()[(int)screenPoint.x, (int)screenPoint.y] == null)
-            tileHighlightImageClone.transform.position = screenPoint.RoundXAndYCoords(); 
+
+        if (mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
+        {
+            if (mapHandlerExp.GetTileGrid()[(int)screenPoint.x, (int)screenPoint.y] == null)
+                tileHighlightImageClone.transform.position = screenPoint.RoundXAndYCoords();
+        }
     }
 
     public void DeleteHighlightPrefab()

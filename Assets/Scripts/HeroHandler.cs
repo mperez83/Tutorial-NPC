@@ -174,9 +174,9 @@ public class HeroHandler : MapEntity
             case HeroStates.SawPot:
                 break;
 
-            //Exactly like HeroStates.Entering, but without checking to see when the hero enters the map
             case HeroStates.Victory:
-                curSpace.x = nextSpace.x;
+                GameMaster.Instance.AdvanceLevel();
+                /*curSpace.x = nextSpace.x;
                 curSpace.y = nextSpace.y;
 
                 switch (heroDir)
@@ -193,7 +193,7 @@ public class HeroHandler : MapEntity
                     case HeroDirections.Right:
                         nextSpace.x = nextSpace.x + 1;
                         break;
-                }
+                }*/
                 break;
         }
     }
@@ -409,7 +409,7 @@ public class HeroHandler : MapEntity
                 heroState = HeroStates.Victory;
                 nextSpace.x = nextX;
                 nextSpace.y = nextY;
-                Destroy(this, 3);
+                //Destroy(this, 3);
                 break;
 
             default:

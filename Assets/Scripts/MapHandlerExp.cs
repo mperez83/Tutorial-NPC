@@ -132,6 +132,14 @@ public class MapHandlerExp : MonoBehaviour
         return tileGrid;
     }
 
+    public bool GetIfInsideTileGrid(int x, int y)
+    {
+        if (x >= 0 && x < tileGrid.GetLength(0) && y >= 0 && y < tileGrid.GetLength(1))
+            return true;
+        else
+            return false;
+    }
+
     public MapEntity[,] GetEntityGrid()
     {
         return entityGrid;
