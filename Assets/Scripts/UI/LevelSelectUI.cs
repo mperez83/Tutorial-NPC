@@ -1,26 +1,35 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class LevelSelectUI : MonoBehaviour
 {
-    public Image loadingPanel;
+    public Transform levelButtonHolder;
+    public Image loadingOverlay;
 
-    public void LevelButton(string levelToLoad)
+    void Start()
     {
-        loadingPanel.enabled = true;
-        StartCoroutine(LoadYourAsyncScene(levelToLoad));
+        GameMaster.LevelData[] levelData = GameMaster.instance.levels;
+
+        //Set if the level button is available one by one
+        for (int i = 0; i < levelData.Length; i++)
+        {
+            Transform levelButton = levelButtonHolder.Find(levelData[i].levelName);
+
+            if (!levelButton) print("Error: level button for " + levelData[i].levelName + " is not present!!! go put it in");
+            else levelButton.GetComponent<Button>().interactable = levelData[i].isAvailable;
+        }
     }
 
-    IEnumerator LoadYourAsyncScene(string levelToLoad)
+    public void LevelButton()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelToLoad);
+        loadingOverlay.enabled = true;
+        GameMaster.instance.SetLevel(EventSystem.current.currentSelectedGameObject.name);
+    }
 
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+    public void MainMenuButton()
+    {
+        loadingOverlay.enabled = true;
+        GameMaster.instance.LoadSceneRaw("MainMenu");
     }
 }

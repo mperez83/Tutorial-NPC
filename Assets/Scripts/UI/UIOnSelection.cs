@@ -24,7 +24,7 @@ public class UIOnSelection : MonoBehaviour
     {
         if (placingInventoryItem)
         {
-            GameMaster.Instance.InventoryItemSelected(); 
+            GameMaster.instance.InventoryItemSelected(); 
             AttachInventoryItemToMouseLocation(); 
         }
         
@@ -45,14 +45,14 @@ public class UIOnSelection : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
             PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
-            GameMaster.Instance.InventoryItemDeselected(); 
+            GameMaster.instance.InventoryItemDeselected(); 
             Cursor.visible = true; 
         }
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
         {
             placingInventoryItem = false; 
             Destroy(prefabToSpawnClone);
-            GameMaster.Instance.InventoryItemDeselected(); 
+            GameMaster.instance.InventoryItemDeselected(); 
             Cursor.visible = true; 
         }
 
@@ -63,7 +63,7 @@ public class UIOnSelection : MonoBehaviour
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
         mapHandlerExp.tileGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
-        GameMaster.Instance.AddInventoryItemToMap(gameObject); 
+        GameMaster.instance.AddInventoryItemToMap(gameObject); 
         placingInventoryItem = false; 
     }
 

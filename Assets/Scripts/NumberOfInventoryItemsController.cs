@@ -12,7 +12,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void Start() 
     {
-        GameMaster.Instance.OnInventoryItemAdded += DecrementNumOfInventoryItems;
+        GameMaster.instance.OnInventoryItemAdded += DecrementNumOfInventoryItems;
 
         if (numOfItemInInventory < 0)
             numOfItemInInventory = 0;      
@@ -23,7 +23,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        GameMaster.Instance.OnInventoryItemAdded -= DecrementNumOfInventoryItems;     
+        GameMaster.instance.OnInventoryItemAdded -= DecrementNumOfInventoryItems;     
     }
 
     private void DecrementNumOfInventoryItems(GameObject inventoryItemController)

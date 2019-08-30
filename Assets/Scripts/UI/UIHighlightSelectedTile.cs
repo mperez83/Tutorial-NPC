@@ -12,8 +12,8 @@ public class UIHighlightSelectedTile : MonoBehaviour
     private void Start() 
     {
         mapHandlerExp = FindObjectOfType<MapHandlerExp>();
-        GameMaster.Instance.OnInventoryItemSelected += HighlightSelectedTile;  
-        GameMaster.Instance.OnInventoryItemDeselected += DeleteHighlightPrefab;
+        GameMaster.instance.OnInventoryItemSelected += HighlightSelectedTile;  
+        GameMaster.instance.OnInventoryItemDeselected += DeleteHighlightPrefab;
     }
 
     public void HighlightSelectedTile()
@@ -45,7 +45,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
 
     private void OnDestroy() 
     {
-        GameMaster.Instance.OnInventoryItemSelected -= HighlightSelectedTile;
-        GameMaster.Instance.OnInventoryItemDeselected -= DeleteHighlightPrefab;
+        GameMaster.instance.OnInventoryItemSelected -= HighlightSelectedTile;
+        GameMaster.instance.OnInventoryItemDeselected -= DeleteHighlightPrefab;
     }
 }

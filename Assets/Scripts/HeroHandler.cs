@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroHandler : MapEntity
@@ -21,6 +20,7 @@ public class HeroHandler : MapEntity
     GameObject visibleLadder;
 
     public GameOverUI gameOverUI;
+    public VictoryUI victoryUI;
 
     public Sprite entryArrow;
     public Sprite[] heroSprites;
@@ -83,25 +83,7 @@ public class HeroHandler : MapEntity
 
     public override void OnMapActivate()
     {
-        switch (heroDir)
-        {
-            case HeroDirections.Up:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[0];
-                break;
-
-            case HeroDirections.Down:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[1];
-                break;
-
-            case HeroDirections.Left:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[2];
-                break;
-
-            case HeroDirections.Right:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[3];
-                break;
-        }
-
+        UpdateHeroGraphic();
         transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
@@ -194,16 +176,16 @@ public class HeroHandler : MapEntity
                 switch (heroDir)
                 {
                     case HeroDirections.Up:
-                        heroDir = HeroDirections.Down;
+                        ChangeHeroDirection(HeroDirections.Down);
                         break;
                     case HeroDirections.Down:
-                        heroDir = HeroDirections.Up;
+                        ChangeHeroDirection(HeroDirections.Up);
                         break;
                     case HeroDirections.Left:
-                        heroDir = HeroDirections.Right;
+                        ChangeHeroDirection(HeroDirections.Right);
                         break;
                     case HeroDirections.Right:
-                        heroDir = HeroDirections.Left;
+                        ChangeHeroDirection(HeroDirections.Left);
                         break;
                 }
                 heroState = HeroStates.Moving;
@@ -214,24 +196,30 @@ public class HeroHandler : MapEntity
                 break;
 
             case HeroStates.Victory:
-                //GameMaster.Instance.AdvanceLevel();
-                curSpace.x = nextSpace.x;
-                curSpace.y = nextSpace.y;
-
-                switch (heroDir)
+                if (!GameMaster.instance.GetIfCoordsAreInsideCam(curSpace.x, curSpace.y))
                 {
-                    case HeroDirections.Up:
-                        nextSpace.y = nextSpace.y + 1;
-                        break;
-                    case HeroDirections.Down:
-                        nextSpace.y = nextSpace.y - 1;
-                        break;
-                    case HeroDirections.Left:
-                        nextSpace.x = nextSpace.x - 1;
-                        break;
-                    case HeroDirections.Right:
-                        nextSpace.x = nextSpace.x + 1;
-                        break;
+                    victoryUI.ActivateVictoryScreen();
+                }
+                else
+                {
+                    curSpace.x = nextSpace.x;
+                    curSpace.y = nextSpace.y;
+
+                    switch (heroDir)
+                    {
+                        case HeroDirections.Up:
+                            nextSpace.y = nextSpace.y + 1;
+                            break;
+                        case HeroDirections.Down:
+                            nextSpace.y = nextSpace.y - 1;
+                            break;
+                        case HeroDirections.Left:
+                            nextSpace.x = nextSpace.x - 1;
+                            break;
+                        case HeroDirections.Right:
+                            nextSpace.x = nextSpace.x + 1;
+                            break;
+                    }
                 }
                 break;
         }
@@ -252,19 +240,19 @@ public class HeroHandler : MapEntity
         switch (checkTile.tileType)
         {
             case Tile.TileType.TurnUp:
-                heroDir = HeroDirections.Up;
+                ChangeHeroDirection(HeroDirections.Up);
                 break;
 
             case Tile.TileType.TurnDown:
-                heroDir = HeroDirections.Down;
+                ChangeHeroDirection(HeroDirections.Down);
                 break;
 
             case Tile.TileType.TurnLeft:
-                heroDir = HeroDirections.Left;
+                ChangeHeroDirection(HeroDirections.Left);
                 break;
 
             case Tile.TileType.TurnRight:
-                heroDir = HeroDirections.Right;
+                ChangeHeroDirection(HeroDirections.Right);
                 break;
 
             case Tile.TileType.Pit:
@@ -312,6 +300,24 @@ public class HeroHandler : MapEntity
                 if (!inventory.Contains("Sword")) inventory.Add("Sword");
                 Destroy(mapHandler.tileGrid[curX, curY].gameObject);
                 break;
+
+            case Tile.TileType.Exit:
+                heroState = HeroStates.Victory;
+                //Top player exit
+                if (curY == (mapHandler.tileGrid.GetLength(1) - 1))
+                    ChangeHeroDirection(HeroDirections.Up);
+                //Bottom player exit
+                else if (curY == 0)
+                    ChangeHeroDirection(HeroDirections.Down);
+                //Left player exit
+                else if (curX == 0)
+                    ChangeHeroDirection(HeroDirections.Left);
+                //Right player exit
+                else if (curX == (mapHandler.tileGrid.GetLength(0) - 1))
+                    ChangeHeroDirection(HeroDirections.Right);
+                else
+                    print("The exit was in an illegal position (not along the edges of the map) so we're leaving the hero's direction alone");
+                break;
         }
 
         //Cheeky check to see if we should delete a visible ladder
@@ -351,7 +357,8 @@ public class HeroHandler : MapEntity
         int curX = (int)curSpace.x;
         int curY = (int)curSpace.y;
 
-        if (CheckForLineOfSightWithPot(curX, curY))
+        bool sawPot = CheckForLineOfSightWithPot();
+        if (sawPot)
         {
             heroState = HeroStates.SawPot;
             gameOverUI.ActivateGameOver("Game over!\n(The hero saw a pot)");
@@ -365,29 +372,34 @@ public class HeroHandler : MapEntity
         {
             case HeroDirections.Up:
                 nextY = curY + 1;
-                GetComponent<SpriteRenderer>().sprite = heroSprites[0];
                 break;
 
             case HeroDirections.Down:
                 nextY = curY - 1;
-                GetComponent<SpriteRenderer>().sprite = heroSprites[1];
                 break;
 
             case HeroDirections.Left:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[2];
                 nextX = curX - 1;
                 break;
 
             case HeroDirections.Right:
-                GetComponent<SpriteRenderer>().sprite = heroSprites[3];
                 nextX = curX + 1;
                 break;
         }
 
-        if (nextX < 0 || nextX >= mapHandler.tileGrid.GetLength(0) || nextY < 0 || nextY >= mapHandler.tileGrid.GetLength(1))
+        if (!mapHandler.GetIfInsideTileGrid(nextX, nextY))
         {
-            //print("Out of bounds!!");
-            heroState = HeroStates.Frustrated;
+            if (heroState == HeroStates.Victory)
+            {
+                //print("The hero is currently escaping, so it's ok to move out of bounds!");
+                nextSpace.x = nextX;
+                nextSpace.y = nextY;
+            }
+            else
+            {
+                //print("Out of bounds!!");
+                heroState = HeroStates.Frustrated;
+            }
         }
 
         //If the space we're looking at isn't null, figure out what it is and what we should do about it
@@ -477,38 +489,18 @@ public class HeroHandler : MapEntity
                 }
                 break;
 
-            case Tile.TileType.Exit:
-                print("You won!!!");
-                heroState = HeroStates.Victory;
+            case Tile.TileType.Rock:
+                heroState = HeroStates.Frustrated;
+                break;
 
+            case Tile.TileType.Exit:
+                //print("The hero is about to exit!!!");
                 nextSpace.x = nextX;
                 nextSpace.y = nextY;
-
-                //This part is inefficient, this could be better
-
-                //Top player exit
-                if (nextSpace.y == (mapHandler.tileGrid.GetLength(1) - 1))
-                    heroDir = HeroDirections.Up;
-
-                //Bottom player exit
-                else if (curSpace.y == 0)
-                    heroDir = HeroDirections.Down;
-
-                //Left player exit
-                else if (curSpace.x == 0)
-                    heroDir = HeroDirections.Left;
-
-                //Right player exit
-                else if (curSpace.x == (mapHandler.tileGrid.GetLength(0) - 1))
-                    heroDir = HeroDirections.Right;
-
-                else
-                    print("The exit was in an illegal position (not along the edges of the map) so we're leaving the hero's direction alone");
-                
                 break;
 
             default:
-                //print("All clear to keep moving!");
+                //print("This shouldn't ever print??");
                 nextSpace.x = nextX;
                 nextSpace.y = nextY;
                 break;
@@ -517,14 +509,23 @@ public class HeroHandler : MapEntity
 
 
 
-    bool CheckForLineOfSightWithPot(int curX, int curY)
+
+
+
+
+    //Helper functions
+
+    bool CheckForLineOfSightWithPot()
     {
+        int x = (int)curSpace.x;
+        int y = (int)curSpace.y;
+
         switch (heroDir)
         {
             case HeroDirections.Up:
-                for (int i = curY; i < (mapHandler.tileGrid.GetLength(1) - 1); i++)
+                for (int i = y; i < (mapHandler.tileGrid.GetLength(1) - 1); i++)
                 {
-                    Tile checkTile = mapHandler.tileGrid[curX, i];
+                    Tile checkTile = mapHandler.tileGrid[x, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -533,9 +534,9 @@ public class HeroHandler : MapEntity
                 }
                 break;
             case HeroDirections.Down:
-                for (int i = curY; i > 0; i--)
+                for (int i = y; i > 0; i--)
                 {
-                    Tile checkTile = mapHandler.tileGrid[curX, i];
+                    Tile checkTile = mapHandler.tileGrid[x, i];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -544,9 +545,9 @@ public class HeroHandler : MapEntity
                 }
                 break;
             case HeroDirections.Left:
-                for (int i = curX; i > 0; i--)
+                for (int i = x; i > 0; i--)
                 {
-                    Tile checkTile = mapHandler.tileGrid[i, curY];
+                    Tile checkTile = mapHandler.tileGrid[i, y];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -555,9 +556,9 @@ public class HeroHandler : MapEntity
                 }
                 break;
             case HeroDirections.Right:
-                for (int i = curX; i < (mapHandler.tileGrid.GetLength(1) - 1); i++)
+                for (int i = x; i < (mapHandler.tileGrid.GetLength(0) - 1); i++)
                 {
-                    Tile checkTile = mapHandler.tileGrid[i, curY];
+                    Tile checkTile = mapHandler.tileGrid[i, y];
                     if (checkTile != null)
                         if (checkTile.tileType == Tile.TileType.Pot)
                             return true;
@@ -568,5 +569,35 @@ public class HeroHandler : MapEntity
         }
 
         return false;
+    }
+
+
+
+    void ChangeHeroDirection(HeroDirections newDir)
+    {
+        heroDir = newDir;
+        UpdateHeroGraphic();
+    }
+
+    void UpdateHeroGraphic()
+    {
+        switch (heroDir)
+        {
+            case HeroDirections.Up:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[0];
+                break;
+
+            case HeroDirections.Down:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[1];
+                break;
+
+            case HeroDirections.Left:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[2];
+                break;
+
+            case HeroDirections.Right:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[3];
+                break;
+        }
     }
 }
