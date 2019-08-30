@@ -83,7 +83,25 @@ public class HeroHandler : MapEntity
 
     public override void OnMapActivate()
     {
-        GetComponent<SpriteRenderer>().sprite = heroSprites[1];
+        switch (heroDir)
+        {
+            case HeroDirections.Up:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[0];
+                break;
+
+            case HeroDirections.Down:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[1];
+                break;
+
+            case HeroDirections.Left:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[2];
+                break;
+
+            case HeroDirections.Right:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[3];
+                break;
+        }
+
         transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
@@ -347,17 +365,21 @@ public class HeroHandler : MapEntity
         {
             case HeroDirections.Up:
                 nextY = curY + 1;
+                GetComponent<SpriteRenderer>().sprite = heroSprites[0];
                 break;
 
             case HeroDirections.Down:
                 nextY = curY - 1;
+                GetComponent<SpriteRenderer>().sprite = heroSprites[1];
                 break;
 
             case HeroDirections.Left:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[2];
                 nextX = curX - 1;
                 break;
 
             case HeroDirections.Right:
+                GetComponent<SpriteRenderer>().sprite = heroSprites[3];
                 nextX = curX + 1;
                 break;
         }
