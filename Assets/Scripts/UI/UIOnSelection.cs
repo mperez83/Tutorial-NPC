@@ -38,6 +38,7 @@ public class UIOnSelection : MonoBehaviour
         
         if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
         {
+            //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
             HandleNoItemsLeft(); 
         }
     }
@@ -82,7 +83,7 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
-        mapHandlerExp.GetTileGrid()[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
+        mapHandlerExp.tileGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
         GameMaster.Instance.AddInventoryItemToMap(gameObject); 
         GameMaster.Instance.TileMapInventoryItemSelected = false;
         placingInventoryItem = false; 

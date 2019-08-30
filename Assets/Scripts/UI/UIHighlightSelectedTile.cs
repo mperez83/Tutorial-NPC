@@ -32,7 +32,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
 
         if (mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
-            if (mapHandlerExp.GetTileGrid()[(int)screenPoint.x, (int)screenPoint.y] == null)
+            if (mapHandlerExp.tileGrid[(int)screenPoint.x, (int)screenPoint.y] == null)
                 tileHighlightImageClone.transform.position = screenPoint.RoundXAndYCoords();
         }
     }

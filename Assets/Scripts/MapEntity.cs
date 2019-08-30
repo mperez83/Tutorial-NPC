@@ -3,7 +3,8 @@
 public abstract class MapEntity : MonoBehaviour
 {
     public bool isEnemy;
-    public abstract void Init(ref Tile[,] tileGrid, ref MapEntity[,] entityGrid, Vector2 initSpace);
-    public abstract void MapUpdate(float actionTimer, float actionTimerLength);
-    public abstract void MapAction();
+    public abstract void Init(MapHandlerExp mapHandler, Vector2 initSpace);
+    public abstract void OnMapActivate();
+    public abstract void OnMapUpdate(float actionTimer, float actionTimerLength);
+    public abstract void OnMapAction();
 }

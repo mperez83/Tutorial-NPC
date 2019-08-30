@@ -10,13 +10,19 @@ public class MapHandlerExp : MonoBehaviour
     public float actionTimerLength;
     float actionTimer = 0;
 
-    Tile[,] tileGrid;
+    [Range(0f, 1f)]
+    public float pauseTimerLength;
+    float pauseTimer = 0;
+
+    [HideInInspector]
+    public Tile[,] tileGrid;
     public GameObject levelTilemap;
     public GameObject floorTilemap;
 
     public CinemachineVirtualCamera vcam;
 
-    MapEntity[,] entityGrid;
+    [HideInInspector]
+    public MapEntity[,] entityGrid;
     public HeroHandler heroHandler;
 
     [HideInInspector]
@@ -66,7 +72,7 @@ public class MapHandlerExp : MonoBehaviour
             MapEntity entityCheck = child.GetComponent<MapEntity>();
             if (entityCheck)
             {
-                entityCheck.Init(ref tileGrid, ref entityGrid, new Vector2(x, y));
+                entityCheck.Init(this, new Vector2(x, y));
                 if (child.name != "Hero") enemies.Add(entityCheck);
                 entityGrid[x, y] = entityCheck;
             }
@@ -92,24 +98,33 @@ public class MapHandlerExp : MonoBehaviour
     {
         if (mapActive)
         {
-            //Update the enemies
-            foreach (MapEntity enemy in enemies)
-                if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
-
-            //Update the player
-            if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
-
-            actionTimer += Time.deltaTime;
-            if (actionTimer >= actionTimerLength)
+            if (pauseTimer <= 0)
             {
-                actionTimer = 0;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
-
                 //Update the enemies
                 foreach (MapEntity enemy in enemies)
-                    if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
+                    if (enemy) enemy.OnMapUpdate(actionTimer, actionTimerLength);
 
-                //Update the hero
-                if (heroHandler) heroHandler.MapAction();
+                //Update the player
+                if (heroHandler) heroHandler.OnMapUpdate(actionTimer, actionTimerLength);
+
+                actionTimer -= Time.deltaTime;
+                if (actionTimer <= 0)
+                {
+                    actionTimer = actionTimerLength;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
+                    pauseTimer = pauseTimerLength;
+
+                    //Trigger MapAction in all enemies
+                    foreach (MapEntity enemy in enemies)
+                        if (enemy) enemy.OnMapAction();
+
+                    //Trigger MapAction in the hero
+                    if (heroHandler) heroHandler.OnMapAction();
+                }
+            }
+            else
+            {
+                pauseTimer -= Time.deltaTime;
+                if (pauseTimer < 0) pauseTimer = 0;
             }
         }
     }
@@ -122,6 +137,11 @@ public class MapHandlerExp : MonoBehaviour
         {
             mapActive = true;
             heroHandler.enabled = true;
+
+            foreach (MapEntity enemy in enemies)
+                if (enemy) enemy.OnMapActivate();
+
+            if (heroHandler) heroHandler.OnMapActivate();
         }
     }
 
@@ -148,8 +168,11 @@ public class MapHandlerExp : MonoBehaviour
             return false;
     }
 
-    public MapEntity[,] GetEntityGrid()
+    public Tile GetTileAtCoords(int x, int y)
     {
-        return entityGrid;
+        if (GetIfInsideTileGrid(x, y))
+            return tileGrid[x, y].GetComponent<Tile>();
+        else
+            return null;
     }
 }
