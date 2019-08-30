@@ -17,6 +17,10 @@ public class LevelSelectUI : MonoBehaviour
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelToLoad);
 
+        AudioManager.Instance.Stop("Menu Scene Soundtrack");
+        AudioManager.Instance.Play("Building Soundtrack");
+
+
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {

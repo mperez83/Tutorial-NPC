@@ -987,6 +987,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869242733}
   m_CullTransparentMesh: 0
+--- !u!1 &908918588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 908918590}
+  - component: {fileID: 908918589}
+  m_Layer: 0
+  m_Name: '[AudioManager]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &908918589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908918588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d489005cdf8422d91b26024a13e953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Building Soundtrack
+    clip: {fileID: 8300000, guid: 6014f4709654d4bc09b048ab3c1e9285, type: 3}
+    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Hero Phase Soundtrack
+    clip: {fileID: 8300000, guid: 6f349be66da094cddbc53b937af89aaf, type: 3}
+    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Menu Scene Soundtrack
+    clip: {fileID: 8300000, guid: 3bfd0dbc86baf4735b55347ef7f2c4ed, type: 3}
+    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+--- !u!4 &908918590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908918588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 643.29865, y: 662.9404, z: -1.1917453}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1128759695
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,8 +33,6 @@ public class GameMaster : MonoBehaviour
         SceneManager.LoadScene(levels[currentLevel - 1]);
     }
 
-
-
     internal void InventoryItemSelected(GameObject inventoryItem)
     {
         if (OnInventoryItemSelected != null)
@@ -55,7 +53,11 @@ public class GameMaster : MonoBehaviour
             OnInventoryItemAdded(inventoryItemController); 
     }
 
-
+    public void ReloadCurrentScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name; 
+        SceneManager.LoadSceneAsync(sceneName);
+    }
 
     public float GetCamTopEdge()
     {
