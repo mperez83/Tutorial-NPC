@@ -16,7 +16,7 @@ public class UIHighlightSelectedTile : MonoBehaviour
         GameMaster.Instance.OnInventoryItemDeselected += DeleteHighlightPrefab;
     }
 
-    public void HighlightSelectedTile()
+    public void HighlightSelectedTile(GameObject gameObject)
     { 
         Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         screenPoint.z = 0; 

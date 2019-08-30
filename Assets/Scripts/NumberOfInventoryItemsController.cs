@@ -12,7 +12,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void Start() 
     {
-        GameMaster.Instance.OnInventoryItemAdded += DecrementNumOfInventoryItems;
+        GameMaster.Instance.OnInventoryItemAdded += ChangeNumOfInventoryItems;
 
         if (numOfItemInInventory < 0)
             numOfItemInInventory = 0;      
@@ -23,17 +23,23 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        GameMaster.Instance.OnInventoryItemAdded -= DecrementNumOfInventoryItems;     
+        GameMaster.Instance.OnInventoryItemAdded -= ChangeNumOfInventoryItems;     
     }
 
-    private void DecrementNumOfInventoryItems(GameObject inventoryItemController)
+    private void ChangeNumOfInventoryItems(GameObject inventoryItemController)
     {
         if (gameObject == inventoryItemController)
         {
-            if (numOfItemInInventory > 0)
+            if (numOfItemInInventory > 0 && 
+                GameMaster.Instance.TileMapInventoryItemSelected)
                 {
                     numOfItemInInventory--;  
                     tmproText.text = numOfItemInInventory.ToString(); 
+                }
+            else if (GameMaster.Instance.TileMapInventoryItemSelected == false)
+                {
+                    numOfItemInInventory++;
+                    tmproText.text = numOfItemInInventory.ToString();
                 }
         } 
     }

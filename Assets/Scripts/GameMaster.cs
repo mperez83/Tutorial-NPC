@@ -7,8 +7,9 @@ public class GameMaster : MonoBehaviour
     public static GameMaster Instance;
     public string[] levels;
     public int currentLevel;
+    public bool TileMapInventoryItemSelected; 
 
-    public event Action OnInventoryItemSelected;
+    public event Action<GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
 
@@ -34,16 +35,18 @@ public class GameMaster : MonoBehaviour
 
 
 
-    internal void InventoryItemSelected()
+    internal void InventoryItemSelected(GameObject inventoryItem)
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemSelected(); 
+            OnInventoryItemSelected(inventoryItem); 
     }
 
     internal void InventoryItemDeselected()
     {
         if (OnInventoryItemSelected != null)
             OnInventoryItemDeselected(); 
+
+        TileMapInventoryItemSelected = false; 
     }
 
     internal void AddInventoryItemToMap(GameObject inventoryItemController)

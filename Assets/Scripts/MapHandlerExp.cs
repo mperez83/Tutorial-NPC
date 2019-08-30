@@ -132,6 +132,14 @@ public class MapHandlerExp : MonoBehaviour
         return tileGrid;
     }
 
+    public bool GetIfTileExistsInLocation(int x, int y)
+    {
+        if (tileGrid[x,y] != null)
+            return true; 
+        else
+            return false; 
+    }
+
     public bool GetIfInsideTileGrid(int x, int y)
     {
         if (x >= 0 && x < tileGrid.GetLength(0) && y >= 0 && y < tileGrid.GetLength(1))
