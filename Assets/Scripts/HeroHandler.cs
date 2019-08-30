@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroHandler : MapEntity
@@ -21,17 +22,24 @@ public class HeroHandler : MapEntity
 
     public GameOverUI gameOverUI;
 
+    public Sprite entryArrow;
+    public Sprite[] heroSprites;
+
 
 
     public override void Init(MapHandlerExp mapHandler, Vector2 initSpace)
     {
         this.mapHandler = mapHandler;
+        GetComponent<SpriteRenderer>().sprite = entryArrow;
+
+        curSpace = initSpace;
 
         //Top player spawn
         if (curSpace.y == (mapHandler.tileGrid.GetLength(1) - 1))
         {
             heroDir = HeroDirections.Down;
-            curSpace = new Vector2(initSpace.x, initSpace.y + 3);
+            transform.localEulerAngles = new Vector3(0, 0, 180);
+            curSpace = new Vector2(curSpace.x, curSpace.y + 3);
             nextSpace = new Vector2(curSpace.x, curSpace.y - 1);
         }
 
@@ -39,7 +47,8 @@ public class HeroHandler : MapEntity
         else if (curSpace.y == 0)
         {
             heroDir = HeroDirections.Up;
-            curSpace = new Vector2(initSpace.x, initSpace.y - 3);
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+            curSpace = new Vector2(curSpace.x, curSpace.y - 3);
             nextSpace = new Vector2(curSpace.x, curSpace.y + 1);
         }
 
@@ -47,7 +56,8 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == 0)
         {
             heroDir = HeroDirections.Right;
-            curSpace = new Vector2(initSpace.x - 3, initSpace.y);
+            transform.localEulerAngles = new Vector3(0, 0, 270);
+            curSpace = new Vector2(curSpace.x - 3, curSpace.y);
             nextSpace = new Vector2(curSpace.x + 1, curSpace.y);
         }
 
@@ -55,7 +65,8 @@ public class HeroHandler : MapEntity
         else if (curSpace.x == (mapHandler.tileGrid.GetLength(0) - 1))
         {
             heroDir = HeroDirections.Left;
-            curSpace = new Vector2(initSpace.x + 3, initSpace.y);
+            transform.localEulerAngles = new Vector3(0, 0, 90);
+            curSpace = new Vector2(curSpace.x + 3, curSpace.y);
             nextSpace = new Vector2(curSpace.x - 1, curSpace.y);
         }
 
@@ -70,7 +81,15 @@ public class HeroHandler : MapEntity
 
 
 
-    public override void MapUpdate(float actionTimer, float actionTimerLength)
+    public override void OnMapActivate()
+    {
+        GetComponent<SpriteRenderer>().sprite = heroSprites[1];
+        transform.localEulerAngles = new Vector3(0, 0, 0);
+    }
+
+
+
+    public override void OnMapUpdate(float actionTimer, float actionTimerLength)
     {
         float actualLerpValue;  //Declared up here so we don't deal with "already declared" bullshit inside the switch statement
 
@@ -105,7 +124,7 @@ public class HeroHandler : MapEntity
 
 
 
-    public override void MapAction()
+    public override void OnMapAction()
     {
         switch (heroState)
         {

@@ -19,7 +19,12 @@ public class StandingEnemy : MapEntity
         mainDeg = Random.Range(0f, 360f);
     }
 
-    public override void MapUpdate(float actionTimer, float actionTimerLength)
+    public override void OnMapActivate()
+    {
+        
+    }
+
+    public override void OnMapUpdate(float actionTimer, float actionTimerLength)
     {
         //mainDeg = 360 * (actionTimer / actionTimerLength);
         mainDeg += (360 * (1 / 6f)) * Time.deltaTime;
@@ -31,7 +36,7 @@ public class StandingEnemy : MapEntity
         transform.position = new Vector2(curSpace.x + cosVal, curSpace.y + sinVal);
     }
 
-    public override void MapAction()
+    public override void OnMapAction()
     {
 
     }

@@ -102,10 +102,10 @@ public class MapHandlerExp : MonoBehaviour
             {
                 //Update the enemies
                 foreach (MapEntity enemy in enemies)
-                    if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
+                    if (enemy) enemy.OnMapUpdate(actionTimer, actionTimerLength);
 
                 //Update the player
-                if (heroHandler) heroHandler.MapUpdate(actionTimer, actionTimerLength);
+                if (heroHandler) heroHandler.OnMapUpdate(actionTimer, actionTimerLength);
 
                 actionTimer -= Time.deltaTime;
                 if (actionTimer <= 0)
@@ -113,12 +113,12 @@ public class MapHandlerExp : MonoBehaviour
                     actionTimer = actionTimerLength;    //This could probably be tweaked to subtract from timer, rather than setting it to zero, allowing multiple actions per frame if the timer is short enough
                     pauseTimer = pauseTimerLength;
 
-                    //Update the enemies
+                    //Trigger MapAction in all enemies
                     foreach (MapEntity enemy in enemies)
-                        if (enemy) enemy.MapUpdate(actionTimer, actionTimerLength);
+                        if (enemy) enemy.OnMapAction();
 
-                    //Update the hero
-                    if (heroHandler) heroHandler.MapAction();
+                    //Trigger MapAction in the hero
+                    if (heroHandler) heroHandler.OnMapAction();
                 }
             }
             else
@@ -137,6 +137,11 @@ public class MapHandlerExp : MonoBehaviour
         {
             mapActive = true;
             heroHandler.enabled = true;
+
+            foreach (MapEntity enemy in enemies)
+                if (enemy) enemy.OnMapActivate();
+
+            if (heroHandler) heroHandler.OnMapActivate();
         }
     }
 
