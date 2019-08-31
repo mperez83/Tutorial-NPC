@@ -46,10 +46,6 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                             selectedUIInventoryPrefabGameObject =
                                 FindInventoryGameObjectAssociatedWithSelectedPrefab(
                                     selectedInventoryItem);
-
-                            Debug.Log(mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,(int)mouseScreenPosition.y].gameObject.name);
-                            //GameMaster.Instance.InventoryItemSelected(gameObject); 
-                            Debug.Log("Inventory Item Selected");
                         }
                 }
         }

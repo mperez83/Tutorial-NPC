@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class NumberOfInventoryItemsController : MonoBehaviour
@@ -39,7 +38,6 @@ public class NumberOfInventoryItemsController : MonoBehaviour
                 numOfItemInInventory++; 
                 tmproText.text = numOfItemInInventory.ToString();
                 addedOneToInventory = true;
-                Debug.Log("numofitem addition called");
             }
         }
     }
@@ -48,8 +46,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
     {
         if (gameObject == inventoryItemController)
         {
-            if (numOfItemInInventory > 0 && 
-                GameMaster.Instance.TileMapInventoryItemSelected)
+            if (numOfItemInInventory > 0)
                 {
                     numOfItemInInventory--;  
                     tmproText.text = numOfItemInInventory.ToString(); 
