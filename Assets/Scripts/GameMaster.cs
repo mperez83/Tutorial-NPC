@@ -94,8 +94,7 @@ public class GameMaster : MonoBehaviour
 
     public void ReloadCurrentScene()
     {
-        string sceneName = SceneManager.GetActiveScene().name; 
-        SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     public float GetCamTopEdge()
