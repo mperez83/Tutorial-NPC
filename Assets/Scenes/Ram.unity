@@ -10211,7 +10211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093604039}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.428669, y: -3.667262, z: -10}
+  m_LocalPosition: {x: -1.4115753, y: -3.6672459, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11004,52 +11004,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1179325221}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1186459272
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1186459273}
-  - component: {fileID: 1186459274}
-  m_Layer: 0
-  m_Name: GameMaster
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1186459273
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1186459272}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1186459274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1186459272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3ed2fe14bfe3e45b2eea7f17aa2013, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levels: []
-  currentLevel: 0
-  TileMapInventoryItemSelected: 0
 --- !u!1001 &1192207026
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11812,74 +11766,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1225672082}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1244890276
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1244890278}
-  - component: {fileID: 1244890277}
-  m_Layer: 0
-  m_Name: '[AudioManager]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1244890277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244890276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d489005cdf8422d91b26024a13e953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - name: Building Soundtrack
-    clip: {fileID: 8300000, guid: 6014f4709654d4bc09b048ab3c1e9285, type: 3}
-    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: Hero Phase Soundtrack
-    clip: {fileID: 8300000, guid: 6f349be66da094cddbc53b937af89aaf, type: 3}
-    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: Menu Scene Soundtrack
-    clip: {fileID: 8300000, guid: 3bfd0dbc86baf4735b55347ef7f2c4ed, type: 3}
-    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
---- !u!4 &1244890278
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244890276}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 643.29865, y: 662.9404, z: -1.1917453}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1247133108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22234,6 +22120,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1516024419}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1520349956
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3641441572878097641, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_Name
+      value: '[GameMaster]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641441572878097647, guid: 54967e397cfc7a9479491ccd1a916845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 54967e397cfc7a9479491ccd1a916845, type: 3}
 --- !u!1001 &1553172491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29196,52 +29151,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1939463085}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1939539767
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1939539768}
-  - component: {fileID: 1939539769}
-  m_Layer: 0
-  m_Name: '[GameMaster]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1939539768
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939539767}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1939539769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939539767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3ed2fe14bfe3e45b2eea7f17aa2013, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levels: []
-  currentLevel: 0
-  TileMapInventoryItemSelected: 0
 --- !u!1001 &1944434760
 PrefabInstance:
   m_ObjectHideFlags: 0

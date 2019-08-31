@@ -78,7 +78,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6014f4709654d4bc09b048ab3c1e9285, type: 3}
     output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
       type: 2}
-    volume: 1
+    volume: 0.75
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6f349be66da094cddbc53b937af89aaf, type: 3}
     output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
       type: 2}
-    volume: 1
+    volume: 0.75
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 3bfd0dbc86baf4735b55347ef7f2c4ed, type: 3}
     output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
       type: 2}
-    volume: 1
+    volume: 0.75
     pitch: 1
     loop: 1
     source: {fileID: 0}

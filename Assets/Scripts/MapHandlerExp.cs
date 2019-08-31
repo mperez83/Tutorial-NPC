@@ -81,6 +81,25 @@ public class MapHandlerExp : MonoBehaviour
             Tile tileCheck = child.GetComponent<Tile>();
             if (tileCheck)
             {
+                //This whole part can be refactored by doing to the Tile class exactly what we did to the MapEntity class (make it abstract)
+                if (tileCheck.tileType == Tile.TileType.Exit)
+                {
+                    //Top exit
+                    if (y == (tileGrid.GetLength(1) - 1))
+                        tileCheck.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    //Bottom exit
+                    else if (y == 0)
+                        tileCheck.transform.localEulerAngles = new Vector3(0, 0, 180);
+                    //Left exit
+                    else if (x == 0)
+                        tileCheck.transform.localEulerAngles = new Vector3(0, 0, 90);
+                    //Right exit
+                    else if (x == (tileGrid.GetLength(0) - 1))
+                        tileCheck.transform.localEulerAngles = new Vector3(0, 0, 270);
+                    //Else illegal spawn
+                    else
+                        print("Tried to spawn the exit at x=" + x + ", y=" + y + " which is ILLEGAL (so we're just gonna default to some arbitrary values, please fix)");
+                }
                 tileGrid[x, y] = tileCheck;
             }
 
