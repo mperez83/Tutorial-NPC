@@ -6,6 +6,15 @@ using UnityEngine.UI;
 public class MainMenuUI : MonoBehaviour
 {
     public Image loadingOverlay;
+    public Button viewCutsceneButton;
+
+    void Start()
+    {
+        if (GameMaster.instance.seenCutscene)
+        {
+            viewCutsceneButton.gameObject.SetActive(true);
+        }
+    }
 
     public void PlayButton()
     {
@@ -22,8 +31,9 @@ public class MainMenuUI : MonoBehaviour
         }
     }
 
-    public void QuitButton()
+    public void ViewIntroButton()
     {
-        //Application.Quit();
+        loadingOverlay.enabled = true;
+        GameMaster.instance.LoadSceneRaw("Cutscene");
     }
 }
