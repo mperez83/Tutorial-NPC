@@ -48,11 +48,6 @@ public class NumberOfInventoryItemsController : MonoBehaviour
     {
         if (gameObject == inventoryItemController)
         {
-            /* if (GameMaster.Instance.TileMapInventoryItemSelected == true)
-                {
-                    numOfItemInInventory++;
-                    tmproText.text = numOfItemInInventory.ToString();
-                } */
             if (numOfItemInInventory > 0 && 
                 GameMaster.Instance.TileMapInventoryItemSelected)
                 {

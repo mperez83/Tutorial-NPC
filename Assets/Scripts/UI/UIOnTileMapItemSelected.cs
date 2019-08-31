@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIOnTileMapItemSelected : MonoBehaviour
 {
@@ -14,6 +11,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
     private string[] inventoryItemNames; 
     private GameObject selectedUIInventoryPrefabGameObject, selectedInventoryItem; 
     private bool firstTimeSelected = true;
+    private Vector3 mouseScreenPosition; 
     //private Tile.TileType[] inventoryItemsList; 
 
     private void Awake() 
@@ -29,7 +27,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
 
-            Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouseScreenPosition.z = 0; 
 
             mouseScreenPosition = mouseScreenPosition.RoundXAndYCoords(); 
@@ -64,7 +62,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                     AttachInventoryItemToMouseLocation(selectedInventoryItem);
             else
             {
-                //RemoveItemFromTileGrid(selectedInventoryItem);
+                RemoveItemFromTileGrid();
                 firstTimeSelected = false; 
             }
         }
@@ -74,24 +72,11 @@ public class UIOnTileMapItemSelected : MonoBehaviour
         }
     }
 
-    private void RemoveItemFromTileGrid(GameObject selectedInventoryItem)
+    private void RemoveItemFromTileGrid()
     {
-        //selectedInventoryItem.GetComponent<Tile>()
+        mapHandlerExp.GetTileGrid()
+            [(int)mouseScreenPosition.x, (int)mouseScreenPosition.y] = null;
     }
-
-    // 
-    /* private Tile.TileType[] GetInventoryItems()
-    {
-              
-        Tile.TileType[] inventoryItems = new Tile.TileType[_UIInventoryItems.Length]; 
-        int count = 0; 
-        foreach (UIOnSelection UIInventoryItem in _UIInventoryItems)
-        {
-            inventoryItems[count] = UIInventoryItem.GetInventoryItemPrefab().GetComponent<Tile>().tileType;
-            count++;
-        }
-        return inventoryItems; 
-    } */
 
     private GameObject FindInventoryGameObjectAssociatedWithSelectedPrefab(GameObject selectedPrefab)
     {
