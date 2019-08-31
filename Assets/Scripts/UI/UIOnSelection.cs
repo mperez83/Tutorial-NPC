@@ -8,7 +8,7 @@ public class UIOnSelection : MonoBehaviour
     [SerializeField]
     private GameObject levelTileMap = null;
     private GameObject prefabToSpawnClone; 
-    private bool placingInventoryItem, noInventoryItemsLeft; 
+    private bool placingInventoryItem; 
     private MapHandlerExp mapHandlerExp;
     private NumberOfInventoryItemsController numOfInventoryItemsController; 
     private Button button; 
@@ -28,7 +28,8 @@ public class UIOnSelection : MonoBehaviour
             AttachInventoryItemToMouseLocation(prefabToSpawnClone); 
         }
 
-        if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
+        if (numOfInventoryItemsController.NumOfItemInInventory <= 0
+            && GameMaster.instance.TileMapInventoryItemSelected == false)
         {
             //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
             HandleNoItemsLeft(); 
@@ -77,7 +78,7 @@ public class UIOnSelection : MonoBehaviour
 
     public void OnUIElementSelected()
     {
-        if (!placingInventoryItem && !noInventoryItemsLeft)
+        if (!placingInventoryItem && button.interactable)
         {
             placingInventoryItem = true; 
             prefabToSpawnClone = Instantiate(prefabToSpawn, transform.position, 
@@ -87,7 +88,6 @@ public class UIOnSelection : MonoBehaviour
 
     private void HandleNoItemsLeft()
     {
-        noInventoryItemsLeft = true; 
         button.interactable = false; 
     }
     

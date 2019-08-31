@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NumberOfInventoryItemsController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
     private int numOfItemInInventory;
     private TextMeshProUGUI tmproText;
     private bool addedOneToInventory;
+    private Button button; 
 
     public int NumOfItemInInventory { get { return numOfItemInInventory; } }
 
@@ -21,6 +23,8 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
         tmproText = GetComponentInChildren<TextMeshProUGUI>();
         tmproText.text = numOfItemInInventory.ToString();
+
+        button = GetComponent<Button>();
     }
 
     private void OnDestroy()
@@ -37,6 +41,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
             {
                 numOfItemInInventory++;
                 tmproText.text = numOfItemInInventory.ToString();
+                button.interactable = true; 
                 addedOneToInventory = true;
             }
         }
