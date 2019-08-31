@@ -354,9 +354,7 @@ public class HeroHandler : MapEntity
     //Look ahead to see if there's something the hero has to deal with (e.g. walking out of bounds, running into an impassable tile, etc)
     void SetNextSpace()
     {
-        int curX = (int)curSpace.x;
-        int curY = (int)curSpace.y;
-
+        //First, check if the hero saw the pot
         bool sawPot = CheckForLineOfSightWithPot();
         if (sawPot)
         {
@@ -365,9 +363,15 @@ public class HeroHandler : MapEntity
             return;
         }
 
+
+
+        int curX = (int)curSpace.x;
+        int curY = (int)curSpace.y;
+
         int nextX = curX;
         int nextY = curY;
 
+        //Update where the hero is going next
         switch (heroDir)
         {
             case HeroDirections.Up:

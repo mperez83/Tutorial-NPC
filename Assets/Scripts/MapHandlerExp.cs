@@ -158,7 +158,10 @@ public class MapHandlerExp : MonoBehaviour
     public Tile GetTileAtCoords(int x, int y)
     {
         if (GetIfInsideTileGrid(x, y))
-            return tileGrid[x, y].GetComponent<Tile>();
+            if (tileGrid[x, y] != null)
+                return tileGrid[x, y].GetComponent<Tile>();
+            else
+                return null;
         else
             return null;
     }

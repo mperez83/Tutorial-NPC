@@ -180,6 +180,7 @@ public class PitConnector : MonoBehaviour
                         case "001011000":
                         case "000011001":
                         case "101011000":
+                        case "100011001":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndLeft;
                             break;
 
@@ -197,6 +198,7 @@ public class PitConnector : MonoBehaviour
                         case "001111100":
                         case "100111001":
                         case "101111101":
+                        case "101111100":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelStraightHorizontal;
                             break;
 
@@ -210,6 +212,8 @@ public class PitConnector : MonoBehaviour
                         case "001110100":
                         case "000110100":
                         case "000110101":
+                        case "001110001":
+                        case "101110001":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndRight;
                             break;
 
@@ -263,6 +267,7 @@ public class PitConnector : MonoBehaviour
                         case "111010100":
                         case "111010001":
                         case "111010101":
+                        case "011010001":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndTop;
                             break;
 
@@ -294,6 +299,8 @@ public class PitConnector : MonoBehaviour
                         case "000011110":
                         case "100011110":
                         case "101011010":
+                        case "100011010":
+                        case "101011110":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelCornerBottomLeft;
                             break;
 
@@ -304,6 +311,7 @@ public class PitConnector : MonoBehaviour
                         case "101110011":
                         case "100110011":
                         case "101110010":
+                        case "001110011":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelCornerBottomRight;
                             break;
 
