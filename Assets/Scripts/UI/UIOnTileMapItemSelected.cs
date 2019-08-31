@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ public class UIOnTileMapItemSelected : MonoBehaviour
     private MapHandlerExp mapHandlerExp; 
     private UIOnSelection[] _UIInventoryItems; 
     private string[] inventoryItemNames; 
-    private GameObject selectedUIInventoryPrefabGameObject; 
+    private GameObject selectedUIInventoryPrefabGameObject, selectedInventoryItem; 
+    private bool firstTimeSelected = true;
     //private Tile.TileType[] inventoryItemsList; 
 
     private void Awake() 
@@ -39,10 +41,14 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                         mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,(int)mouseScreenPosition.y]))
                         {
                             GameMaster.Instance.TileMapInventoryItemSelected = true;
+                            selectedInventoryItem = mapHandlerExp.GetTileGrid()
+                                [(int)mouseScreenPosition.x,(int)mouseScreenPosition.y].
+                                gameObject;
+
                             selectedUIInventoryPrefabGameObject =
                                 FindInventoryGameObjectAssociatedWithSelectedPrefab(
-                                    mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,
-                                    (int)mouseScreenPosition.y].gameObject);
+                                    selectedInventoryItem);
+
                             Debug.Log(mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,(int)mouseScreenPosition.y].gameObject.name);
                             //GameMaster.Instance.InventoryItemSelected(gameObject); 
                             Debug.Log("Inventory Item Selected");
@@ -51,7 +57,26 @@ public class UIOnTileMapItemSelected : MonoBehaviour
         }
 
         if (GameMaster.Instance.TileMapInventoryItemSelected)
-            GameMaster.Instance.InventoryItemSelected(selectedUIInventoryPrefabGameObject, selectedUIInventoryPrefabGameObject); 
+        {
+            GameMaster.Instance.InventoryItemSelected(selectedUIInventoryPrefabGameObject); 
+            if (!firstTimeSelected)
+                selectedUIInventoryPrefabGameObject.GetComponent<UIOnSelection>().
+                    AttachInventoryItemToMouseLocation(selectedInventoryItem);
+            else
+            {
+                //RemoveItemFromTileGrid(selectedInventoryItem);
+                firstTimeSelected = false; 
+            }
+        }
+        else
+        {
+            firstTimeSelected = true;
+        }
+    }
+
+    private void RemoveItemFromTileGrid(GameObject selectedInventoryItem)
+    {
+        //selectedInventoryItem.GetComponent<Tile>()
     }
 
     // 
