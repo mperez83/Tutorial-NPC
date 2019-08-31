@@ -19,11 +19,30 @@ public class HeroHandler : MapEntity
     public GameObject visibleLadderPrefab;
     GameObject visibleLadder;
 
+    public GameObject sightGraphic;
+
     public GameOverUI gameOverUI;
     public VictoryUI victoryUI;
 
     public Sprite entryArrow;
     public Sprite[] heroSprites;
+
+
+
+    void Update()
+    {
+        if (mapHandler.GetIfInsideTileGrid((int)curSpace.x, (int)curSpace.y))
+        {
+            switch (heroState)
+            {
+                case HeroStates.Moving:
+                case HeroStates.Frustrated:
+                case HeroStates.SawPot:
+                    //DrawLineOfSight();
+                    break;
+            }
+        }
+    }
 
 
 
@@ -85,6 +104,7 @@ public class HeroHandler : MapEntity
     {
         UpdateHeroGraphic();
         transform.localEulerAngles = new Vector3(0, 0, 0);
+        //sightGraphic.GetComponent<SpriteRenderer>().enabled = true;
     }
 
 
@@ -303,6 +323,7 @@ public class HeroHandler : MapEntity
 
             case Tile.TileType.Exit:
                 heroState = HeroStates.Victory;
+                sightGraphic.GetComponent<SpriteRenderer>().enabled = false;
                 //Top player exit
                 if (curY == (mapHandler.tileGrid.GetLength(1) - 1))
                     ChangeHeroDirection(HeroDirections.Up);
@@ -573,6 +594,74 @@ public class HeroHandler : MapEntity
         }
 
         return false;
+    }
+
+    void DrawLineOfSight()
+    {
+        int x = (int)curSpace.x;
+        int y = (int)curSpace.y;
+
+        float beamLength = 0;
+        float beamLengthOffset = 0;
+
+        switch (heroDir)
+        {
+            case HeroDirections.Up:
+                for (int i = y; i < mapHandler.tileGrid.GetLength(1); i++)
+                {
+                    beamLength += 1;
+                    beamLengthOffset = transform.position.y - (int)curSpace.y;
+
+                    sightGraphic.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    Tile checkTile = mapHandler.tileGrid[x, i];
+                    if (checkTile != null)
+                        if (checkTile.tileType == Tile.TileType.Pot || checkTile.blocksVision)
+                            break;
+                }
+                break;
+            case HeroDirections.Down:
+                for (int i = y; i > 0; i--)
+                {
+                    beamLength += 1;
+                    beamLengthOffset = (int)curSpace.y - transform.position.y;
+
+                    sightGraphic.transform.localEulerAngles = new Vector3(0, 0, 180);
+                    Tile checkTile = mapHandler.tileGrid[x, i];
+                    if (checkTile != null)
+                        if (checkTile.tileType == Tile.TileType.Pot || checkTile.blocksVision)
+                            break;
+                }
+                break;
+            case HeroDirections.Left:
+                for (int i = x; i > 0; i--)
+                {
+                    beamLength += 1;
+                    beamLengthOffset = (int)curSpace.x - transform.position.x;
+
+                    sightGraphic.transform.localEulerAngles = new Vector3(0, 0, 90);
+                    Tile checkTile = mapHandler.tileGrid[i, y];
+                    if (checkTile != null)
+                        if (checkTile.tileType == Tile.TileType.Pot || checkTile.blocksVision)
+                            break;
+                }
+                break;
+            case HeroDirections.Right:
+                for (int i = x; i < mapHandler.tileGrid.GetLength(0); i++)
+                {
+                    beamLength += 1;
+                    beamLengthOffset = transform.position.x - (int)curSpace.x;
+
+                    sightGraphic.transform.localEulerAngles = new Vector3(0, 0, 270);
+                    Tile checkTile = mapHandler.tileGrid[i, y];
+                    if (checkTile != null)
+                        if (checkTile.tileType == Tile.TileType.Pot || checkTile.blocksVision)
+                            break;
+                }
+                break;
+        }
+
+        sightGraphic.transform.localScale = new Vector2(sightGraphic.transform.localScale.x, beamLength - beamLengthOffset - 1.5f);
+
     }
 
 
