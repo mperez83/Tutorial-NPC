@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3299612838668859326}
   - component: {fileID: 3299612838668859321}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Item Canvas v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1 &3299612839011946218
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1 &3299612839597657320
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1 &3299612839636367030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,7 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3ce7acc31644e88861d76d24464a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfItemInInventory: 1
+  numOfItemInInventory: 3
 --- !u!1 &3299612840224454278
 GameObject:
   m_ObjectHideFlags: 0
