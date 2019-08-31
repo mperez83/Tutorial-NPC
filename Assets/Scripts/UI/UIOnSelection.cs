@@ -46,13 +46,16 @@ public class UIOnSelection : MonoBehaviour
         Cursor.visible = false; 
         Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         screenPoint.z = 0; 
+
         itemToAttach.transform.position = screenPoint; 
 
-        if (Input.GetMouseButtonDown(0) && mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
+        if (Input.GetMouseButtonDown(0) && 
+            mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
-            PlaceInventoryItemDown(screenPoint, itemToAttach);
-            GameMaster.instance.InventoryItemDeselected(); 
-            Cursor.visible = true; 
+            Debug.Log(mapHandlerExp.GetTileAtCoords((int)screenPoint.x, (int)screenPoint.y) != null);
+                PlaceInventoryItemDown(screenPoint, itemToAttach);
+                GameMaster.instance.InventoryItemDeselected(); 
+                Cursor.visible = true; 
         }
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
         {
