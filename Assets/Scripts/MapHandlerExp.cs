@@ -177,11 +177,6 @@ public class MapHandlerExp : MonoBehaviour
 
 
 
-    public Tile[,] GetTileGrid()
-    {
-        return tileGrid;
-    }
-
     public bool GetIfTileExistsInLocation(int x, int y)
     {
         if (tileGrid[x,y] != null)
@@ -203,6 +198,17 @@ public class MapHandlerExp : MonoBehaviour
         if (GetIfInsideTileGrid(x, y))
             if (tileGrid[x, y] != null)
                 return tileGrid[x, y].GetComponent<Tile>();
+            else
+                return null;
+        else
+            return null;
+    }
+
+    public MapEntity GetEntityAtCoords(int x, int y)
+    {
+        if (GetIfInsideTileGrid(x, y))
+            if (entityGrid[x, y] != null)
+                return entityGrid[x, y].GetComponent<MapEntity>();
             else
                 return null;
         else

@@ -36,10 +36,10 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                 mapHandlerExp.GetIfTileExistsInLocation((int)mouseScreenPosition.x, (int)mouseScreenPosition.y))
             {
                 if (CheckIfTileInventoryItemSelected(inventoryItemNames,
-                    mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x, (int)mouseScreenPosition.y]))
+                    mapHandlerExp.tileGrid[(int)mouseScreenPosition.x, (int)mouseScreenPosition.y]))
                 {
                     GameMaster.instance.TileMapInventoryItemSelected = true;
-                    selectedInventoryItem = mapHandlerExp.GetTileGrid()
+                    selectedInventoryItem = mapHandlerExp.tileGrid
                         [(int)mouseScreenPosition.x, (int)mouseScreenPosition.y].
                         gameObject;
 
@@ -70,7 +70,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
 
     private void RemoveItemFromTileGrid()
     {
-        mapHandlerExp.GetTileGrid()
+        mapHandlerExp.tileGrid
             [(int)mouseScreenPosition.x, (int)mouseScreenPosition.y] = null;
     }
 

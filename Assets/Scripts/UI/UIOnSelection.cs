@@ -69,7 +69,7 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
-        mapHandlerExp.GetTileGrid()[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = inventoryItem.GetComponent<Tile>(); 
+        mapHandlerExp.tileGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = inventoryItem.GetComponent<Tile>(); 
         GameMaster.instance.AddInventoryItemToMap(gameObject); 
         //Debug.Log("Placing item down");
         //GameMaster.Instance.TileMapInventoryItemSelected = false;
