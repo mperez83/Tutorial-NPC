@@ -365,7 +365,7 @@ public class HeroHandler : MapEntity
             }
             else
             {
-                gameOverUI.ActivateGameOver("Game over!\n(The hero died)");
+                gameOverUI.ActivateGameOver("Game over!\n(The hero was slain)");
             }
         }
     }

@@ -114,7 +114,7 @@ MonoBehaviour:
       type: 2}
     volume: 0.6
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
 --- !u!82 &3641441572878097645
 AudioSource:
