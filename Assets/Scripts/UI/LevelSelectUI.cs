@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class LevelSelectUI : MonoBehaviour
 {
-    public Transform levelButtonHolder;
+    public Button[] levelButtons;
     public Image loadingOverlay;
 
     void Start()
@@ -12,13 +12,9 @@ public class LevelSelectUI : MonoBehaviour
         GameMaster.LevelData[] levelData = GameMaster.instance.levels;
 
         //Set if the level button is available one by one
+        if (levelButtons.Length != levelData.Length) print("Error: there's " + levelData.Length + " levels, and exactly " + levelButtons.Length + " level buttons! fix that");
         for (int i = 0; i < levelData.Length; i++)
-        {
-            Transform levelButton = levelButtonHolder.Find(levelData[i].levelName);
-
-            if (!levelButton) print("Error: level button for " + levelData[i].levelName + " is not present!!! go put it in");
-            else levelButton.GetComponent<Button>().interactable = levelData[i].isAvailable;
-        }
+            levelButtons[i].interactable = levelData[i].isAvailable;
     }
 
     public void LevelButton()
