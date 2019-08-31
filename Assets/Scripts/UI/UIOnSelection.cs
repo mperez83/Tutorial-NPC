@@ -3,9 +3,6 @@ using UnityEngine.UI;
 
 public class UIOnSelection : MonoBehaviour
 {
-
-    //public enum InventoryObjectType {UIPanelInventoryItem, TileMapInventoryItem};
-
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -23,19 +20,14 @@ public class UIOnSelection : MonoBehaviour
         button = GetComponent<Button>(); 
     }
 
-    private void Start() 
-    {
-        GameMaster.instance.OnInventoryItemSelected += AttachInventoryItemToMouseLocation;     
-    }
-
     private void LateUpdate()  
     {
         if (placingInventoryItem)
         {
-            GameMaster.instance.InventoryItemSelected(gameObject); 
-            //AttachInventoryItemToMouseLocation(); 
+            GameMaster.instance.InventoryItemSelected(prefabToSpawnClone); 
+            AttachInventoryItemToMouseLocation(prefabToSpawnClone); 
         }
-        
+
         if (numOfInventoryItemsController.NumOfItemInInventory <= 0)
         {
             //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
@@ -43,38 +35,31 @@ public class UIOnSelection : MonoBehaviour
         }
     }
 
-    private void OnDestroy() 
+    public void AttachInventoryItemToMouseLocation(GameObject itemToAttach)
     {
-        GameMaster.instance.OnInventoryItemSelected -= AttachInventoryItemToMouseLocation;     
-    }
+        //Debug.Log(gameObject.name + " is calling me");
 
-    private void AttachInventoryItemToMouseLocation(GameObject inventoryGameObject)
-    {
-        if (gameObject == inventoryGameObject)
+        /* if (placingInventoryItem == false)
+            placingInventoryItem = true; */
+
+        Cursor.visible = false; 
+        Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        screenPoint.z = 0; 
+        itemToAttach.transform.position = screenPoint; 
+
+        if (Input.GetMouseButtonDown(0) && mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
         {
-            //Debug.Log("I'm running");
-            Cursor.visible = false; 
-            Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            screenPoint.z = 0; 
-            prefabToSpawnClone.transform.position = screenPoint; 
-
-            if (Input.GetMouseButtonDown(0) && 
-                mapHandlerExp.GetIfInsideTileGrid((int)screenPoint.x, (int)screenPoint.y))
-            {
-                PlaceInventoryItemDown(screenPoint, prefabToSpawnClone);
-                GameMaster.instance.InventoryItemDeselected(); 
-                Cursor.visible = true; 
-            }
-            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
-            {
-                placingInventoryItem = false; 
-                Destroy(prefabToSpawnClone);
-
-                GameMaster.instance.InventoryItemDeselected(); 
-                GameMaster.instance.TileMapInventoryItemSelected = false; 
-
-                Cursor.visible = true; 
-            }
+            PlaceInventoryItemDown(screenPoint, itemToAttach);
+            GameMaster.instance.InventoryItemDeselected(); 
+            Cursor.visible = true; 
+        }
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
+        {
+            placingInventoryItem = false; 
+            Destroy(itemToAttach);
+            GameMaster.instance.InventoryItemDeselected(); 
+            //GameMaster.Instance.TileMapInventoryItemSelected = false;
+            Cursor.visible = true; 
         }
 
     }
@@ -83,9 +68,10 @@ public class UIOnSelection : MonoBehaviour
     {   
         Vector3 positionToPlaceItem = mousePosition.RoundXAndYCoords(); 
         inventoryItem.transform.position = positionToPlaceItem; 
-        mapHandlerExp.tileGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = prefabToSpawnClone.GetComponent<Tile>(); 
+        mapHandlerExp.GetTileGrid()[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = inventoryItem.GetComponent<Tile>(); 
         GameMaster.instance.AddInventoryItemToMap(gameObject); 
-        GameMaster.instance.TileMapInventoryItemSelected = false;
+        //Debug.Log("Placing item down");
+        //GameMaster.Instance.TileMapInventoryItemSelected = false;
         placingInventoryItem = false; 
     }
 
@@ -93,9 +79,9 @@ public class UIOnSelection : MonoBehaviour
     {
         if (!placingInventoryItem && !noInventoryItemsLeft)
         {
+            placingInventoryItem = true; 
             prefabToSpawnClone = Instantiate(prefabToSpawn, transform.position, 
                 Quaternion.identity, levelTileMap.transform);
-            placingInventoryItem = true; 
         }
     }
 
@@ -104,9 +90,14 @@ public class UIOnSelection : MonoBehaviour
         noInventoryItemsLeft = true; 
         button.interactable = false; 
     }
-
+    
     public GameObject GetInventoryItemPrefab()
     {
         return prefabToSpawn;
     }
+
+    /* public bool GetIfPlacingInventoryItem()
+    { 
+        return placingInventoryItem; 
+    } */
 }

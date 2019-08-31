@@ -72,10 +72,10 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    internal void InventoryItemSelected(GameObject inventoryItem)
+    internal void InventoryItemSelected(GameObject itemSelected)
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemSelected(inventoryItem);
+            OnInventoryItemSelected(itemSelected); 
     }
 
     internal void InventoryItemDeselected()
