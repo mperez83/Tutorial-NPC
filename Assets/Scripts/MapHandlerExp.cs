@@ -27,7 +27,7 @@ public class MapHandlerExp : MonoBehaviour
 
     [HideInInspector]
     public List<MapEntity> enemies = new List<MapEntity>();
-
+    private List<SpinningObject> spinningArrows = new List<SpinningObject>();
 
 
     void Start()
@@ -83,6 +83,12 @@ public class MapHandlerExp : MonoBehaviour
             {
                 tileGrid[x, y] = tileCheck;
             }
+
+            SpinningObject rotatingArrowCheck = child.GetComponent<SpinningObject>();
+            if(rotatingArrowCheck)
+            {
+                spinningArrows.Add(rotatingArrowCheck);
+            }
         }
 
         //Lastly, offset the floor tilemap so it aligns with everything else
@@ -119,6 +125,11 @@ public class MapHandlerExp : MonoBehaviour
 
                     //Trigger MapAction in the hero
                     if (heroHandler) heroHandler.OnMapAction();
+
+                    foreach (SpinningObject spinningArrow in spinningArrows)
+                    {
+                        //spinningArrow.RotateObject();
+                    }
                 }
             }
             else
