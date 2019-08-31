@@ -61,7 +61,7 @@ public class IngameCanvasUI : MonoBehaviour
     public void ExitButton()
     {
         loadingOverlay.gameObject.SetActive(true);
-        GameMaster.instance.LoadSceneRaw("MainMenu");
+        GameMaster.instance.LoadSceneRaw("LevelSelect");
         AudioManager.instance.Play("Menu Scene Soundtrack");
     }
 }

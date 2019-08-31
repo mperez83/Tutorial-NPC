@@ -13,6 +13,7 @@ public class VictoryUI : MonoBehaviour
         gameObject.SetActive(true);
         Time.timeScale = 0;
         gameOverText.text = SceneManager.GetActiveScene().name + " completed!";
+        GameMaster.instance.SetCurrentLevelBeaten();
         GameMaster.instance.SetNextLevelAvailable();
         GameMaster.instance.VictoryScreenActivated = true;
         AudioManager.instance.Play("VictoryFX");
@@ -33,6 +34,7 @@ public class VictoryUI : MonoBehaviour
         loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.AdvanceLevel();
+        GameMaster.instance.VictoryScreenActivated = false;
     }
 
     public void QuitButton()
@@ -41,5 +43,6 @@ public class VictoryUI : MonoBehaviour
         loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Menu Scene Soundtrack");
         GameMaster.instance.LoadSceneRaw("LevelSelect");
+        GameMaster.instance.VictoryScreenActivated = false;
     }
 }

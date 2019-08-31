@@ -58,6 +58,12 @@ MonoBehaviour:
     isAvailable: 0
   - levelName: Level 2-3
     isAvailable: 0
+  - levelName: Level 3-1
+    isAvailable: 0
+  - levelName: Level 3-2
+    isAvailable: 0
+  - levelName: Level 3-3
+    isAvailable: 0
   levelIndex: 0
   seenCutscene: 0
   TileMapInventoryItemSelected: 0

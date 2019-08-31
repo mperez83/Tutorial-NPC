@@ -11,11 +11,11 @@ public class GameMaster : MonoBehaviour
 
     public bool seenCutscene;
     [HideInInspector]
-    public bool TileMapInventoryItemSelected; 
+    public bool TileMapInventoryItemSelected;
     [HideInInspector]
     public bool VictoryScreenActivated;
     [HideInInspector]
-    public bool placingUIItem; 
+    public bool placingUIItem;
     public event Action<GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
@@ -53,14 +53,17 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(LoadTheAsyncScene(levelName));
     }
 
+    public void SetCurrentLevelBeaten()
+    {
+        if (levels[levelIndex].beaten == false) levels[levelIndex].beaten = true;
+    }
+
     public void SetNextLevelAvailable()
     {
         //Make sure we're not on the last level
         if (levelIndex < levels.Length - 1)
-            if (levels[levelIndex + 1].isAvailable == false) 
-            {
+            if (levels[levelIndex + 1].isAvailable == false)
                 levels[levelIndex + 1].isAvailable = true;
-            }
     }
 
     public void LoadSceneRaw(string sceneToLoad)
@@ -88,9 +91,9 @@ public class GameMaster : MonoBehaviour
     internal void InventoryItemDeselected()
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemDeselected(); 
+            OnInventoryItemDeselected();
 
-        TileMapInventoryItemSelected = false; 
+        TileMapInventoryItemSelected = false;
     }
 
     internal void AddInventoryItemToMap(GameObject inventoryItemController)
@@ -139,5 +142,6 @@ public class GameMaster : MonoBehaviour
     {
         public string levelName;
         public bool isAvailable;
+        public bool beaten;
     }
 }

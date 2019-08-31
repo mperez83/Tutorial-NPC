@@ -13,6 +13,7 @@ public class GameOverUI : MonoBehaviour
         gameObject.SetActive(true);
         Time.timeScale = 0;
         gameOverText.text = causeOfGameOver;
+        GameMaster.instance.VictoryScreenActivated = true;
     }
 
     public void RetryButton()
@@ -20,6 +21,7 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1;
         loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Building Soundtrack");
+        GameMaster.instance.VictoryScreenActivated = false;
         GameMaster.instance.LoadSceneRaw(SceneManager.GetActiveScene().name);
     }
 
@@ -28,6 +30,7 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1;
         loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Menu Scene Soundtrack");
+        GameMaster.instance.VictoryScreenActivated = false;
         GameMaster.instance.LoadSceneRaw("LevelSelect");
     }
 }
