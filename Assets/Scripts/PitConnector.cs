@@ -199,6 +199,7 @@ public class PitConnector : MonoBehaviour
                         case "100111001":
                         case "101111101":
                         case "101111100":
+                        case "100111101":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelStraightHorizontal;
                             break;
 
@@ -214,6 +215,7 @@ public class PitConnector : MonoBehaviour
                         case "000110101":
                         case "001110001":
                         case "101110001":
+                        case "101110100":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelEndRight;
                             break;
 
@@ -289,6 +291,7 @@ public class PitConnector : MonoBehaviour
                         case "011110101":
                         case "011110001":
                         case "010110001":
+                        case "010110101":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelCornerTopRight;
                             break;
 
@@ -312,6 +315,7 @@ public class PitConnector : MonoBehaviour
                         case "100110011":
                         case "101110010":
                         case "001110011":
+                        case "001110010":
                             mapGrid[i, j].GetComponent<SpriteRenderer>().sprite = channelCornerBottomRight;
                             break;
 

@@ -107,6 +107,11 @@ public class GameMaster : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
+    public string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     public float GetCamTopEdge()
     {
         return Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, -(Camera.main.transform.position.z))).y;

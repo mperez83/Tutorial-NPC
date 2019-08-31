@@ -45,4 +45,13 @@ public class VictoryUI : MonoBehaviour
         GameMaster.instance.LoadSceneRaw("LevelSelect");
         GameMaster.instance.VictoryScreenActivated = false;
     }
+
+    public void SecretLevelEndButton()
+    {
+        Time.timeScale = 1;
+        loadingOverlay.gameObject.SetActive(true);
+        //AudioManager.instance.Play("Victory Scene Soundtrack");
+        GameMaster.instance.LoadSceneRaw("The End");
+        GameMaster.instance.VictoryScreenActivated = false;
+    }
 }

@@ -6,7 +6,7 @@ public class MapHandlerExp : MonoBehaviour
 {
     bool mapActive = false;
 
-    [Range(0.1f, 1f)]
+    [Range(0.01f, 1f)]
     public float actionTimerLength;
     float actionTimer = 0;
 

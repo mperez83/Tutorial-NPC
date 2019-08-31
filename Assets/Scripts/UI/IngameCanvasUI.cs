@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class IngameCanvasUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class IngameCanvasUI : MonoBehaviour
     public Image buttonImage;
     public Sprite pauseSprite;
     public Sprite playSprite;
+    public TextMeshProUGUI levelName;
 
     public Image loadingOverlay;
 
@@ -18,6 +20,7 @@ public class IngameCanvasUI : MonoBehaviour
     void Start()
     {
         mapHandlerExp = FindObjectOfType<MapHandlerExp>();
+        levelName.text = GameMaster.instance.GetCurrentSceneName();
     }
 
     public void PlayButton()
