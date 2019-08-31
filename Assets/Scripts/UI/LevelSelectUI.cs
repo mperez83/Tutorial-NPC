@@ -41,6 +41,7 @@ public class LevelSelectUI : MonoBehaviour
     public void SecretButton()
     {
         loadingOverlay.gameObject.SetActive(true);
+        AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.LoadSceneRaw("Level 6-6-6");
     }
 }

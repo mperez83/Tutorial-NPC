@@ -36,8 +36,16 @@ public class GameMaster : MonoBehaviour
     public void AdvanceLevel()
     {
         levelIndex++;
-        if (levelIndex > levels.Length - 1) levelIndex = 0;
-        SetLevel(levels[levelIndex].levelName);
+        if (levelIndex > levels.Length - 1)
+        {
+            levelIndex = 0;
+            AudioManager.instance.Play("Menu Scene Soundtrack");
+            LoadSceneRaw("LevelSelect");
+        }
+        else
+        {
+            SetLevel(levels[levelIndex].levelName);
+        }
     }
 
     public void SetLevel(string levelName)
