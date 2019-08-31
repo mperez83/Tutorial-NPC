@@ -9,7 +9,7 @@ public class GameMaster : MonoBehaviour
     public int currentLevel;
     public bool TileMapInventoryItemSelected; 
 
-    public event Action<GameObject> OnInventoryItemSelected;
+    public event Action<GameObject, GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
 
@@ -33,10 +33,10 @@ public class GameMaster : MonoBehaviour
         SceneManager.LoadScene(levels[currentLevel - 1]);
     }
 
-    internal void InventoryItemSelected(GameObject inventoryItem)
+    internal void InventoryItemSelected(GameObject inventoryItem, GameObject prefabToMove)
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemSelected(inventoryItem); 
+            OnInventoryItemSelected(inventoryItem, prefabToMove); 
     }
 
     internal void InventoryItemDeselected()

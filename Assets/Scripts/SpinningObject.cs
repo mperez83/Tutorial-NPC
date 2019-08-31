@@ -27,8 +27,6 @@ public class SpinningObject : MonoBehaviour
             (Mathf.Abs(transform.rotation.eulerAngles.z) - Mathf.Abs(rotationStartPosition.z)) > 45f)
         {
             rotationStartPosition = transform.position;
-            Debug.Log(transform.rotation.eulerAngles.z);
-            Debug.Log("I'm getting here");
 
             //ChangeArrowDirection();
         }

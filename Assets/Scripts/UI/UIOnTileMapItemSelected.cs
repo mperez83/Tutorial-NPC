@@ -11,7 +11,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
     private MapHandlerExp mapHandlerExp; 
     private UIOnSelection[] _UIInventoryItems; 
     private string[] inventoryItemNames; 
-    private GameObject selectedInventoryPrefabUIGameObject; 
+    private GameObject selectedUIInventoryPrefabGameObject; 
     //private Tile.TileType[] inventoryItemsList; 
 
     private void Awake() 
@@ -39,7 +39,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                         mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,(int)mouseScreenPosition.y]))
                         {
                             GameMaster.Instance.TileMapInventoryItemSelected = true;
-                            selectedInventoryPrefabUIGameObject =
+                            selectedUIInventoryPrefabGameObject =
                                 FindInventoryGameObjectAssociatedWithSelectedPrefab(
                                     mapHandlerExp.GetTileGrid()[(int)mouseScreenPosition.x,
                                     (int)mouseScreenPosition.y].gameObject);
@@ -51,7 +51,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
         }
 
         if (GameMaster.Instance.TileMapInventoryItemSelected)
-            GameMaster.Instance.InventoryItemSelected(selectedInventoryPrefabUIGameObject); 
+            GameMaster.Instance.InventoryItemSelected(selectedUIInventoryPrefabGameObject, selectedUIInventoryPrefabGameObject); 
     }
 
     // 

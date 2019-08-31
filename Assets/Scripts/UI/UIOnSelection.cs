@@ -32,7 +32,7 @@ public class UIOnSelection : MonoBehaviour
     {
         if (placingInventoryItem)
         {
-            GameMaster.Instance.InventoryItemSelected(gameObject); 
+            GameMaster.Instance.InventoryItemSelected(gameObject, prefabToSpawnClone); 
             //AttachInventoryItemToMouseLocation(); 
         }
         
@@ -48,11 +48,25 @@ public class UIOnSelection : MonoBehaviour
         GameMaster.Instance.OnInventoryItemSelected -= AttachInventoryItemToMouseLocation;     
     }
 
-    private void AttachInventoryItemToMouseLocation(GameObject inventoryGameObject)
+    private void AttachInventoryItemToMouseLocation(GameObject inventoryGameObject, GameObject prefabToMove)
     {
-        if (gameObject == inventoryGameObject)
+        bool proceedAttachingItem = false; 
+
+        Debug.Log(prefabToSpawnClone.name);
+        Debug.Log("IGM " + inventoryGameObject.name);
+
+        if (inventoryGameObject == this)
+            proceedAttachingItem = true; 
+        if (inventoryGameObject.GetComponent<Tile>().tileType != null &&
+            prefabToSpawnClone.GetComponent<Tile>().tileType == inventoryGameObject.GetComponent<Tile>().tileType)
         {
-            Debug.Log("I'm running");
+            proceedAttachingItem = true; 
+        }
+
+        if (proceedAttachingItem)
+        {
+            if (inventoryGameObject != this)
+                prefabToSpawnClone = inventoryGameObject;
             Cursor.visible = false; 
             Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             screenPoint.z = 0; 
