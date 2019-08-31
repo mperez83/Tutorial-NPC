@@ -15,6 +15,7 @@ public class VictoryUI : MonoBehaviour
         gameOverText.text = SceneManager.GetActiveScene().name + " completed!";
         GameMaster.instance.SetNextLevelAvailable();
         GameMaster.instance.VictoryScreenActivated = true;
+        AudioManager.instance.Play("VictoryFX");
     }
 
     public void RetryButton()

@@ -46,7 +46,6 @@ public class UIOnTileMapItemSelected : MonoBehaviour
                         [(int)mouseScreenPosition.x, (int)mouseScreenPosition.y].
                         gameObject;
 
-                    Debug.Log("I'm being called");
                     selectedUIInventoryPrefabGameObject =
                         FindInventoryGameObjectAssociatedWithSelectedPrefab(
                             selectedInventoryItem);

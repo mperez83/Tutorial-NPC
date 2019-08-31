@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -58,5 +59,4 @@ public class AudioManager : MonoBehaviour
 
         if (audioSource.isPlaying) audioSource.Stop();
     }
-
 }

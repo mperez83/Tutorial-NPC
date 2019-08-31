@@ -61,6 +61,8 @@ MonoBehaviour:
   levelIndex: 0
   seenCutscene: 0
   TileMapInventoryItemSelected: 0
+  VictoryScreenActivated: 0
+  placingUIItem: 0
 --- !u!114 &3641441572878097644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +99,22 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: VictoryFX
+    clip: {fileID: 8300000, guid: 5d36297ec15e54ca59ea5010b5b1bf37, type: 3}
+    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
+      type: 2}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Victory Scene Soundtrack
+    clip: {fileID: 8300000, guid: 7ac681d4e312e487da47f9d70e3effc3, type: 3}
+    output: {fileID: -5920787856126287845, guid: 994d8319820fe429492d02a2cfd5ff39,
+      type: 2}
+    volume: 0.6
+    pitch: 1
+    loop: 0
     source: {fileID: 0}
 --- !u!82 &3641441572878097645
 AudioSource:
