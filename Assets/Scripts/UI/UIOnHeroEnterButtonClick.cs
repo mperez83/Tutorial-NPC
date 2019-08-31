@@ -28,16 +28,14 @@ public class UIOnHeroEnterButtonClick : MonoBehaviour
         {
             Time.timeScale = 1f; 
             tmproText.text = "Pause Game";
-            AudioManager.Instance.Stop("Building Soundtrack");
-            AudioManager.Instance.Restart("Hero Phase Soundtrack");
+            AudioManager.instance.Play("Hero Phase Soundtrack");
             heroPhasePaused = true; 
         }    
         else
         {
             Time.timeScale = 0f; 
             tmproText.text = initialButtonText; 
-            AudioManager.Instance.Stop("Hero Phase Soundtrack");
-            AudioManager.Instance.Restart("Building Soundtrack");
+            AudioManager.instance.Play("Building Soundtrack");
             heroPhasePaused = false; 
         }
     }

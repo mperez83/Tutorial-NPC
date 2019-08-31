@@ -5,6 +5,6 @@ public class UIReloadCurrentSceneOnClick : MonoBehaviour
     public void RestartCurrentScene()
     {
         GameMaster.instance.ReloadCurrentScene();
-        AudioManager.Instance.Restart("Building Soundtrack");
+        AudioManager.instance.Play("Building Soundtrack");
     }
 }

@@ -24,15 +24,14 @@ public class LevelSelectUI : MonoBehaviour
     public void LevelButton()
     {
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.SetLevel(EventSystem.current.currentSelectedGameObject.name);
     }
 
     public void MainMenuButton()
     {
-        AudioManager.Instance.Stop("Menu Scene Soundtrack");
-        AudioManager.Instance.Play("Building Soundtrack");
-
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Menu Scene Soundtrack");
         GameMaster.instance.LoadSceneRaw("MainMenu");
     }
 }

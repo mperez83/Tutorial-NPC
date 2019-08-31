@@ -19,6 +19,7 @@ public class GameOverUI : MonoBehaviour
     {
         Time.timeScale = 1;
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.LoadSceneRaw(SceneManager.GetActiveScene().name);
     }
 
@@ -26,6 +27,7 @@ public class GameOverUI : MonoBehaviour
     {
         Time.timeScale = 1;
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Menu Scene Soundtrack");
         GameMaster.instance.LoadSceneRaw("LevelSelect");
     }
 }

@@ -20,6 +20,7 @@ public class VictoryUI : MonoBehaviour
     {
         Time.timeScale = 1;
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.LoadSceneRaw(SceneManager.GetActiveScene().name);
     }
 
@@ -27,6 +28,7 @@ public class VictoryUI : MonoBehaviour
     {
         Time.timeScale = 1;
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.AdvanceLevel();
     }
 
@@ -34,6 +36,7 @@ public class VictoryUI : MonoBehaviour
     {
         Time.timeScale = 1;
         loadingOverlay.enabled = true;
+        AudioManager.instance.Play("Menu Scene Soundtrack");
         GameMaster.instance.LoadSceneRaw("LevelSelect");
     }
 }

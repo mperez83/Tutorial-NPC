@@ -3,30 +3,22 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public Sound[] sounds;
+    public static AudioManager instance { get; private set; }
 
-    public static AudioManager Instance { get; private set; } 
+    public Sound[] sounds;
+    AudioSource audioSource;
 
     private void Awake() 
     {
-        if (Instance != null)
+        if (instance != null)
             Destroy(gameObject); 
         else 
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
-        foreach (Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.outputAudioMixerGroup = s.output;
-
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-        }
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -42,7 +34,17 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Sound: " + name + " was not found");
             return;
         }
-        s.source.Play();
+
+        if (audioSource.isPlaying) audioSource.Stop();
+
+        audioSource.clip = s.clip;
+        audioSource.outputAudioMixerGroup = s.output;
+
+        audioSource.volume = s.volume;
+        audioSource.pitch = s.pitch;
+        audioSource.loop = s.loop;
+
+        audioSource.Play();
     }
 
     public void Stop (string name)
@@ -53,27 +55,8 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Sound: " + name + " was not found");
             return;
         }
-        s.source.Stop();
-    }
 
-    public void Restart (string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-        {
-            Debug.Log("Sound: " + name + " was not found");
-            return;
-        }
-        s.source.Stop();
-        s.source.Play();
-    }
-
-    public void StopAllAudio()
-    {
-        foreach (Sound s in sounds)
-        {
-            s.source.Stop();
-        }
+        if (audioSource.isPlaying) audioSource.Stop();
     }
 
 }

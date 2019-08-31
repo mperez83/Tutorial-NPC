@@ -52,7 +52,7 @@ public class UIOnSelection : MonoBehaviour
     {
         if (gameObject == inventoryGameObject)
         {
-            Debug.Log("I'm running");
+            //Debug.Log("I'm running");
             Cursor.visible = false; 
             Vector3 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             screenPoint.z = 0; 
