@@ -11,6 +11,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
     private string[] inventoryItemNames;
     private GameObject selectedUIInventoryPrefabGameObject, selectedInventoryItem;
     private bool firstTimeSelected = true;
+    private bool placingTileItem = false; 
     private Vector3 mouseScreenPosition;
     //private Tile.TileType[] inventoryItemsList; 
 
@@ -24,7 +25,9 @@ public class UIOnTileMapItemSelected : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && 
+            !placingTileItem &&
+            GameMaster.instance.VictoryScreenActivated == false)
         {
 
             mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -52,6 +55,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
 
         if (GameMaster.instance.TileMapInventoryItemSelected)
         {
+            placingTileItem = true;
             GameMaster.instance.InventoryItemSelected(selectedUIInventoryPrefabGameObject);
             if (!firstTimeSelected)
                 selectedUIInventoryPrefabGameObject.GetComponent<UIOnSelection>().
@@ -64,6 +68,7 @@ public class UIOnTileMapItemSelected : MonoBehaviour
         }
         else
         {
+            placingTileItem = false;
             firstTimeSelected = true;
         }
     }

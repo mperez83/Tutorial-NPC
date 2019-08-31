@@ -10,8 +10,10 @@ public class GameMaster : MonoBehaviour
     public int levelIndex;
 
     public bool seenCutscene;
-
+    [HideInInspector]
     public bool TileMapInventoryItemSelected; 
+    [HideInInspector]
+    public bool VictoryScreenActivated;
     public event Action<GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
@@ -53,7 +55,10 @@ public class GameMaster : MonoBehaviour
     {
         //Make sure we're not on the last level
         if (levelIndex < levels.Length - 1)
-            if (levels[levelIndex + 1].isAvailable == false) levels[levelIndex + 1].isAvailable = true;
+            if (levels[levelIndex + 1].isAvailable == false) 
+            {
+                levels[levelIndex + 1].isAvailable = true;
+            }
     }
 
     public void LoadSceneRaw(string sceneToLoad)
@@ -72,10 +77,10 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    internal void InventoryItemSelected(GameObject itemSelected)
+    internal void InventoryItemSelected(GameObject inventoryItem)
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemSelected(itemSelected); 
+            OnInventoryItemSelected(inventoryItem);
     }
 
     internal void InventoryItemDeselected()

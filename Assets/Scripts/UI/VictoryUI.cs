@@ -14,6 +14,7 @@ public class VictoryUI : MonoBehaviour
         Time.timeScale = 0;
         gameOverText.text = SceneManager.GetActiveScene().name + " completed!";
         GameMaster.instance.SetNextLevelAvailable();
+        GameMaster.instance.VictoryScreenActivated = true;
     }
 
     public void RetryButton()
@@ -22,6 +23,7 @@ public class VictoryUI : MonoBehaviour
         loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.LoadSceneRaw(SceneManager.GetActiveScene().name);
+        GameMaster.instance.VictoryScreenActivated = false;
     }
 
     public void NextLevelButton()
