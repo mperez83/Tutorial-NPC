@@ -18,7 +18,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void PlayButton()
     {
-        loadingOverlay.enabled = true;
+        loadingOverlay.gameObject.SetActive(true);
 
         if (!GameMaster.instance.seenCutscene)
         {
@@ -31,9 +31,15 @@ public class MainMenuUI : MonoBehaviour
         }
     }
 
+    public void CreditsButton()
+    {
+        loadingOverlay.gameObject.SetActive(true);
+        GameMaster.instance.LoadSceneRaw("Credits");
+    }
+
     public void ViewIntroButton()
     {
-        loadingOverlay.enabled = true;
+        loadingOverlay.gameObject.SetActive(true);
         GameMaster.instance.LoadSceneRaw("Cutscene");
     }
 }

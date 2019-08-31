@@ -18,7 +18,7 @@ public class GameOverUI : MonoBehaviour
     public void RetryButton()
     {
         Time.timeScale = 1;
-        loadingOverlay.enabled = true;
+        loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Building Soundtrack");
         GameMaster.instance.LoadSceneRaw(SceneManager.GetActiveScene().name);
     }
@@ -26,7 +26,7 @@ public class GameOverUI : MonoBehaviour
     public void QuitButton()
     {
         Time.timeScale = 1;
-        loadingOverlay.enabled = true;
+        loadingOverlay.gameObject.SetActive(true);
         AudioManager.instance.Play("Menu Scene Soundtrack");
         GameMaster.instance.LoadSceneRaw("LevelSelect");
     }

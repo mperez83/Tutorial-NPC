@@ -22,7 +22,7 @@ public class CutsceneUI : MonoBehaviour
         curStillIndex++;
         if (curStillIndex > cutsceneStills.Length - 1)
         {
-            loadingOverlay.enabled = true;
+            loadingOverlay.gameObject.SetActive(true);
             GameMaster.instance.LoadSceneRaw("LevelSelect");
         }
         else
