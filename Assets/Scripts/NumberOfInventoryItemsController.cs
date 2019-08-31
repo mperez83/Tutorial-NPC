@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +16,9 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void Start()
     {
-        GameMaster.instance.OnInventoryItemAdded += ChangeNumOfInventoryItems;
         GameMaster.instance.OnInventoryItemSelected += AddInventoryItem;
+        GameMaster.instance.OnInventoryItemDeselected += ResetInventoryBool; 
+        GameMaster.instance.OnInventoryItemAdded += DecrementNumOfInventoryItems;
 
         if (numOfItemInInventory < 0)
             numOfItemInInventory = 0;
@@ -29,7 +31,7 @@ public class NumberOfInventoryItemsController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameMaster.instance.OnInventoryItemAdded -= ChangeNumOfInventoryItems;
+        GameMaster.instance.OnInventoryItemAdded -= DecrementNumOfInventoryItems;
         GameMaster.instance.OnInventoryItemSelected -= AddInventoryItem;
     }
 
@@ -47,7 +49,12 @@ public class NumberOfInventoryItemsController : MonoBehaviour
         }
     }
 
-    private void ChangeNumOfInventoryItems(GameObject inventoryItemController)
+    private void ResetInventoryBool()
+    {
+        addedOneToInventory = false;
+    }
+
+    private void DecrementNumOfInventoryItems(GameObject inventoryItemController)
     {
         if (gameObject == inventoryItemController)
         {
