@@ -25,13 +25,13 @@ public class UIOnSelection : MonoBehaviour
         if (placingInventoryItem)
         {
             GameMaster.instance.InventoryItemSelected(prefabToSpawnClone);
+            GameMaster.instance.placingUIItem = true; 
             AttachInventoryItemToMouseLocation(prefabToSpawnClone);
         }
 
         if (numOfInventoryItemsController.NumOfItemInInventory <= 0
             && GameMaster.instance.TileMapInventoryItemSelected == false)
         {
-            //Debug.Log(gameObject.name + " " + numOfInventoryItemsController.NumOfItemInInventory);
             HandleNoItemsLeft();
         }
 
@@ -39,12 +39,6 @@ public class UIOnSelection : MonoBehaviour
 
     public void AttachInventoryItemToMouseLocation(GameObject itemToAttach)
     {
-        //Debug.Log(gameObject.name + " is calling me");
-
-        /* if (placingInventoryItem == false)
-            placingInventoryItem = true; */
-
-        //Cursor.visible = false;
         Vector2 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         itemToAttach.transform.position = screenPoint;
@@ -59,15 +53,12 @@ public class UIOnSelection : MonoBehaviour
         {
             PlaceInventoryItemDown(new Vector2(x, y), itemToAttach);
             GameMaster.instance.InventoryItemDeselected();
-            //Cursor.visible = true;
         }
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("backspace"))
         {
             placingInventoryItem = false;
             Destroy(itemToAttach);
             GameMaster.instance.InventoryItemDeselected();
-            //GameMaster.Instance.TileMapInventoryItemSelected = false;
-            //Cursor.visible = true;
         }
 
     }
@@ -78,14 +69,14 @@ public class UIOnSelection : MonoBehaviour
         inventoryItem.transform.position = positionToPlaceItem;
         mapHandlerExp.tileGrid[(int)positionToPlaceItem.x, (int)positionToPlaceItem.y] = inventoryItem.GetComponent<Tile>();
         GameMaster.instance.AddInventoryItemToMap(gameObject);
-        //Debug.Log("Placing item down");
-        //GameMaster.Instance.TileMapInventoryItemSelected = false;
+        GameMaster.instance.placingUIItem = false; 
         placingInventoryItem = false;
     }
 
     public void OnUIElementSelected()
     {
-        if (!placingInventoryItem && button.interactable)
+        if (!placingInventoryItem && button.interactable && 
+            GameMaster.instance.placingUIItem == false)
         {
             placingInventoryItem = true;
             prefabToSpawnClone = Instantiate(prefabToSpawn, transform.position,
@@ -102,9 +93,4 @@ public class UIOnSelection : MonoBehaviour
     {
         return prefabToSpawn;
     }
-
-    /* public bool GetIfPlacingInventoryItem()
-    { 
-        return placingInventoryItem; 
-    } */
 }

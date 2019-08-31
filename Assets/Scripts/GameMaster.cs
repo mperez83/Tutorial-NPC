@@ -14,6 +14,8 @@ public class GameMaster : MonoBehaviour
     public bool TileMapInventoryItemSelected; 
     [HideInInspector]
     public bool VictoryScreenActivated;
+    [HideInInspector]
+    public bool placingUIItem; 
     public event Action<GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
