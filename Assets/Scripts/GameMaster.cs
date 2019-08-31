@@ -11,7 +11,8 @@ public class GameMaster : MonoBehaviour
 
     public bool seenCutscene;
 
-    public event Action OnInventoryItemSelected;
+    public bool TileMapInventoryItemSelected; 
+    public event Action<GameObject> OnInventoryItemSelected;
     public event Action OnInventoryItemDeselected;
     public event Action<GameObject> OnInventoryItemAdded;
 
@@ -71,18 +72,18 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-
-
-    internal void InventoryItemSelected()
+    internal void InventoryItemSelected(GameObject inventoryItem)
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemSelected();
+            OnInventoryItemSelected(inventoryItem);
     }
 
     internal void InventoryItemDeselected()
     {
         if (OnInventoryItemSelected != null)
-            OnInventoryItemDeselected();
+            OnInventoryItemDeselected(); 
+
+        TileMapInventoryItemSelected = false; 
     }
 
     internal void AddInventoryItemToMap(GameObject inventoryItemController)
@@ -91,7 +92,11 @@ public class GameMaster : MonoBehaviour
             OnInventoryItemAdded(inventoryItemController);
     }
 
-
+    public void ReloadCurrentScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name; 
+        SceneManager.LoadSceneAsync(sceneName);
+    }
 
     public float GetCamTopEdge()
     {

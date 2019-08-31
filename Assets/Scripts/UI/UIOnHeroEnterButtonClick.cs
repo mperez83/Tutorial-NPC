@@ -1,16 +1,44 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class UIOnHeroEnterButtonClick : MonoBehaviour
 {
     private MapHandlerExp mapHandlerExp; 
+    private TextMeshProUGUI tmproText; 
+    private bool heroPhasePaused, mapActivated; 
+    private string initialButtonText; 
 
     private void Awake() 
     {
-        mapHandlerExp = FindObjectOfType<MapHandlerExp>();     
+        mapHandlerExp = FindObjectOfType<MapHandlerExp>();
+        tmproText = GetComponentInChildren<TextMeshProUGUI>(); 
+
+        initialButtonText = tmproText.text; 
     }
 
     public void OnHeroEnterButtonClicked()
     {
-        mapHandlerExp.ActivateMap(); 
+        if (!mapActivated)
+        {
+            mapHandlerExp.ActivateMap(); 
+            mapActivated = true; 
+        }
+
+        if (!heroPhasePaused)
+        {
+            Time.timeScale = 1f; 
+            tmproText.text = "Pause Game";
+            AudioManager.Instance.Stop("Building Soundtrack");
+            AudioManager.Instance.Restart("Hero Phase Soundtrack");
+            heroPhasePaused = true; 
+        }    
+        else
+        {
+            Time.timeScale = 0f; 
+            tmproText.text = initialButtonText; 
+            AudioManager.Instance.Stop("Hero Phase Soundtrack");
+            AudioManager.Instance.Restart("Building Soundtrack");
+            heroPhasePaused = false; 
+        }
     }
 }
