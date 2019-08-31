@@ -57,8 +57,6 @@ public class UIOnSelection : MonoBehaviour
             mapHandlerExp.GetTileAtCoords(x, y) == null &&
             mapHandlerExp.GetEntityAtCoords(x, y) == null)
         {
-
-            //Debug.Log(mapHandlerExp.GetTileAtCoords((int)screenPoint.x, (int)screenPoint.y) != null);
             PlaceInventoryItemDown(new Vector2(x, y), itemToAttach);
             GameMaster.instance.InventoryItemDeselected();
             //Cursor.visible = true;
